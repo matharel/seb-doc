@@ -1,0 +1,6 @@
+{{ range .Param "css" }}
+<link href="{{ . }}" rel="stylesheet">
+{{ end }}
+{{ range .Param "js" }}
+<script src="{{ . }}" defer></script>
+{{ end }}

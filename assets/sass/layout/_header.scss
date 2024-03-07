@@ -1,0 +1,34 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the header of the site/application.
+// -----------------------------------------------------------------------------
+
+
+
+@include respond-to('medium') {
+    header#main-header {
+        // permet de mettre côte à côte le logo et le menu
+        display: flex;
+        flex-flow: row nowrap;
+        position: sticky;
+        top: 0;
+        // background-color: $link-color;
+
+        // sinon les images passent au-dessus:
+        z-index: 1;
+
+        #logo{
+            flex: 1 auto;
+            text-align: center;
+            a {
+                display: none;
+            }
+        }
+
+        nav {
+            // donne le maximum de poids au menu
+            // dans la répartition horizontal avec le logo
+            flex: 10 auto;
+        }
+
+    }
+}

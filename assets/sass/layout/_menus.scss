@@ -1,0 +1,197 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the different menus of the site/application.
+// -----------------------------------------------------------------------------
+
+html {
+    scroll-behavior: smooth;
+}
+
+// pour laisser de la place à l'icône menu
+// dans la version mobile
+    h2, h3 {
+        padding-top: 2.8em;
+        margin-top: -2.8em;
+}
+
+$min-width-menus: 20em;
+$padding-right-menus: 2em;
+$main-left-gap: 1em;
+
+/// Visual styles
+///
+nav#section-menu, #TOC-container {
+
+    // on réinitialise l'alignement à gauche
+    ul {
+        padding: 0;
+    }
+
+    input {
+        display: none;
+    }
+
+  ul {
+    list-style: none;
+  }
+
+  ul  ul {
+    list-style: none;
+    padding-left: 1em;
+    font-weight: normal;
+    a {
+      color: mix(white, $text-color, 50%);
+    }
+  }
+  a {
+    color: $text-color;
+  }
+  span.active {
+    font-weight: 600;
+    color: $link-color;
+  }
+  
+  li.active > a {
+      font-weight: 600;
+      color: $link-color;
+  }
+
+  ul ul ul a {
+    color: mix(white, $text-color, 50%);
+  }
+
+}
+
+
+@include respond-to('small') {
+    // Menus showing depending on input state
+    //
+    nav#section-menu, div#TOC-container {
+
+        background: white;
+        width: fit-content;
+        box-shadow: 0px 1px 2px rgba(0,0,0,.3);
+        border-radius: 2px;
+
+        ul {
+            padding-left: $main-left-gap;
+        }
+
+        label {
+            cursor: pointer;
+            // whole icon line clickable
+            display: block;
+            padding: 1em;
+        }
+
+        a {
+            // whole menu entry clickable
+            display: block;
+        }
+    }
+
+    nav#section-menu {
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        left: 0;
+
+
+        & > ul {
+            // Hide menu content
+            display: none;
+
+            // here we style the open menu
+            min-width: $min-width-menus;
+            padding-right: $padding-right-menus;
+            &:last-child {
+                padding-bottom: 1em;
+            }
+        }
+
+        // Display menu content
+        input:checked ~ ul {
+            display: block;
+            margin: 0; // remove non-necessary margin
+        }
+
+        input:checked ~ label::after {
+            @include add-fa-icon($fa-var-close, 1.5em);
+        }
+
+        input:not(:checked) ~ label::after {
+            @include add-fa-icon($fa-var-bars, 1.5em);
+        }
+    }
+
+    div#TOC-container {
+
+        // correction du padding qui est donné par défaut à body
+        // pour que le menu colle à gauche de l'écran
+        margin-left: -1em;
+
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        margin-bottom: 1em;
+
+        // Hide menu content
+        ul {
+            display: none;
+        }
+
+        // Display menu content
+        input:checked ~ #TableOfContents ul {
+            display: block;
+            margin: 0; // remove non necessary margin
+        }
+
+        input:checked ~ label::after {
+            @include add-fa-icon($fa-var-close, 1.5em);
+        }
+
+        input:not(:checked) ~ label::after {
+            @include add-fa-icon($fa-var-ellipsis-v, 1.5em);
+        }
+
+        // TOC is scrollable
+        input:checked ~ #TableOfContents {
+            max-height: 70vh;
+            padding-bottom: 1em;
+            overflow-y: auto;
+
+            min-width: $min-width-menus;
+            padding-right: $padding-right-menus;
+            ul {
+            }
+        }
+    }
+}
+
+@include respond-to('medium') {
+}
+
+/// Titles ("Menu" & "Sommaire")
+///
+nav#section-menu, nav#TableOfContents {
+    & > ul::before {
+    font-weight: bold;
+    font-size: 1.3em;
+    display: block;
+    border-bottom: 1px solid lightgrey;
+    padding-bottom: .2em;
+    margin-bottom: 1em;
+    }
+}
+
+// Menu, nécessaire seulement dans vue mobile
+@include respond-to('small') {
+    nav#section-menu > ul::before {
+        content: "Menu";
+    }
+}
+
+nav#TableOfContents > ul::before {
+    content: "Sommaire";
+}
+

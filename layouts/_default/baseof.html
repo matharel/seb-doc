@@ -1,0 +1,60 @@
+{{/* .File.Path got a backslash from windows, this transform it into a normal slash 
+{{ $cleanUrl := path.Join .File.Path }}
+{{ $editUrl := add .Site.Params.editUrl $cleanUrl }}*/}}
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    {{ partial "meta" . }}
+    {{ partial "lazyimg-setup-nojs" }}
+	{{ partial "include-css-js" . }}
+  </head>
+
+  <body>
+
+    <header id="main-header">
+      <div id="logo"><a href="/">VFUB</a></div>
+    <!--
+    Menu de section
+    -->
+    <nav id="section-menu">
+        <input type="checkbox" id="menu-toggle">
+        <label for="menu-toggle"></label>
+    {{ partial "menu.go" . }}
+    </nav>
+    </header>
+
+    <main>
+
+    <!--
+    Table of Content
+    On teste si il y a du contenu dans la balise nav du toc
+    -->
+
+    {{ if gt (.TableOfContents | len) 40 }}
+    <div id="TOC-container">
+        <input type="checkbox" id="TOC-toggle">
+        <label for="TOC-toggle"></label>
+      {{ .TableOfContents }}
+    </div>
+    {{ end }}
+
+    <div id="mainContent">
+    <!--
+    Breadcrumbs
+    -->
+    {{ if .Param "breadcrumb" }}
+        {{ partial "breadcrumbs" . }}
+    {{ end }}
+
+      <h1>{{ .Params.Title }}</h1>
+        {{ block "main" . }}
+        {{ end }}
+    </div>
+
+
+    </main>
+
+    {{ partial "footer" . }}
+    <script src="/js/scroll-spy.js"></script>
+  </body>
+</html>

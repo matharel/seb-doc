@@ -1,0 +1,60 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the admonitions.
+// -----------------------------------------------------------------------------
+
+@mixin admonition($color, $icon, $size, $content) {
+  display: flex;
+  align-items: center;
+  padding: 2em;
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 5px;
+  > * {
+    flex: 1; // pour que l'élément (p ou blockquote) prenne toute la largeur
+    padding: 2em;
+    border-left: solid 6px $color;
+    background: lighten(gray,48);
+    border-radius: 5px;
+    box-shadow: 7px 7px 1em hsl(0,10, 1 / .0105);
+    &::before {
+      content: $content;
+      text-decoration: underline;
+      display: block;
+      font-size: 1.8em;
+      color: $color;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      bottom: 1em;
+    }
+  }
+  &::before {
+    flex: 1 0 auto; // interdit de shrinker et largeur minimum
+    max-width: 1.6em;
+    @include add-fa-icon($icon, $size);//pencil
+    color: $color;
+    text-align: center;
+    padding-right: .6em;
+    text-shadow: 7px 7px 0.3em hsl(0,10,1 / .012);
+  }
+}
+
+blockquote.attention {
+  @include admonition(hsl(350,50,50), $fa-var-warning, 3em, "Attention");
+}
+
+blockquote.propositions {
+  @include admonition(hsl(300,50,50), $fa-var-hand-o-right, 3em, "Propositions");
+}
+
+blockquote.points-forts {
+  @include admonition(hsl(160,50,50), $fa-var-handshake-o, 3em, "Points forts");
+}
+
+blockquote.points-faibles {
+  @include admonition(hsl(20,50,50), $fa-var-times, 3em, "Points faibles");
+}
+
+blockquote.idee {
+  @include admonition(hsl(55,100,40), $fa-var-lightbulb-o, 3em, "Idée");
+}

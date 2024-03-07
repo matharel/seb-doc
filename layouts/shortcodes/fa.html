@@ -1,0 +1,14 @@
+<i class="fa {{ range $iconName := .Params }} fa-{{ $iconName }} {{ end }}">
+  <!-- Load font awesome only once per page, load it inside the <i> element
+    so it does not disturb the text flow (like removing spaces) -->
+    <!--
+  {{ if not (.Page.Scratch.Get "fontawesomeLoaded") }}
+    {{ .Page.Scratch.Set "fontawesomeLoaded" true }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css" integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">
+  {{ end }}
+    -->
+</i>
+
+<!--
+  https://matze.rocks/posts/fontawesome_in_hugo/
+-->

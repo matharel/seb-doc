@@ -1,0 +1,25 @@
+// ----------------------------------------
+// Breadcrumbs
+// ----------------------------------------
+
+
+nav#breadcrumbs {
+  ol {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    li {
+      flex: 0 0 auto;
+    }
+    li:not(:last-child) {
+      padding-right: .5em;
+      &::after {
+        @include add-fa-icon($fa-var-angle-double-right, 1em);//pencil
+        padding-left: .8em;
+        color: $text-color;
+      }
+    }
+  }
+}

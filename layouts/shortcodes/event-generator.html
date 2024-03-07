@@ -1,0 +1,60 @@
+<form id="event-form">
+	<fieldset id="info">
+		<legend>Informations</legend>
+		<div>
+			<label for="title">Nom de l’événement</label>
+			<input type="text" id="title" placeholder="Bal hyper cool"/>
+		</div>
+		<div>
+			<label for="author">Personne en charge</label>
+			<input type="text" id="author" placeholder="Sébastien"/>
+		</div>
+		<div>
+			<label for="days-before">Jours de montage</label>
+			<input type="number" id="days-before" min="0" value="0"/>
+		</div>
+		<div>
+			<label for="days-after">Jours de démontage</label>
+			<input type="number" id="days-after" min="0" value="0"/>
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Dates</legend>
+		<div id="calendar"></div>
+	</fieldset>
+	<fieldset>
+		<legend>Matériel</legend>
+		<input type="text" id="item-search" placeholder="Rechercher"/>
+		<div id="category-filter" data-category-id="">
+			<span id="category-filter-display"></span>
+			<button type="button" id="remove-category-filter" onclick="this.parentNode.dataset.categoryId = '';filterItems();">x</button>
+		</div>
+		<div id="items-wrapper">
+			<table id="items">
+			</table>
+		</div>
+	</fieldset>
+	<button type="button" id="github">Créer l’événement sur GitHub</button>
+</form>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+	const events = [
+		{{- range where .Site.RegularPages "Section" "evenements" }}
+		{
+			title:       {{ .Param "title" }},
+			date:        new Date({{ .Param "date" }}),
+			author:      {{ .Param "author" }},
+			days_before: {{ .Param "days_before" }},
+			start:       new Date({{ .Param "start" }}),
+			end:         new Date({{ .Param "end" }}),
+			days_after:  {{ .Param "days_after" }},
+			items:        {{ .Param "items" }},
+		},
+		{{- end }}
+	]
+	const categories = {{ .Site.Data.category }};
+	const items = {{ .Site.Data.item }};
+	setupEventForm(events, categories, items);
+});
+</script>

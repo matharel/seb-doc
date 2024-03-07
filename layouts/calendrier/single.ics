@@ -1,0 +1,37 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//VFUB//Evenements site HUGO//FR
+{{- range (where .Site.RegularPages "Section" "evenements") }}
+	{{- $dtstamp := dateFormat "20060102T150405Z" .Date.UTC }}
+	{{- $start   := (time (.Param "start")).UTC }}
+	{{- $end     := (time (.Param "end")).UTC.AddDate 0 0 1 }}
+	{{- $uid     := printf "%s-%s-%s@%s" (replace .Title " " "_") (dateFormat "20060102" $start) (dateFormat "20060102" $end) (replaceRE `/$` "" (replaceRE `^https?://` "" $.Site.BaseURL)) }}
+	{{- $summary := .Title }}
+	{{- if ge (.Param "days_before") 1 }}
+BEGIN:VEVENT
+UID:{{ printf "Montage-%s" $uid }}
+DTSTAMP:{{ $dtstamp }}
+DTSTART;VALUE=DATE:{{ dateFormat "20060102" ($start.AddDate 0 0 (int (sub 0 (.Param "days_before")))) }}
+DTEND;VALUE=DATE:{{ dateFormat "20060102" $start }}
+SUMMARY:{{ printf "Montage - %s" $summary }}
+END:VEVENT
+	{{- end }}
+BEGIN:VEVENT
+UID:{{ $uid }}
+DTSTAMP:{{ $dtstamp }}
+DTSTART;VALUE=DATE:{{ dateFormat "20060102" $start }}
+DTEND;VALUE=DATE:{{ dateFormat "20060102" $end }}
+SUMMARY:{{ $summary }}
+END:VEVENT
+	{{- if ge (.Param "days_after") 1 }}
+BEGIN:VEVENT
+UID:{{ printf "Demontage-%s" $uid }}
+DTSTAMP:{{ $dtstamp }}
+DTSTART;VALUE=DATE:{{ dateFormat "20060102" $end }}
+DTEND;VALUE=DATE:{{ dateFormat "20060102" ($end.AddDate 0 0 (int (.Param "days_after"))) }}
+SUMMARY:{{ printf "Démontage - %s" $summary }}
+END:VEVENT
+	{{- end }}
+{{- end }}
+END:VCALENDAR
+

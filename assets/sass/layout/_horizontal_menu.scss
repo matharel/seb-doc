@@ -1,0 +1,108 @@
+// -----------------------------------------------------------------------------
+// horizontal menu in medium view
+// -----------------------------------------------------------------------------
+
+$hor-menu-bg-color: lighten(pink,5);
+$hor-submenu-bg-color: white;
+$hor-menu-border-color: lightpink;
+$hor-menu-border-width: 3px; // en px seulement (calcul plus loin)
+$hor-menu-height: 3em;
+
+@include respond-to('medium') {
+    nav#section-menu {
+
+        & > ul {
+            display: flex;
+            flex-flow: row nowrap;
+            padding: 0;
+            margin: 0;
+
+            & > li {
+                flex: 1 1 auto;
+
+                // allow li to be smaller than content
+                // and let the content really overflow
+                min-width: 0;
+                white-space: nowrap;
+
+                // li devient référence pour "absolute" qui arrive
+                position: relative;
+                background: $hor-menu-bg-color;
+
+                // add right border only last element
+                &:last-child a {
+                    border-right-width: $hor-menu-border-width;
+                }
+
+                a, span.active {
+                    height: $hor-menu-height;
+                    border-color: $hor-menu-border-color;
+                    border-style: solid;
+                    border-width: 0 0 $hor-menu-border-width $hor-menu-border-width;
+                    padding: 1em;
+
+                    // permet de centrer le texte
+                    // verticalement et horizontallement
+                    display: flex;
+                    align-items: center;
+                    justify-content: start; // center
+                    overflow: hidden;
+                }
+
+                // on aligne les deux derniers sur le bord droit
+                // pour être sûr qu'ils ne sortent pas de l'écran
+                &:nth-last-child(-n + 2) {
+                    ul {
+                        position: absolute;
+                        right: -$hor-menu-border-width+1;
+                        left: auto !important;
+
+                        a, span.active {
+                            justify-content: end !important;
+                        }
+                    }
+                }
+
+                // there are no border on the last element, so no corrections
+                &:last-child ul {
+                    right: 0 !important;
+                }
+
+                &:hover {
+
+                    background: $hor-submenu-bg-color;
+
+                    ul {
+                        padding: 0;
+                        position: absolute;
+                        top: $hor-menu-height;
+                        left: 0;
+
+                        // pour avoir la même taille
+                        // que le contenu dans les "li"
+                        min-width: fit-content;
+
+                        // add right border, only in the submenu a
+                        a, span.active {
+                            border-right-width: $hor-menu-border-width;
+                        }
+
+                        display: block;
+                        li {
+                            a, span.active {
+                                background: white;
+
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+        // only first level appears
+        ul ul {
+            display: none;
+        }
+    }
+}
