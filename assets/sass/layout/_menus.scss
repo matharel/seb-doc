@@ -45,7 +45,8 @@ nav#section-menu, #TOC-container {
   a {
     color: $text-color;
   }
-  span.active {
+
+  span.active, a.active {
     font-weight: 600;
     color: $link-color;
   }

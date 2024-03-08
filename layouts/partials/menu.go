@@ -39,7 +39,7 @@ https://github.com/alex-shpak/hugo-book/blob/master/layouts/partials/docs/menu-f
   <span>{{- partial "doc-titles" .Page -}}</span>
   */}}
   {{ else if $ancestor }} {{/* c'est une section mère */}}
-    <span class="active">{{ partial "doc-titles" .Page }}</span>
+    <a href="{{ .Page.RelPermalink }}" class="section active">{{ partial "doc-titles" .Page }}</a>
   {{ else  }}
     {{ if $current }}
     <span class="active">{{ partial "doc-titles" .Page }}</span>
