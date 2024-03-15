@@ -1,6 +1,7 @@
 {{/* .File.Path got a backslash from windows, this transform it into a normal slash 
 {{ $cleanUrl := path.Join .File.Path }}
-{{ $editUrl := add .Site.Params.editUrl $cleanUrl }}*/}}
+*/}}
+{{ $editUrl := add .Site.Params.editUrl .File.Path }}
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
@@ -19,7 +20,8 @@
     <nav id="section-menu">
         <input type="checkbox" id="menu-toggle">
         <label for="menu-toggle"></label>
-    {{ partial "menu.html" . }}
+        {{ partial "menu.html" . }}
+        <li><a id="edit-site" href="{{ $editUrl }}" target="edit-site">Edit</a></li>
     </nav>
     </header>
 
