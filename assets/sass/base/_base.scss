@@ -123,14 +123,6 @@ iframe  {
     border-radius: 5px;
 }
 
-#edit-site {
-    visibility: hidden;
-    &::before {
-        visibility: visible;
-        @include add-fa-icon($fa-var-edit, 1.3em);
-    }
-}
-
 // thumbs-up thumbs-o-up
 // thumbs-down
 // hand-o-right

@@ -6,6 +6,16 @@ html {
     scroll-behavior: smooth;
 }
 
+#edit-site {
+    visibility: hidden;
+    display: block;
+    text-align: right;
+    &::before {
+        visibility: visible;
+        @include add-fa-icon($fa-var-pencil, 1.3em); //var-edit
+    }
+}
+
 // pour laisser de la place à l'icône menu
 // dans la version mobile
     h2, h3 {
