@@ -1,7 +1,9 @@
 {{ with .Params.hide_footer }}
 
 {{ else }}
-  <footer>
-    <a id="edit-site" href="{{ add .Site.Params.gitAccount .Page.RelPermalink }}index.md" target="edit-site">Edit</a>
-  </footer>
+    <footer>
+        {{ with .File }}
+        <a id="edit-site" href="{{ add $.Site.Params.gitAccount .Path }}" target="edit-site">Edit</a>
+        {{ end }}
+    </footer>
 {{ end }}
