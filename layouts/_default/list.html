@@ -1,5 +1,4 @@
 {{ define "main" }}
-<main>
     {{ .Content }}
 	{{ if .Page.Store.Get "hasMermaid" }}
 	<script type="module">
@@ -15,5 +14,4 @@
       </li>
     {{ end }}
   </ul>
-</main>
 {{ end }}
