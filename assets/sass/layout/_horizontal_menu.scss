@@ -2,10 +2,10 @@
 // horizontal menu in medium view
 // -----------------------------------------------------------------------------
 
-$hor-menu-bg-color: lighten(pink,5);
+$hor-menu-bg-color: white;
 $hor-submenu-bg-color: white;
-$hor-menu-border-color: lightpink;
-$hor-menu-border-width: 3px; // en px seulement (calcul plus loin)
+$hor-menu-border-color: white;
+$hor-menu-border-width: 0px; // en px seulement (calcul plus loin)
 $hor-menu-height: 3em;
 
 @include respond-to('medium') {

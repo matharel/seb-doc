@@ -8,6 +8,10 @@ $header-height: 2em;
 /// font-awesome path
 $fa-font-path: "../fonts";
 
+$google-font: "Fuggles";
+
+@import url('https://fonts.googleapis.com/css2?family=#{$google-font}&display=swap');
+
 /// Regular font family
 /// @type List
 $text-font-stack: 'Open Sans', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif !default;

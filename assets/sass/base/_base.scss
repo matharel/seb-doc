@@ -25,6 +25,13 @@ body {
     // display: flex;
 }
 
+#logo {
+    font-family: $google-font;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 8rem;
+}
+
 /// Sommaire en fixe à gauche
 ///
 @include respond-to('medium') {

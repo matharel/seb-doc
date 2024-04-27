@@ -9,7 +9,7 @@
   <body>
 
     <header id="main-header">
-      <div id="logo"><a href="/">VFUB</a></div>
+        <div id="logo"><a href="/">{{ .Site.Params.Brand }}</a></div>
     <!--
     Menu de section
     -->
@@ -27,7 +27,7 @@
     On teste si il y a du contenu dans la balise nav du toc
     -->
 
-    {{ if gt (.TableOfContents | len) 40 }}
+    {{ if .Params.TOC }}
     <div id="TOC-container">
         <input type="checkbox" id="TOC-toggle">
         <label for="TOC-toggle"></label>
@@ -55,3 +55,4 @@
     <script src="/js/scroll-spy.js"></script>
   </body>
 </html>
+
