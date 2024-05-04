@@ -1,0 +1,11 @@
+<!-- WARN: ok, visiblement ce n'est pas possible d'utiliser des variables dans les tags, voir ce post:
+https://discourse.gohugo.io/t/using-custom-variables-for-html-tags/15034/9
+-->
+{{ $content := .Inner | markdownify }}
+{{ $tag := .Get "tag" | default "div" }}
+{{ $class := .Get "class" }}
+{{ if $class }}
+{{ printf "<%[1]s class=\"%[2]s\">%[3]s</%[1]s>" $tag $class $content | safeHTML }}
+{{ else }}
+{{ printf "<%[1]s>%[2]s</%[1]s>" $tag $content | safeHTML }}
+{{ end }}
