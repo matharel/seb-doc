@@ -44,6 +44,14 @@ $st-blue: hsl(208.2, 100%, 73.7%);
     color: $st-ol-li;
   }
 
+  code {
+    background: hsl(160, 100, 13);
+    padding: 0.2em .8em;
+    border-radius: 2px;
+    color: $st-h1;
+    font-weight: bold;
+  }
+
   // hack pour rajouter une ligne et continuer ordered list
   // si je rajoute une ligne, il faut l'indenter
   // mais ça rajoute un paragraphe, entre chaque li
