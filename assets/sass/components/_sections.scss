@@ -14,6 +14,7 @@ $st-blue: hsl(208.2, 100%, 73.7%);
 
 .structure {
   border-radius: 3px;
+  margin: 1em 0;
   padding: 1em;
   font-size: 1em;
   background: $st-background;
@@ -41,5 +42,16 @@ $st-blue: hsl(208.2, 100%, 73.7%);
 
   ol li::marker {
     color: $st-ol-li;
+  }
+
+  // hack pour rajouter une ligne et continuer ordered list
+  // si je rajoute une ligne, il faut l'indenter
+  // mais ça rajoute un paragraphe, entre chaque li
+  // je le fais disparaitre ici
+  li {
+    p {
+      margin: 0 !important;
+      padding: 0;
+    }
   }
 }
