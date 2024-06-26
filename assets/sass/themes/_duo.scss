@@ -13,6 +13,8 @@ body {
     font-style: normal;
     font-size: 10em;
     text-align: center;
+    font-variant: small-caps;
+    text-transform: lowercase;
     a {
         color: $brand-color;
         text-decoration: none;
@@ -20,6 +22,8 @@ body {
 }
 
 h1 {
+    text-transform: none;
+    font-variant: small-caps;
     // font-family: Karla;
     color: $heading-color;
     font-size: 4em;

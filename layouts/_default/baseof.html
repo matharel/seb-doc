@@ -13,12 +13,14 @@
     <!--
     Menu de section
     -->
-    <nav id="section-menu">
-        <input type="checkbox" id="menu-toggle">
-        <label for="menu-toggle"></label>
-        {{ partial "menu.go" . }}
-    </nav>
+    {{ if .Param "menu" }}
+      <nav id="section-menu">
+          <input type="checkbox" id="menu-toggle">
+          <label for="menu-toggle"></label>
+          {{ partial "menu.go" . }}
+      </nav>
     </header>
+    {{ end }}
 
     <main>
 

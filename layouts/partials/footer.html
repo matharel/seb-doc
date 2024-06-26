@@ -1,6 +1,6 @@
-{{ with .Params.hide_footer }}
+{{ if .Params.hide_footer }}
 
-{{ else }}
+{{ else if .Param "edit" }}
     <footer>
         {{ with .File }}
         <a id="edit-site" href="{{ add $.Site.Params.gitAccount .Path }}" target="edit-site">Edit</a>
