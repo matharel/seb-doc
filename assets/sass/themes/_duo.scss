@@ -1,0 +1,50 @@
+
+body {
+    font-family: "M PLUS Rounded 1c";
+    color: $text-color;
+}
+
+#main-header {
+}
+
+#logo {
+    // font-family: Karla;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 10em;
+    text-align: center;
+    a {
+        color: $brand-color;
+        text-decoration: none;
+    }
+}
+
+h1 {
+    // font-family: Karla;
+    color: $heading-color;
+    font-size: 4em;
+    text-align: center;
+    //color: darken($brand-color, 30);
+    line-height: 1.5em;
+    > div:first-child {
+        font-size: .5em;
+        line-height: .02em;
+        position: relative;
+        top: .15em;
+    }
+    > div:last-child {
+        position: relative;
+        bottom: .7em;
+        font-size: .8em;
+    }
+}
+
+h2 {
+    text-align: center;
+}
+
+p {
+    font-size: 1.7em;
+    text-align: center;
+    padding: 0 10%;
+}
