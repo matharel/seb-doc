@@ -1,17 +1,31 @@
+// stratégie pour le visuel sur tél
+// 1. media queries pour avoir une fonte moins grosse sur petit écran
+// 2. si écran encore trop petit, alors que le texte du brand et du h1 puisse dépasser
 
+
+html {
+    font-size: 16px;
+}
+
+@include respond-to('small') {
+    html {
+        font-size: 10px;
+    }
+}
 body {
     font-family: "M PLUS Rounded 1c";
     color: $text-color;
 }
 
 #main-header {
+    overflow: hidden;
 }
 
 #logo {
     // font-family: Karla;
     font-weight: 400;
     font-style: normal;
-    font-size: 10em;
+    font-size: 10rem;
     text-align: center;
     font-variant: small-caps;
     text-transform: lowercase;
@@ -22,11 +36,12 @@ body {
 }
 
 h1 {
+    overflow: hidden;
     text-transform: none;
     font-variant: small-caps;
     // font-family: Karla;
     color: $heading-color;
-    font-size: 4em;
+    font-size: 4rem;
     text-align: center;
     //color: darken($brand-color, 30);
     line-height: 1.5em;
@@ -48,7 +63,7 @@ h2 {
 }
 
 p {
-    font-size: 1.7em;
+    font-size: 1.7rem;
     text-align: center;
     padding: 0 10%;
 }
