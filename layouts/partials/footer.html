@@ -2,7 +2,4 @@
     {{ with .Param "edit" }}
     <a id="edit-site" href="{{ add $.Site.Params.gitAccount .Path }}" target="edit-site">Edit</a>
     {{ end }}
-    {{ with .Param "login" }}
-    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    {{ end }}
 </footer>
