@@ -1,0 +1,48 @@
+{{/* code trouvé ici:
+https://randomgeekery.org/post/2020/06/csv-and-data-tables-in-hugo/
+Améliorations à apporter:
+  - strip whitespace around numbers
+*/}}
+
+
+{{ $caption := .Get "caption" }}
+{{ $useHeaderRow := default true (.Get "header") }}
+{{ $rows := .Inner | transform.Unmarshal }}
+{{ $nb := 0 }}
+{{ $tmp := 0 }}
+
+<table>
+	 <thead>
+  {{ with $caption }}<caption>{{ . }}</caption>{{ end }}
+  {{ if $useHeaderRow }}
+    {{ $headerRow := index $rows 0 }}
+    {{ $rows = after 1 $rows }}
+    <tr> {{ range $headerRow }} <th>{{ . }}</th> {{ end }} </tr>
+  {{ end }}
+	 </thead>
+  <tbody>
+  {{ range $rows }}
+    <tr>
+      {{ range . }}
+		  {{ $trimmed := trim . " " }}
+        {{ if ( findRE `^\s*\d+(\.\d+)?$` $trimmed ) }}
+		  {{ $tmp = float $trimmed }}
+          <td class="numeric">{{ printf "%.2f" $tmp }}</td>
+			 {{ $nb = add $nb $tmp }}
+        {{ else }}
+          <td>{{ . }}</td>
+        {{ end }}
+      {{ end }}
+    </tr>
+  {{ end }}
+  </tbody>
+  <tfoot>
+		<tr>
+			 <td></td>
+			 <td>
+			 Total: {{ printf "%.2f" $nb }}
+			 </td>
+		</tr>
+  </tfoot>
+</table>
+

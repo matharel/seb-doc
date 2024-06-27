@@ -1,3 +1,4 @@
 [params]
   menu = true
   edit = true
+  login = true
