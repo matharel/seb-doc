@@ -45,6 +45,7 @@ h1 {
     text-align: center;
     //color: darken($brand-color, 30);
     line-height: 1.5em;
+    margin: .3em 0 0;
     > div:first-child {
         font-size: .5em;
         line-height: .02em;
@@ -60,6 +61,12 @@ h1 {
 
 h2 {
     text-align: center;
+}
+
+img { // permet de sortir du `p` qui a des marges
+    width: 100vw;
+    position: relative;
+    left: calc(-50vw + 50%);
 }
 
 p {

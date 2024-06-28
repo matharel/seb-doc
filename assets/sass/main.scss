@@ -21,10 +21,10 @@
 
 // 4. Layout-related sections
 @import
-  'layout/menus',
-  'layout/horizontal_menu',
-  'layout/breadcrumbs',
-  'layout/header',
+//  'layout/menus',
+//  'layout/horizontal_menu',
+//  'layout/breadcrumbs',
+//  'layout/header',
   'layout/footer';
 
 // 5. Components
@@ -42,7 +42,7 @@
 
 // 7. Themes
 @import
-  'themes/default';
+//'themes/default';
 //'themes/vfub';
 //'themes/ausondudiois';
-//'themes/duo';
+'themes/duo';
