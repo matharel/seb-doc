@@ -63,6 +63,7 @@ h1 {
 h2 {
     font-size: 2em;
     text-align: center;
+    margin-top: 1.8em;
 }
 
 a {
@@ -89,12 +90,13 @@ p {
 }
 
 table {
-    width: 60%;
+    width: 100%;
     margin: 0 auto;
     margin-bottom: 3em;
     background: white;
     font-size: 1.5em;
 }
+
 table {
 
     tbody tr:nth-child(odd) {
@@ -117,5 +119,6 @@ td:nth-child(1) {
     widht: 10%;
     color: purple;
     font-weight: bold;
+  width: 43%;
 }
 
