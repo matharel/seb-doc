@@ -35,6 +35,7 @@ body {
     }
 }
 
+
 h1 {
     overflow: hidden;
     text-transform: none;
@@ -60,7 +61,19 @@ h1 {
 }
 
 h2 {
+    font-size: 2em;
     text-align: center;
+}
+
+a {
+    font-size: .9em;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+    &.tel {
+        font-size: .8em;
+    }
 }
 
 img { // permet de sortir du `p` qui a des marges
@@ -74,3 +87,35 @@ p {
     text-align: center;
     padding: 0 10%;
 }
+
+table {
+    width: 60%;
+    margin: 0 auto;
+    margin-bottom: 3em;
+    background: white;
+    font-size: 1.5em;
+}
+table {
+
+    tbody tr:nth-child(odd) {
+      background-color: white;
+  }
+}
+
+// Cells
+th,
+td {
+  padding: 10px;
+  border-bottom: 0px solid grey;
+  text-align: left;
+  text-align: start;
+}
+
+td:nth-child(1) {
+    border-right: 1px solid grey;
+    text-align: end;
+    widht: 10%;
+    color: purple;
+    font-weight: bold;
+}
+
