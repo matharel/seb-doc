@@ -1,0 +1,7 @@
+{{ $items := split .Inner "\n" }}
+{{ range $items }}
+{{ $item := trim . "\n\r -" }}
+  {{ if $item }}
+  <label><input type="checkbox" name="{{ $item }}" /> {{ $item }}</label></br>
+  {{ end }}
+{{ end }}
