@@ -1,0 +1,95 @@
+// stratégie pour le visuel sur tél
+// 1. media queries pour avoir une fonte moins grosse sur petit écran
+// 2. si écran encore trop petit, alors que le texte du brand et du h1 puisse dépasser
+
+
+html {
+    font-size: 20px;
+}
+
+@include respond-to('small') {
+    html {
+        font-size: 10px;
+    }
+}
+body {
+    font-family: "M PLUS Rounded 1c";
+    color: $text-color;
+}
+
+#main-header {
+    overflow: hidden;
+}
+
+#logo {
+    display: none;
+}
+
+h1 {
+    font-variant: small-caps;
+    color: $heading-color;
+    font-size: 4rem;
+    text-align: center;
+    line-height: 1.5em;
+}
+
+h2 {
+    font-size: 2em;
+    margin-top: 1.8em;
+}
+
+a {
+    font-size: .9em;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+    &.tel {
+        font-size: .8em;
+    }
+}
+
+img { // permet de sortir du `p` qui a des marges
+    width: 100vw;
+    position: relative;
+    left: calc(-50vw + 50%);
+}
+
+p {
+    font-size: 1.7rem;
+    // text-align: center;
+    padding: 0 10%;
+}
+
+
+iframe {
+    width: 100%;
+}
+
+// Cells
+table {
+    tbody tr:nth-child(odd) {
+      background-color: lighten(lightgrey, 10%);
+  }
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 3em;
+    background: white;
+    //font-size: 1.5em;
+}
+th,
+td {
+  padding: 10px;
+  border-bottom: 0px solid grey;
+  text-align: left;
+  text-align: start;
+}
+
+td:nth-child(1) {
+    border-right: 1px solid grey;
+    text-align: left;
+    color: purple;
+    font-weight: bold;
+    width: 33%;
+}
+
