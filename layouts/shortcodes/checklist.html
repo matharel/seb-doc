@@ -10,7 +10,7 @@
         {{ $inSection = true }}
       {{ end }}
       {{ if eq (substr $trimmed 0 1) "#" }}
-      <h3>{{ substr $trimmed 2 }}</h3>
+      <h2>{{ replaceRE "^#*([^/]+)" "$1" $trimmed }}</h2>
       {{ else }}
       <label><input type="checkbox" name="{{ $trimmed }}" /><span>{{ $trimmed }}</span></label><br/>
       {{ end }}
