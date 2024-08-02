@@ -11,7 +11,12 @@
   }
   label {
     cursor: pointer;
+    padding: 0.05px;
     span {
+      // pour que toute la ligne soit clickable:
+      display: inline-block;
+      width: 100%;
+
       padding-left: .8em;
     }
   }
