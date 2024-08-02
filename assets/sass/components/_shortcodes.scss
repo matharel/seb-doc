@@ -1,5 +1,17 @@
+html.checklist {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    height: 100vw;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+
 // ckecklist
-.sh-checklist {
+html.checklist {
+  .sh-checklist {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -38,4 +50,5 @@
   label span {
     padding-left: 0em;
   }
+}
 }
