@@ -1,0 +1,25 @@
+<section class="sh-checklist {{ .Get 0 }}">
+  {{ $items := split .Inner "\n" }}
+  {{ $inSection := false }}
+
+  {{ range $index, $item := $items }}
+    {{ $trimmed := trim $item "\n\r " }}
+    {{ if ne $trimmed "" }}
+      {{ if not $inSection }}
+        <div>
+        {{ $inSection = true }}
+      {{ end }}
+      {{ if eq (substr $trimmed 0 1) "#" }}
+      <h3>{{ substr $trimmed 2 }}</h3>
+      {{ else }}
+      <label><input type="checkbox" name="{{ $trimmed }}" /><span>{{ $trimmed }}</span></label><br/>
+      {{ end }}
+    {{ else if $inSection }}
+      </div>
+      {{ $inSection = false }}
+    {{ end }}
+  {{ end }}
+  {{ if $inSection }}
+    </div>
+  {{ end }}
+</section>

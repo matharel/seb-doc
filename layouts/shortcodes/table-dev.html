@@ -1,0 +1,54 @@
+{{/* À la base, code trouvé ici:
+https://randomgeekery.org/post/2020/06/csv-and-data-tables-in-hugo/
+*/}}
+
+{{ $caption := .Get "caption" }}
+{{ $useHeaderRow := default true (.Get "header") }}
+{{ $rows := .Inner | transform.Unmarshal }}
+{{ $colSums := dict }}
+{{ $hasNumericColumns := false }}
+
+<table>
+  {{ if $useHeaderRow }}
+  <thead>
+    {{ with $caption }}<caption>{{ . }}</caption>{{ end }}
+    {{ $headerRow := index $rows 0 }}
+    {{ $rows = after 1 $rows }}
+    <tr> {{ range $headerRow }} <th>{{ . }}</th> {{ end }} </tr>
+  </thead>
+  {{ end }}
+  <tbody>
+    {{ range $rows }}
+      <tr>
+        {{ range $i, $cell := . }}
+          {{ $trimmed := trim $cell " " }}
+          {{ if (findRE `^\d+(\.\d+)?$` $trimmed) }}
+            {{ $value := float $trimmed }}
+            <td class="numeric">{{ printf "%g" $value }}</td>
+            {{ $key := printf "%d" $i }}
+            {{ $currentSum := index $colSums $key | default 0 }}
+            {{ $colSums = merge $colSums (dict $key (add $currentSum $value)) }}
+            {{ $hasNumericColumns = true }}
+          {{ else }}
+            <td>{{ $cell | markdownify }}</td>
+          {{ end }}
+        {{ end }}
+      </tr>
+    {{ end }}
+  </tbody>
+  {{ if $hasNumericColumns }}
+    <tfoot>
+      <tr>
+        {{ range $i, $cell := index $rows 0 }}
+          <td>
+            {{ $key := printf "%d" $i }}
+            {{ $sum := index $colSums $key | default 0 }}
+            {{ if gt $sum 0 }}
+              {{ printf "%g" $sum }}
+            {{ end }}
+          </td>
+        {{ end }}
+      </tr>
+    </tfoot>
+  {{ end }}
+</table>

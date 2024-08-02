@@ -1,0 +1,35 @@
+// ckecklist
+.sh-checklist {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  font-size: 1.4em;
+  line-height: 1.5em;
+  input[type=checkbox] {
+    transform: scale(1.8);
+  }
+  label {
+    cursor: pointer;
+    span {
+      padding-left: .8em;
+    }
+  }
+  :checked + span {
+    text-decoration: line-through;
+    text-decoration-thickness: .15em;
+  }
+  h3 {
+    font-variant: small-caps;
+    margin: 0;
+  }
+}
+
+.sh-checklist.setlist {
+  input[type=checkbox] {
+    display: none;
+  }
+  label span {
+    padding-left: 0em;
+  }
+}
