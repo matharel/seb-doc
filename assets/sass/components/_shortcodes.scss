@@ -12,9 +12,6 @@
 
 // ckecklist
 html.checklist {
-  widht: 100vw;
-  height: 100vh;
-  overflow: hidden;
   .sh-checklist {
   display: flex;
   justify-content: space-between;
@@ -24,9 +21,12 @@ html.checklist {
   line-height: 1.5em;
 
   @media screen and (max-width:900px) and (orientation:landscape) {
-    background: pink;
 
-  flex-wrap: no-wrap;
+    widht: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    flex-wrap: no-wrap;
 
     div {
       max-height: 100vh;
