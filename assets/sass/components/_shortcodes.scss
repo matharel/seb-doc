@@ -1,5 +1,20 @@
+/* html.checklist { */
+/*     transform: rotate(-90deg); */
+/*     transform-origin: left top; */
+/*     width: 100vh; */
+/*     height: 100vw; */
+/*     overflow-x: hidden; */
+/*     position: absolute; */
+/*     top: 100%; */
+/*     left: 0; */
+/* } */
+/**/
+
 // ckecklist
 html.checklist {
+  widht: 100vw;
+  height: 100vh;
+  overflow: hidden;
   .sh-checklist {
   display: flex;
   justify-content: space-between;
@@ -7,6 +22,18 @@ html.checklist {
 
   font-size: 1.4em;
   line-height: 1.5em;
+
+  @media screen and (max-width:900px) and (orientation:landscape) {
+    background: pink;
+
+  flex-wrap: no-wrap;
+
+    div {
+      max-height: 100vh;
+      overflow: scroll;
+    }
+  }
+
   input[type=checkbox] {
     transform: scale(1.8);
   }
