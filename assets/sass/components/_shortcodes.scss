@@ -22,11 +22,14 @@ html.checklist {
 
   @media screen and (max-width:900px) and (orientation:landscape) {
 
+    // la sélection nuit à l'usage
+    user-select: none;
+
     widht: 100vw;
     height: 100vh;
     overflow: hidden;
 
-    flex-wrap: no-wrap;
+    flex-wrap: nowrap;
 
     div {
       max-height: 100vh;
