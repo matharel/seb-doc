@@ -1,19 +1,20 @@
-<!-- bricolage qui permet de récupérer les images dans le page bundle
-      Sinon il va les chercher dans assets
--->
-{{ with .Page.Resources.GetMatch (.Destination) }}
+{{- /*
+    ![Alternate text)(url.jpeg "title)
+    {.ma-classe}
 
-{{ if eq $.Title "DoNotProcess" }}
-<picture>{{/* je rajoute la balise picture pour qu'il y ait une cohérence dans le css avec les images traitées par lazyimg */}}
-<img src="{{ . }}" alt="{{ $.Text }}" {{ with $.Title }} title="{{ . }}"{{ end }} />
-</picture>
-{{ else }}
-{{ partial "lazyimg" (dict "img" . "alt" $.Text) }}
-{{ end }}
+    Le code suivant permet de récupérer les images dans le page bundle:
+    {{ with .Page.Resources.GetMatch (.Destination) }}
+*/ -}}
 
-{{ else }}
-{{ warnf "Resource not found `%s` in `%s`" .Destination .Page.File }}
-<picture>
-<img src="" alt="{{ .Text }}" {{ with .Title }} title="{{ . }}"{{ end }} />
-</picture>
-{{ end }}
+<figure{{ with .Attributes.class }} class="{{ . }}"{{ end }}>
+    {{- with .Page.Resources.GetMatch (.Destination) -}}
+        {{ if eq (path.Ext .) ".gif" }}
+        <picture><img src="{{ . }}"
+          {{- with $.Text }} alt="{{ $.Text }}"{{ end -}}/>
+        </picture>
+        {{ else }}
+            {{- partial "lazyimg" (dict "img" . "alt" $.Text) -}}
+        {{ end }}
+    {{- end -}}
+{{- with .Title -}}<figcaption>{{ . }}</figcaption>{{- end -}}
+</figure>
