@@ -1,0 +1,28 @@
+Params:
+  lazyimg:
+    resizer: auto
+    renderer: lqip-webp
+
+    # Resizer options:
+    lqipSize: "120x Gaussian"
+    maxSize: "1920x"
+    responsiveSizes: ["320x", "640x", "768x", "1024x", "1366x", "1600x", "1920x"]
+    resizeOptions: "Lanczos q95"
+
+    # Renderer options:
+    #class: ""
+    #alt: ""
+    noscript: true
+
+    errorHandler: warning
+
+module:
+  hugoVersion:
+    extended: false
+    min: "0.96.0"
+    max: "1.00.0"
+  imports:
+  - path: "github.com/aFarkas/lazysizes"
+    mounts:
+    - source: "./"
+      target: "assets/lazyimg/lazysizes"
