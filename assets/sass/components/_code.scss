@@ -3,5 +3,8 @@ pre {
     // permet au code d'aller à la ligne et
     // de ne pas s'étaler horizontalement
     white-space: pre-wrap;
-    padding: .5em .5em 1em;
+
+    padding: .5em .5em .4em;
+
+    font-size: .9em;
 }
