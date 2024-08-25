@@ -4,7 +4,7 @@
 
     Le code suivant permet de récupérer les images dans le page bundle:
     {{ with .Page.Resources.GetMatch (.Destination) }}
-*/ -}}
+*/}}
 
 <figure{{ with .Attributes.class }} class="{{ . }}"{{ end }}>
     {{- with .Page.Resources.GetMatch (.Destination) -}}

@@ -21,21 +21,23 @@
 
 // 4. Layout-related sections
 @import
-//  'layout/menus',
-//  'layout/horizontal_menu',
-//  'layout/breadcrumbs',
-//  'layout/header',
+  'layout/main',
+  'layout/menus',
+  'layout/horizontal_menu',
+  'layout/breadcrumbs',
+  'layout/header',
   'layout/footer';
 
 // 5. Components
 @import
   'components/admonitions',
   'components/button',
-  'components/images',
+  'components/block-elements',
+  'components/iframes',
   'components/table',
   'components/sections',
   'components/code',
-  'components/shortcodes';
+  'components/sh-checklist';
 
 // 6. Page-specific styles
 @import
@@ -43,7 +45,7 @@
 
 // 7. Themes
 @import
-//'themes/default';
+// 'themes/default';
 //'themes/vfub';
-//'themes/ausondudiois';
-'themes/duo';
+'themes/ausondudiois';
+// 'themes/duo';

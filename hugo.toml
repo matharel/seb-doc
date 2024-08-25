@@ -1,12 +1,13 @@
 [[module.imports]]
  path = "github.com/hugo-mods/lazyimg"
 
-
+# n'est pas pris en compte,
+# pourquoi !?!
 [markup]
   [markup.goldmark]
     [markup.goldmark.parser]
-      wrapStandAloneImageWithinParagraph = false
-      [markup.goldmark.parser.attribute]
+      wrapStandAloneImageWithinParagraph = false # to apply attributes to a standalone image element
+      [markup.goldmark.parser.attribute] # enables markdown attributes for block and title elements
         block = true
         title = true
     [markup.goldmark.renderer]

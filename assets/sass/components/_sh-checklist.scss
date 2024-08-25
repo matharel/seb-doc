@@ -1,0 +1,32 @@
+// ckecklist
+  .sh-checklist {
+    // la sélection nuit à l'usage
+    user-select: none;
+
+
+  input[type=checkbox] {
+    display: none;
+  }
+
+  label {
+    cursor: pointer;
+    padding: 0.05px;
+    span {
+      // pour que toute la ligne soit clickable:
+      // display: inline-block;
+      // width: 100%;
+
+      padding-left: .8em;
+    }
+  }
+  :checked + span {
+    text-decoration: line-through;
+    text-decoration-thickness: .15em;
+  }
+  h2 {
+    padding: 0;
+    margin: 0;
+    font-variant: small-caps;
+  }
+}
+

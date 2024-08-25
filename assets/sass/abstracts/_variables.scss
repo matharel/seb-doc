@@ -11,6 +11,9 @@ $fa-font-path: "../fonts";
 $google-font: "Fuggles";
 // $google-font: "M+PLUS+Rounded+1c";
 
+// Pour les titres
+// oswald
+
 @import url('https://fonts.googleapis.com/css2?family=#{$google-font}&display=swap');
 
 /// Regular font family
@@ -51,7 +54,14 @@ $max-width: 1180px !default;
 /// Breakpoints map
 /// @prop {String} keys - Keys are identifiers mapped to a given length
 /// @prop {Map} values - Values are actual breakpoints expressed in pixels
+
+// NOTE: Il me manque un breakpoint. Je rajoute very-small,
+// qui correspond en fait à "mobile" et "portrait" → à améliorer
+// WARN: en fait very-small casse mon menu, donc pas utilisable pour l'instant,
+// je le laisse mais de toute façon écrasé par `small`
+
 $breakpoints: (
+  'very-small': (max-width: 509px),
   'small': ( max-width: 809px),
   'medium': ( min-width: 810px ),
   'large': ( min-width: 1200px ),

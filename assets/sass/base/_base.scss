@@ -25,6 +25,16 @@ body {
     // display: flex;
 }
 
+/**
+ * Should I group all colors decision here ?
+ */
 a {
-  color: $link-color;
+    color: $link-color;
+    text-decoration: none;
+
+    @include on-event {
+        color: $text-color;
+        text-decoration: underline;
+    }
 }
+

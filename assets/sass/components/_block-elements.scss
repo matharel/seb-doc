@@ -1,0 +1,117 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to block elements
+// Including image when they're not inlined
+// -----------------------------------------------------------------------------
+
+img {
+  height: auto;
+  width: 100%;
+}
+
+// si jamais ne ne voulais cibler que les images
+// figure:has(img)  {
+figure {
+  margin: 0;
+  padding: 0 0 1em;
+  backgrond: lightgreen;
+  img {
+    border-radius: 3px;
+    margin: 1em auto .5em;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  }
+  figcaption {
+    text-align: center;
+    font-variant: small-caps;
+    text-transform: lowercase;
+    font-size: 1.2em;
+  }
+
+}
+
+picture {
+
+  @include respond-to('medium') {
+    color: blue;
+  }
+}
+
+figure, div {
+  // adjust image size depending on:
+  //    - class
+  //    - size of the screen
+  @include respond-to('very-small') {
+    &.small {
+      margin: 0 10%;
+    }
+    &.medium {
+      margin: 0;
+    }
+  }
+  @include respond-to('small') {
+    &.small {
+      margin: 0 22%;
+    }
+    &.medium {
+      margin: 0 12%;
+    }
+  }
+  @include respond-to('medium') {
+    &.small {
+      margin: 0 30%;
+    }
+    &.medium {
+      margin: 0 20%;
+    }
+  }
+  @include respond-to('large') {
+    &.small {
+      margin: 0 35%;
+    }
+    &.medium {
+      margin: 0 25%;
+    }
+  }
+}
+
+body.small-blocks {
+  figure, div.highlight {
+    // adjust image size depending on:
+    //    - class
+    //    - size of the screen
+    @include respond-to('very-small') {
+      margin: 0 10%;
+      @include respond-to('small') {
+        margin: 0 22%;
+      }
+      @include respond-to('medium') {
+        margin: 0 30%;
+      }
+      @include respond-to('large') {
+        margin: 0 35%;
+
+      }
+    }
+  }
+}
+
+body.medium-blocks {
+  figure, div.highlight {
+    // adjust image size depending on:
+    //    - class
+    //    - size of the screen
+    @include respond-to('very-small') {
+      margin: 0;
+    }
+    @include respond-to('small') {
+      margin: 0 12%;
+    }
+    @include respond-to('medium') {
+      margin: 0 20%;
+    }
+    @include respond-to('large') {
+      margin: 0 25%;
+
+    }
+  }
+}

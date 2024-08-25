@@ -1,0 +1,36 @@
+{{/* 
+   * Les menus affichent la variable `.LinkTitle` définie dans le front matter
+   * Si cette variable n'est pas définie, il y a un fallback sur `.Title`
+   * Pas d'autres fallbacks
+   *
+   * Les différents niveaux de menu sont triés par `.Weight`.
+   * Si la variable `.Weight` n'est pas définie, alors c'est trié alphabètiquement par le titre
+   *
+   * l'idéal serait de trier par l'affichage des dossiers, et cela grace à un nombre:
+   * 10-Informatique
+   * 20-Musique
+   * 30-Sonorisation
+   *
+   * À mon avis faisable, est-ce vraiment une bonne idée ?
+*/}}
+
+{{ define "subpages" }}
+    {{ $currentPage := .currentPage }}
+    <ul>
+        {{ range .context.Pages.ByWeight }}
+            <li>
+                {{ if (eq $currentPage .) }}
+                    <span>{{ .Title }}</span>
+                {{ else }}
+                    <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+                {{ end }}
+                {{ template "subpages" (dict "context" . "currentPage" $currentPage) }} 
+            </li>
+        {{ end }}
+    </ul>
+{{ end }}
+
+
+{{/* PAGE.GetPage → Return a page object from the given path. */}}
+{{ $context := .GetPage "/"}}
+{{ template "subpages" (dict "context" $context "currentPage" . ) }}

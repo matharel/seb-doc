@@ -1,0 +1,27 @@
+{{/*
+  * Je me suis contenté de changer la font - voici la ligne original:
+  *   font-family="Menlo,Lucida Console,monospace"
+  * Je ne comprends pas comment cela fonctionne. J'imagine que cela prend les fonts du système,
+  * Par contre ça n'a pas l'air de les prendre par ordre d'apparition.
+*/}}
+
+
+{{ $width := .Attributes.width }}
+{{ $height := .Attributes.height }}
+{{ $class := .Attributes.class | default "" }}
+<div class="goat svg-container {{ $class }}">
+  {{ with diagrams.Goat .Inner }}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      font-family="monospace"
+      font-size="14px"
+      {{ if or $width $height }}
+        {{ with $width }}width="{{ . }}"{{ end }}
+        {{ with $height }}height="{{ . }}"{{ end }}
+      {{ else }}
+        viewBox="0 0 {{ .Width }} {{ .Height }}"
+      {{ end }}>
+      {{ .Inner }}
+    </svg>
+  {{ end }}
+</div>

@@ -1,0 +1,50 @@
+body {
+    // padding: 1em;
+    main {
+        padding: 1em;
+    }
+}
+
+/// Sommaire en fixe à gauche
+///
+@include respond-to('medium') {
+    main {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    h1 {
+        flex: 1;
+        order: 2;
+    }
+
+    #TOC-container {
+        flex: 1;
+        order: 1;
+        max-width: 20em;
+        #TableOfContents {
+            position: sticky;
+            top: 4em;
+            left: 0;
+            // si je mets 100vh, on ne voit pas le bas
+            // avant d'avoir scroller down complètement la page
+            max-height: 90vh;
+            padding-bottom: 1em;
+            overflow-y: auto;
+        }
+    }
+
+    #mainContent {
+        flex: 3;
+        order: 2;
+        padding-left: 1em;
+    }
+}
+
+@include respond-to('large') {
+    main {
+        margin-right: 3vw;
+    }
+}
+
+

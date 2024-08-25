@@ -3,58 +3,63 @@
   <head>
     {{ partial "meta" . }}
     {{ partial "lazyimg-setup-nojs" }}
-	{{ partial "include-css-js" . }}
+    {{ partial "include-css-js" . }}
   </head>
 
-  <body>
-
+  <body{{ with .Params.bodyClass }} class="{{ . }}"{{ end }}>
     <header id="main-header">
-        <div id="logo"><a href="/">{{ .Site.Params.Brand }}</a></div>
-    <!--
-    Menu de section
-    -->
-    {{ if .Param "menu" }}
-      <nav id="section-menu">
+      <div id="logo"><a href="/">{{ .Site.Params.Brand }}</a></div>
+
+      {{ if .Param "menu" }}
+        <nav id="section-menu">
           <input type="checkbox" id="menu-toggle">
           <label for="menu-toggle"></label>
-          {{ partial "menu.go" . }}
-      </nav>
+          {{ partial "menu-dev.html" . }}
+        </nav>
+
     </header>
-    {{ end }}
+  {{ end }}
 
-    <main>
-
-    <!--
-    Table of Content
-    On teste si il y a du contenu dans la balise nav du toc
-    -->
+  <main>
 
     {{ if .Params.TOC }}
-    <div id="TOC-container">
+      <div id="TOC-container">
         <input type="checkbox" id="TOC-toggle">
         <label for="TOC-toggle"></label>
-      {{ .TableOfContents }}
-    </div>
+        {{ .TableOfContents }}
+      </div>
     {{ end }}
 
     <div id="mainContent">
-    <!--
-    Breadcrumbs
-    -->
-    {{ if .Param "breadcrumb" }}
+
+      {{ if .Param "breadcrumb" }}
         {{ partial "breadcrumbs" . }}
-    {{ end }}
+      {{ end }}
 
       <h1>{{ .Params.Title }}</h1>
-        {{ block "main" . }}
+
+      {{ if .Param "pageInfos" }}
+        <p>Page créée le {{ .PublishDate | time.Format "02/01/2006" }}</p>
+        {{ with .GitInfo }}
+          <p>Dernière correction, le {{ .CommitDate.Format "02/01/2006" }}</p>
         {{ end }}
+      {{ end }}
+
+      {{ if .Param "readingTime" }}
+        <p>Temps de lecture estimé: {{ .ReadingTime }} minute{{ with (gt .ReadingTime 1)}}s{{ end }}.</p>
+      {{ end }}
+
+
+      {{ block "main" . }}
+      {{ end }}
     </div>
 
 
-    </main>
 
-    {{ partial "footer" . }}
-    <script src="/js/scroll-spy.js"></script>
+  </main>
+
+  {{ partial "footer" . }}
+  <script src="/js/scroll-spy.js"></script>
   </body>
 </html>
 
