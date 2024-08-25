@@ -1,4 +1,5 @@
 <section class="sh-checklist {{ .Get 0 }}">
+  <button class='uncheck-all'>Uncheck All</button>
   {{ $items := split .Inner "\n" }}
   {{ $inSection := false }}
 
