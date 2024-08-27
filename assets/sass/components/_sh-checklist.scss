@@ -1,23 +1,39 @@
 // ckecklist
   .sh-checklist {
+    button {
+      cursor: pointer;
+    }
+
     // la sélection nuit à l'usage
     user-select: none;
+    // NOTE:permet qu'il n'y ait pas de gap entre les inputs
+    // → permet de maximiser la zone de click
 
+    line-height: 2em;
+
+    margin-bottom: 2em;
 
   input[type=checkbox] {
+    margin: 0;
+    padding: 0;
     display: none;
   }
 
   label {
     cursor: pointer;
-    padding: 0.05px;
+    padding: .2em;
+    font-size: 1.1em;
+    //background: pink;
+    &:nth-last-of-type(1) { // &:nth-last-child prenait en compte label ET br
+      // background: pink;
+    }
     span {
       // pour que toute la ligne soit clickable:
       // display: inline-block;
       // width: 100%;
 
-      padding-left: .8em;
     }
+
   }
   :checked + span {
     text-decoration: line-through;

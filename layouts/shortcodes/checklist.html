@@ -1,6 +1,15 @@
+{{/* NOTE: Je commence à voir ce qui va et ne va pas dans ce fichier.
+     Dans checklist, je devrais pouvoir faire du markdown pour:
+       1. avoir des listes structurées
+       2. pouvoir mettre des titres
+      Sinon, le bouton réinitialiser devrait être à côté du titre de la `checklist` et le titre devrait être passé comme une variable:
+      {{< checklist "Petit matériel">}}
+
+      */}}
 <section class="sh-checklist {{ .Get 0 }}">
-  <button class='uncheck-all'>Uncheck All</button>
-  {{ $items := split .Inner "\n" }}
+  <button class='uncheck-all'>Réinitialiser</button>
+  {{ $markdown := .Inner | markdownify }}
+  {{ $items := split $markdown "\n" }}
   {{ $inSection := false }}
 
   {{ range $index, $item := $items }}
@@ -13,7 +22,7 @@
       {{ if eq (substr $trimmed 0 1) "#" }}
       <h2>{{ replaceRE "^#*([^/]+)" "$1" $trimmed }}</h2>
       {{ else }}
-      <label><input type="checkbox" name="{{ $trimmed }}" /><span>{{ $trimmed }}</span></label><br/>
+      <label><input type="checkbox" name="{{ $trimmed }}" /><span>{{ $trimmed | safeHTML }}</span></label><br/>
       {{ end }}
     {{ else if $inSection }}
       </div>

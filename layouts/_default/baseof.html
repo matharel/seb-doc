@@ -7,22 +7,35 @@
   </head>
 
   <body{{ with .Params.bodyClass }} class="{{ . }}"{{ end }}>
+  <body class="
+               {{- with .Params.bodyClass }} {{ . }}{{ end -}}
+               {{- with .Param "menu" }} menu{{ end -}}
+               {{- with .Param "TOC" }} toc{{ end -}}
+               {{- with .Param "breadcrumb" }} breadcrumb{{ end -}}
+              ">
+
+    {{/*
+    WARN: je prends tout le header avec la variable menu
+          Alors à affiner
+
+    */}}
+    {{ if .Param "menu" }}
+
     <header id="main-header">
       <div id="logo"><a href="/">{{ .Site.Params.Brand }}</a></div>
 
-      {{ if .Param "menu" }}
-        <nav id="section-menu">
-          <input type="checkbox" id="menu-toggle">
-          <label for="menu-toggle"></label>
-          {{ partial "menu-dev.html" . }}
-        </nav>
+      <nav id="section-menu">
+        <input type="checkbox" id="menu-toggle">
+        <label for="menu-toggle"></label>
+        {{ partial "menu-dev.html" . }}
+      </nav>
 
     </header>
   {{ end }}
 
   <main>
 
-    {{ if .Params.TOC }}
+    {{ if .Param "TOC" }}
       <div id="TOC-container">
         <input type="checkbox" id="TOC-toggle">
         <label for="TOC-toggle"></label>
