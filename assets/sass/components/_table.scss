@@ -4,6 +4,12 @@
 
 /**
  * Table
+ * NOTE: Améliorations
+ * Beaucoup mieux de ne pas avoir fait de largeur 100% et
+ * de centrer le tableau par défaut
+ * Par contre, il faudrait utiliser le modèle flexbos pour:
+     -> mettre des marges latérales quand il y a de la place
+     -> les retirer quand pas possible
  */
 
 // Reboot based on :
@@ -14,7 +20,7 @@
 // 1. Collapse border spacing in all browsers (opinionated)
 // 2. Remove text indentation from table contents in Chrome, Edge, and Safari
 :where(table) {
-  width: 100%;
+  // width: 100%;
   border-collapse: collapse; // 1
   border-spacing: 0;
   text-indent: 0; // 2
@@ -28,6 +34,8 @@ th,
 td {
   padding: 10px;
   border-bottom: 1px solid grey;
+  border-right: 1px solid grey;
+  border-left: 1px solid grey;
   text-align: left;
   text-align: start;
 }
@@ -43,6 +51,7 @@ tfoot {
 
 // Striped
 table {
+    margin: 0 auto;
 
     tbody tr:nth-child(odd) {
       background-color: lighten(lightgrey,14%);

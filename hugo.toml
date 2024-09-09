@@ -5,6 +5,8 @@
 # pourquoi !?!
 [markup]
   [markup.goldmark]
+    [markup.goldmark.extension]
+      strikethrough = false
     [markup.goldmark.parser]
       wrapStandAloneImageWithinParagraph = false # to apply attributes to a standalone image element
       [markup.goldmark.parser.attribute] # enables markdown attributes for block and title elements
