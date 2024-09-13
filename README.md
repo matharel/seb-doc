@@ -2,11 +2,13 @@
 
 ## Todo List
 
-  - [o] Réorganiser les fichiers de variables
-  - [ ] faire un menu accessible
-  - [ ] faire un menu joli
 
 ## Features
+
+
+  - des jolies tableaux
+  - table rendered hook
+  - mettre à jour sass
 
 ### Classes
 

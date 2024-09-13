@@ -1,53 +1,78 @@
-<!--
-https://github.com/alex-shpak/hugo-book/blob/master/layouts/partials/docs/menu-filetree.html
--->
+{{/* 
+   * WARN: 
+   *  - si il n'y a pas de titres aux pages les pages ne s'affichent pas dans le menu, pas forcément un souci, mais ça m'a fait perdre du temps à dèbeuguer.
+      => ça serait quand même mieux que par défaut le menu prenne le nom du dossier quand le titre n'est pas dispo, ça éviterait des incompréhensions.
+   *
+   * Les menus affichent la variable `.LinkTitle` définie dans le front matter
+   * Si cette variable n'est pas définie, il y a un fallback sur `.Title`
+   * Pas d'autres fallbacks
+   *
+   * Les différents niveaux de menu sont triés par `.Weight`.
+   * Si la variable `.Weight` n'est pas définie, alors c'est trié alphabètiquement par le titre
+   *
+   * l'idéal serait de trier par l'affichage des dossiers, et cela grace à un nombre:
+   * 10-Informatique
+   * 20-Musique
+   * 30-Sonorisation
+   *
+   * À mon avis faisable, est-ce vraiment une bonne idée ?
+   *
+   * NOTE: Après avoir vu ce qu'a fait Timéo avec Merlin je pense que
+   *       C'est une excellente idée :
+   *         - permet de représenter visuellement l'affichage des dossiers
+   *         - très facile à éditer avec vidir
+   * Il faudrait que les dossiers:
+   *    - s'affichent alphabètiquement
+   *    - sauf si variable de numéro.
+   *    - Mais, est-ce que ça ne se ferait déjà pas automatiquement ?
+*/}}
 
+{{/* NOTE: À voir si je ne remets pas dans un partial pour y accèder depuis d'autres endroits
+    * comme dans les _index file par exemple ou dans les <h1>
+    *
+    */}}
 
-{{ $section := .Section }}{{/* probablement pour garder le bon scope */}}
+{{ define "title" }}
+    {{ $title := "" }}
 
-{{ with .Site.GetPage }}
-  {{ template "section-children" (dict "Section" . "CurrentPage" $) }}
-{{ end }}
-
-{{ define "section-children" }}{{/* (dict "Section" .Section "CurrentPage" .CurrentPage) */}}
-  <ul>
-    {{ range (where .Section.Pages "Params.pagehidden" "ne" true) }}
-      {{ if .IsSection }}
-        <li  class="section" >
-          {{ template "page-link" (dict "Page" . "CurrentPage" $.CurrentPage "isSection" true) }}
-          {{ template "section-children" (dict "Section" . "CurrentPage" $.CurrentPage) }}
-        </li>
-      {{ else if and .IsPage .Content }}
-        <li>
-          {{ template "page-link" (dict "Page" . "CurrentPage" $.CurrentPage "isSection" false) }}
-        </li>
-      {{ end }}
-    {{ end }}
-  </ul>
-{{ end }}
-
-{{ define "page-link" }}{{/* (dict "Page" .Page "CurrentPage" .CurrentPage) */}}
-  {{ $current := eq .CurrentPage .Page }}
-  {{ $ancestor := .Page.IsAncestor .CurrentPage }}
-
-  {{ if .Page.Params.menuOff }}
-    <span>
-      {{- partial "doc-titles" .Page -}}
-    </span>
-    {{/* -- si je veux un traitement particulier aux sections (par exemple pas un lien)
-  {{ else if .isSection }}
-  <span>{{- partial "doc-titles" .Page -}}</span>
-  */}}
-  {{ else if $ancestor }} {{/* c'est une section mère */}}
-    <a href="{{ .Page.RelPermalink }}" class="section active">{{ partial "doc-titles" .Page }}</a>
-  {{ else  }}
-    {{ if $current }}
-    <span class="active">{{ partial "doc-titles" .Page }}</span>
-    {{ else }}
-    <a href="{{ .Page.RelPermalink }}" class="{{ if $current }}active{{ end }}">
-      {{- partial "doc-titles" .Page -}}
-    </a>
+    {{ if .LinkTitle }}
+        {{ $title = .LinkTitle }}
+    {{ else if and .IsSection .File }}
+        {{ $title = path.Base .File.Dir | humanize }}
+    {{ else if and .IsPage .File }}
+        {{ $title = .File.BaseFileName | humanize }}
     {{ end }}
 
-  {{ end }}
+    {{ $title }}
 {{ end }}
+
+
+
+{{ define "subpages" }}
+    {{ $currentPage := .currentPage }}
+
+    {{ with .context.Pages }}{{/* pour ne pas avoir de <ul> vides */}}
+        <ul>
+            {{/* sort "Path" permet de trier les pages dans le menu par "file structure"
+                 à l'identique de l'organisation dans content.
+                 Si on retire `sort "Path"`, elles seront naturellement triées par:
+                 Weigh > date > LinkTitle > FilePath
+            */}}
+            {{ range sort . "Path" }}
+                <li{{ with .Draft }} class="menu_draft"{{ end }}>
+                    {{ if (eq $currentPage .) }}
+                        <span>{{ template "title" . }}</span>
+                    {{ else }}
+                        <a href="{{ .RelPermalink }}">{{ template "title" . }}</a>
+                    {{ end }}
+                    {{ template "subpages" (dict "context" . "currentPage" $currentPage) }} 
+                </li>
+            {{ end }}
+        </ul>
+    {{ end }}
+{{ end }}
+
+
+{{/* PAGE.GetPage → Return a page object from the given path. */}}
+{{ $context := .GetPage "/"}}
+{{ template "subpages" (dict "context" $context "currentPage" . ) }}

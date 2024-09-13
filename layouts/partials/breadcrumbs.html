@@ -1,17 +1,17 @@
 {{ $depth := .Site.Params.breadcrumbDepth }}
 
 <!-- we only use breadcrumbs if we have at least n levels of depth
-    1 = 2
-    0 = 1
+  1 = 2
+  0 = 1
 -->
 {{ if gt (.Ancestors | len) 0 }}
-<nav id="breadcrumbs">
-  <ol>
-    <!-- after 1 allow us to remove the first ancestor (the home page) -->
-    {{ range after $depth .Ancestors.Reverse }}
-    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
-    {{ end }}
-    <li>{{ .Title }}</li>
-  </ol>
-</nav>
+  <nav id="breadcrumbs">
+    <ol>
+      <!-- after 1 allow us to remove the first ancestor (the home page) -->
+      {{ range after $depth .Ancestors.Reverse }}
+        <li{{ with .Draft }} class="breadcrumb_draft" {{ end }}><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+      {{ end }}
+      <li{{ with .Draft }} class="breadcrumb_draft" {{ end }}>{{ .Title }}</li>
+    </ol>
+  </nav>
 {{ end }}

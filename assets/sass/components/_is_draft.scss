@@ -1,0 +1,17 @@
+$draft-color: maroon;
+
+li.menu_draft {
+  & > a, & > span {
+    color: $draft-color !important;
+  }
+}
+
+nav li.breadcrumb_draft {
+  &, a {
+    color: $draft-color !important;
+  }
+}
+
+h1.title_draft {
+  color: $draft-color !important;
+}

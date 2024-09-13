@@ -27,7 +27,7 @@
       <nav id="section-menu">
         <input type="checkbox" id="menu-toggle">
         <label for="menu-toggle"></label>
-        {{ partial "menu-dev.html" . }}
+        {{ partial "menu.html" . }}
       </nav>
 
     </header>
@@ -49,7 +49,7 @@
         {{ partial "breadcrumbs" . }}
       {{ end }}
 
-      <h1>{{ .Params.Title }}</h1>
+      <h1{{ with .Draft }} class="title_draft"{{ end }}>{{ .Params.Title }}</h1>
 
       {{ if .Param "pageInfos" }}
         <p>Page créée le {{ .PublishDate | time.Format "02/01/2006" }}</p>
