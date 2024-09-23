@@ -6,7 +6,6 @@
     {{ partial "include-css-js" . }}
   </head>
 
-  <body{{ with .Params.bodyClass }} class="{{ . }}"{{ end }}>
   <body class="
                {{- with .Params.bodyClass }} {{ . }}{{ end -}}
                {{- with .Param "menu" }} menu{{ end -}}

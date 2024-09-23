@@ -1,0 +1,5 @@
+{{ $result := 0 -}}
+{{- range $.Params -}}
+{{- $result = add $result . -}}
+{{- end -}}
+{{- $result -}}
