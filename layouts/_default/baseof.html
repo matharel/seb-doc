@@ -7,7 +7,7 @@
   </head>
 
   <body class="
-               {{- with .Params.bodyClass }} {{ . }}{{ end -}}
+               {{- with .Param "bodyClass" }} {{ . }}{{ end -}}
                {{- with .Param "menu" }} menu{{ end -}}
                {{- with .Param "TOC" }} toc{{ end -}}
                {{- with .Param "breadcrumb" }} breadcrumb{{ end -}}
@@ -75,4 +75,3 @@
   <script src="/js/checklist.js"></script>
   </body>
 </html>
-

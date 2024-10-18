@@ -1,0 +1,175 @@
+body.contrat-location {
+  @media print {
+    font-size: 0.7em;
+  }
+  h1 {
+    display: none;
+  }
+  // h1 sert à identifier le nom de fichier pour la conversion en pdf
+  // le premier `p` du document juste après le h1 est utilisé comme titre
+  // dans la présentation
+  h1 + p, hr + p {
+    font-size: 2em;
+    font-weight: bold;
+    padding: 0;
+    text-align: center;
+    & + p {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 0;
+    margin-top: -1em;
+    text-align: center;
+    }
+  }
+
+  h2 {
+    padding-top: 3.5em;
+  }
+
+  address {
+    padding: 0 0 1.5em 2em;
+  }
+
+  h3 {
+    padding-left: 0.8em;
+  }
+  p {
+    padding-left: 1.8em;
+  }
+
+  table {
+    width: 90%;
+    margin: 2.5em auto;
+    td {
+    border: 1px solid lighten(grey, 45%);
+      background: white;
+    }
+  }
+
+  table.recap {
+
+
+    td {
+      background: white;
+    }
+
+    // arrondis
+    thead > tr {
+      th {
+        border: 1px solid lighten(lightgrey, 5%);
+        background: lighten(lightgrey,12%);
+      }
+
+      // première case en haut à gauche
+      & > th:first-of-type {
+        border-top-left-radius: 0.7em;
+      }
+      // dernière case en haut à droite
+      & > th:last-of-type {
+        border-top-right-radius: 0.7em;
+      }
+    }
+
+
+     // les colonnes à partir de la deuxième
+     tr > :nth-child(n+2) {
+       text-align: right;
+     }
+     // la dernière colonne
+     tr > :last-child {
+       font-weight: bold;
+     }
+     // dans tbody, les trois premiers tr, et les cellules à partir de la deuxième
+     tbody > tr:nth-of-type(-n+3) > td:nth-child(n+2) {
+       // color: maroon;
+       // font-family: mono;
+     }
+     // on sélectionne les deux dernières lignes > 
+     tbody > tr:nth-of-type(n+4) {
+       // et les deux dernières cases
+       & > td:nth-last-child(-n+2) {
+         border: 1px solid lighten(lightgrey, 5%);
+         background: lighten(lightgrey,12%);
+       }
+       // et les deux avant dernières-cases
+       & > td:nth-last-child(2) {
+         font-weight: bold;
+         text-align: center;
+         padding-left: 5.5em;
+       }
+       // et les autres (les deux premières):
+       & > td:nth-of-type(-n+2) {
+         border: 0;
+       }
+     }
+     // et la dernière ligne et l'avant dernière-case
+     tbody > tr:nth-of-type(n+5) {
+       & > td:nth-last-child(2) {
+         border-bottom-left-radius: 0.7em;
+       }
+     }
+     // et la dernière ligne de la toute dernière case 
+     tbody > tr:nth-of-type(n+5) {
+       & > td:nth-last-child(-n+1) {
+         border-bottom-right-radius: 0.7em;
+       }
+     }
+//     thead th {
+//       color: black !important;
+//       font-family: sans-serif !important;
+//     }
+//     // les deux dernières lignes
+//     tbody tr:nth-last-child(-n+2) {
+//       font-weight: bold;
+//       td {
+//         border: 0;
+//         text-align: right;
+//         &:nth-last-child(2) {
+//           color: black !important;
+//           font-family: sans-serif !important;
+//         }
+//         // les deux dernières cellules de ces deux dernières lignes
+//         &:nth-last-child(-n+2) {
+//           border: 1px solid grey;
+//         }
+//         // la dernière cellule
+//         &:nth-last-child(-n+1) {
+//           color: maroon;
+//         }
+//       }
+//     }
+  }
+}
+
+
+
+@mixin generate-outline($reset-element: body, $list-style: decimal) {
+  $counter: unique-id();
+
+  counter-increment: $counter;
+
+  &::before {
+    content: counter($counter, $list-style)'. ';
+  }
+
+  @at-root {
+    #{$reset-element} {
+      counter-reset: $counter;
+    }
+  }
+}
+
+// How to use it
+h2 {
+  @include generate-outline(h1, upper-roman);
+}
+
+h3 {
+  @include generate-outline(h2);
+}
+
+@page {
+  @bottom-center {
+    content: counter(page);
+  }
+}

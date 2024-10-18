@@ -21,8 +21,10 @@
 // 2. Remove text indentation from table contents in Chrome, Edge, and Safari
 :where(table) {
   // width: 100%;
-  border-collapse: collapse; // 1
-  border-spacing: 0;
+  // WARN: Si je veux arrondir les boîtes de tableau une par une
+  // il ne faut pas que ça collapse -> c'est assez logique
+  border-collapse: separate; // 1
+  border-spacing: 1px;
   text-indent: 0; // 2
 }
 
@@ -30,12 +32,15 @@
 // ––––––––––––––––––––
 
 // Cells
+th {
+  // border-top: 1px solid grey;
+}
 th,
 td {
   padding: 10px;
-  border-bottom: 1px solid grey;
-  border-right: 1px solid grey;
-  border-left: 1px solid grey;
+  // border-bottom: 1px solid grey;
+  // border-right: 1px solid grey;
+  // border-left: 1px solid grey;
   text-align: left;
   text-align: start;
 }
@@ -44,8 +49,8 @@ td {
 tfoot {
   th,
   td {
-    border-top: 2px solid var grey;
-    border-bottom: 0;
+    // border-top: 2px solid var grey;
+    // border-bottom: 0;
   }
 }
 
@@ -54,7 +59,7 @@ table {
     margin: 0 auto;
 
     tbody tr:nth-child(odd) {
-      background-color: lighten(lightgrey,14%);
+      // background-color: lighten(lightgrey,14%);
     }
   
 }
