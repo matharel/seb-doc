@@ -55,11 +55,13 @@ tfoot {
 }
 
 // Striped
-table {
-    margin: 0 auto;
+// tbody tr:nth-child(odd) {
 
-    tbody tr:nth-child(odd) {
-      // background-color: lighten(lightgrey,14%);
-    }
-  
+table {
+  width: 90%;
+  margin: 2.5em auto;
+  td {
+  border: 1px solid lighten(grey, 45%);
+    background: white;
+  }
 }
