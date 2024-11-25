@@ -53,3 +53,10 @@
   position: absolute;
   width: 1px;
 }
+
+/**
+ * Il faudrait faire un helper qui fonctionne dans toutes les situations
+ **/
+.center {
+  text-align: center;
+}
