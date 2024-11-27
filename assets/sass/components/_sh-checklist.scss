@@ -2,6 +2,9 @@
   .sh-checklist {
     button {
       cursor: pointer;
+      &::before {
+        @include add-fa-icon($fa-var-refresh, 1em);//pencil
+      }
     }
 
     // la sélection nuit à l'usage

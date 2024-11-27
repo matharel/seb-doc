@@ -1,4 +1,4 @@
-{{ $contactsRaw := .Inner }}
+{{ $contactsRaw := .Inner | markdownify }}
 {{ $contacts := trim $contactsRaw "\n\t\r " }}
 {{ $lines := split $contacts "\n" }}
 

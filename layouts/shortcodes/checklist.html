@@ -7,7 +7,7 @@
 
       */}}
 <section class="sh-checklist {{ .Get 0 }}">
-  <button class='uncheck-all'>Réinitialiser</button>
+  <button class='uncheck-all'></button>
   {{ $markdown := .Inner | markdownify }}
   {{ $items := split $markdown "\n" }}
   {{ $inSection := false }}
