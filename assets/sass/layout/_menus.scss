@@ -21,9 +21,11 @@ html {
 
 // pour laisser de la place à l'icône menu
 // dans la version mobile
+// UPATE
+// J'ai commenté, car je ne comprends absolument pas à quoi ça sert, et ça met quand même le bins dans la mise en page du site
     h2, h3 {
-        padding-top: 2.8em;
-        margin-top: -2.8em;
+        //padding-top: 2.8em;
+        //margin-top: -2.8em;
 }
 
 $min-width-menus: 20em;

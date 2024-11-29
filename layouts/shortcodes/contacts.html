@@ -13,7 +13,7 @@
         {{ $cleanPhone := replace $phone " " "" }}
         <tr>
           <td>{{ $name }}</td>
-          <td><i class="fa fa-phone"></i> <a href="tel:{{ $cleanPhone }}">{{ $phone }}</a></td>
+          <td><i class="fa fa-phone"></i><a href="tel:{{ $cleanPhone }}">{{ $phone }}</a></td>
         </tr>
       {{ end }}
     {{ end }}

@@ -143,6 +143,7 @@ body.contrat-location {
 
 
 
+.numbering-headings {
 @mixin generate-outline($reset-element: body, $list-style: decimal) {
   $counter: unique-id();
 
@@ -172,4 +173,5 @@ h3 {
   @bottom-center {
     content: counter(page);
   }
+}
 }
