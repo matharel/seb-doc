@@ -1,16 +1,33 @@
-{{ $cite := .Attributes.cite }}
+{{/* NOTE: Variables à utiliser */}}
+{{/* 	- .Type */}}
+{{/* 	- .AlertType */}}
+{{/* 	- .AlertTitle → pourrait servir ici de tag */}}
+{{/* 	- .Text */}}
+{{ $text := .Text }}
 
-<figure
-    {{- with .Attributes.class }} class="{{ . }}"{{ end }}
-    {{- with .Attributes.id }} id="{{ . }}"{{ end -}}>
-  <blockquote {{ with .Attributes.cite }}cite="{{ . }}"{{ end }}>
-    {{ .Text | safeHTML }}
+{{/* Extract everything before the blockquote */}}
+{{ $question := (findRE `(?s)^(.*?)<blockquote>` $text 1) }}
+{{ $question := index $question 0 }}
+
+{{/* Extract everything inside the blockquote */}}
+{{ $answer := (findRE `(?s)<blockquote>(.*?)</blockquote>` $text 1) }}
+{{ $answer := index $answer 0 }}
+
+{{ $question := replace $question "<blockquote>" "" }}
+{{ $answer := replace $answer "<blockquote>" "" }}
+
+{{ if eq .AlertType "anki" }}
+	<details class="{{ .AlertType }}" data-info="{{ .AlertTitle }}">
+		<summary class="question">{{ $question | safeHTML }}</summary>
+		<div class="answer">{{ $answer | safeHTML }}</div>
+	</details>
+
+
+
+
+
+{{- else -}}
+  <blockquote>
+    {{ .Text }}
   </blockquote>
-  {{ with .Attributes.caption }}
-    {{ with $cite }}<a href="{{ $cite }}">{{ end -}}
-        <figcaption class="blockquote-caption">
-      {{ . | safeHTML }}
-      {{- with $cite }}</a>{{ end }}
-      </figcaption>
-  {{ end }}
-</figure>
+{{ end }}

@@ -1,0 +1,28 @@
+/* Pour avoir les border-radius par questions, */
+/* J'ai mis la propriété sur le div parent, */
+/* Mais aussi sur le dernier div */
+
+$radius: 3px;
+$col-quest: lighten(#a6aebf, 20%);
+$col-answ: lighten(#c5d3e8, 12%);
+details {
+  padding: 0;
+  margin-bottom: 1em;
+  background: $col-quest;
+  border-radius: $radius;
+}
+
+summary {
+  p {
+    margin: 0;
+  }
+  padding: 0.5em 1em;
+  margin: 0em;
+  display: block;
+  cursor: pointer;
+  + div {
+    padding: 0.1em 1em;
+    background: $col-answ;
+    border-radius: 0 0 $radius $radius;
+  }
+}

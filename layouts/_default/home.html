@@ -8,7 +8,7 @@
 	{{ end }}
   <ul>
     <!-- Ranges through content/posts/*.md -->
-    {{ range sort .Pages "Path" }}
+    {{ range .Pages }}
       <li>
         <a href="{{ .Permalink }}">{{ .Title }}</a>
       </li>
