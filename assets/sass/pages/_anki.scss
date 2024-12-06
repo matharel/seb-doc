@@ -2,10 +2,13 @@
 /* J'ai mis la propriété sur le div parent, */
 /* Mais aussi sur le dernier div */
 
-$radius: 3px;
-$col-quest: lighten(#a6aebf, 20%);
-$col-answ: lighten(#c5d3e8, 12%);
+$radius: 6px;
+$border: #4d727e;
+$col-quest: lighten(#eaf6f6, 0%);
+$col-answ: #fcfefe;
+
 details {
+  border: 3px solid $border;
   padding: 0;
   margin-bottom: 1em;
   background: $col-quest;
@@ -16,7 +19,7 @@ summary {
   p {
     margin: 0;
   }
-  padding: 0.5em 1em;
+  padding: 0.6em 1em 0.4em;
   margin: 0em;
   display: block;
   cursor: pointer;
@@ -25,4 +28,16 @@ summary {
     background: $col-answ;
     border-radius: 0 0 $radius $radius;
   }
+}
+
+/* Pour l'audio je pourrais:  */
+/*   - cacher le lecteur, */
+/*   - faire un gros bouton play/pause */
+/*   - https://www.w3schools.com/jsref/met_audio_pause.asp */
+
+/* 100% c'est très bien sur les téléphones */
+/* faire une version avec taille normale pour les plus grands écrans, alignés à gauche. */
+audio {
+  display: block;
+  width: 100%;
 }
