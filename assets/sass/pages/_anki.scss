@@ -1,9 +1,10 @@
-/* Pour avoir les border-radius par questions, */
-/* J'ai mis la propriété sur le div parent, */
-/* Mais aussi sur le dernier div */
+/** Pour avoir les border-radius par questions,
+ * J'ai mis la propriété sur le div parent,
+ * Mais aussi sur le dernier div
+ */
 
 $radius: 6px;
-$border: #4d727e;
+$border: rgba(0,100,255,0.2);
 $col-quest: lighten(#eaf6f6, 0%);
 $col-answ: #fcfefe;
 
@@ -30,13 +31,22 @@ summary {
   }
 }
 
-/* Pour l'audio je pourrais:  */
-/*   - cacher le lecteur, */
-/*   - faire un gros bouton play/pause */
-/*   - https://www.w3schools.com/jsref/met_audio_pause.asp */
+section.eval {
+  text-align: right;
+  margin-bottom: 2em;
+  label {
+    cursor: pointer;
+  }
+}
+/** Pour l'audio je pourrais:                                                            
+ *   - cacher le lecteur,                                                               
+ *   - faire un gros bouton play/pause                                                  
+ *   - https://www.w3schools.com/jsref/met_audio_pause.asp                              
 
-/* 100% c'est très bien sur les téléphones */
-/* faire une version avec taille normale pour les plus grands écrans, alignés à gauche. */
+ * 100% c'est très bien sur les téléphones                                              
+ * faire une version avec taille normale pour les plus grands écrans, alignés à gauche. 
+ */
+
 audio {
   display: block;
   width: 100%;

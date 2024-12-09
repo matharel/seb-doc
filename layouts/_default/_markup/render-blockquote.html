@@ -1,8 +1,14 @@
-{{/* NOTE: Variables à utiliser */}}
-{{/* 	- .Type */}}
-{{/* 	- .AlertType */}}
-{{/* 	- .AlertTitle → pourrait servir ici de tag */}}
-{{/* 	- .Text */}}
+{{/* NOTE: Variables à utiliser ![.AlertType].AlertTitle
+ 	- .Type
+ 	- .AlertType
+ 	- .AlertTitle → Le texte que je mets à côté de l'alerttype pourrait servir ici de tag
+ 	- .Text */}}
+
+{{/* IDEAS: 
+	- je pourrais stocker les évaluations dans des cookies
+	- avoir des options de tri des questions en commençant par les plus dures
+	- ou de ne pas afficher celles qui sont "easy"
+	*/}}
 {{ $text := .Text }}
 
 {{/* Extract everything before the blockquote */}}
@@ -17,10 +23,18 @@
 {{ $answer := replace $answer "<blockquote>" "" }}
 
 {{ if eq .AlertType "anki" }}
-	<details class="{{ .AlertType }}" data-info="{{ .AlertTitle }}">
-		<summary class="question">{{ $question | safeHTML }}</summary>
-		<div class="answer">{{ $answer | safeHTML }}</div>
-	</details>
+
+<details class="{{ .AlertType }}" data-info="{{ .AlertTitle }}">
+	<summary class="question">{{ $question | safeHTML }}</summary>
+	<div class="answer">{{ $answer | safeHTML }}</div>
+</details>
+
+<section class="eval">
+	<label><input type="radio" name="{{ .AlertTitle }}" /><span> Again</span></label>
+	<label><input type="radio" name="{{ .AlertTitle }}" /><span> Hard</span></label>
+	<label><input type="radio" name="{{ .AlertTitle }}" /><span> Good</span></label>
+	<label><input type="radio" name="{{ .AlertTitle }}" /><span> Easy</span></label>
+</section>
 
 
 
