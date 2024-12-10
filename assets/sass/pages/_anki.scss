@@ -36,6 +36,9 @@ section.eval {
   margin-bottom: 2em;
   label {
     cursor: pointer;
+    &:has(input:checked) {
+      color: maroon;
+    }
   }
 }
 /** Pour l'audio je pourrais:                                                            
