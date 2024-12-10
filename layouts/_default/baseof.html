@@ -43,12 +43,16 @@
     {{ end }}
 
     <div id="mainContent">
-
       {{ if .Param "breadcrumb" }}
         {{ partial "breadcrumbs" . }}
       {{ end }}
 
       <h1{{ with .Draft }} class="title_draft"{{ end }}>{{ .Params.Title }}</h1>
+
+      {{ if .Param "anki" }}
+	  <button id="anki-button" data-info='{{ .Param "anki-tag" }}'>Generate Anki deck</button>
+      {{ end }}
+
 
       {{ if .Param "pageInfos" }}
         <p>Page créée le {{ .PublishDate | time.Format "02/01/2006" }}</p>
@@ -73,5 +77,8 @@
   {{ partial "footer" . }}
   <script src="/js/scroll-spy.js"></script>
   <script src="/js/checklist.js"></script>
+  {{ if .Param "anki" }}
+  <script src="/js/anki.js"></script>
+  {{ end }}
   </body>
 </html>
