@@ -1,0 +1,26 @@
+body.facture, body.devis {
+  h1 {
+    display: none;
+  }
+  .prestataire {
+    float: left;
+  }
+  .client {
+    float: right;
+    text-align: right;
+    & + p {
+      clear: both;
+    }
+  }
+  p, table {
+    margin: 6em 0;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  table ~ p {
+    // text-align: right;
+  }
+}

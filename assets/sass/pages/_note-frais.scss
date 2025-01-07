@@ -1,0 +1,6 @@
+body.note-frais hr {
+  display: none;
+  ~ * {
+    display: none;
+  }
+}
