@@ -12,9 +12,12 @@ body.facture, body.devis {
       clear: both;
     }
   }
-  p, table {
-    margin: 6em 0;
+  .prestataire, .client {
+    margin: 5em 0;
   }
+  /* p, table {
+    margin: 6em 0;
+  } */
 
   table {
     width: 100%;

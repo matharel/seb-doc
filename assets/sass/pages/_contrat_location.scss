@@ -144,34 +144,34 @@ body.contrat-location {
 
 
 .numbering-headings {
-@mixin generate-outline($reset-element: body, $list-style: decimal) {
-  $counter: unique-id();
+  @mixin generate-outline($reset-element: body, $list-style: decimal) {
+    $counter: unique-id();
 
-  counter-increment: $counter;
+    counter-increment: $counter;
 
-  &::before {
-    content: counter($counter, $list-style)'. ';
-  }
+    &::before {
+      content: counter($counter, $list-style)'. ';
+    }
 
-  @at-root {
-    #{$reset-element} {
-      counter-reset: $counter;
+    @at-root {
+      #{$reset-element} {
+        counter-reset: $counter;
+      }
     }
   }
-}
 
-// How to use it
-h2 {
-  @include generate-outline(h1, upper-roman);
-}
-
-h3 {
-  @include generate-outline(h2);
-}
-
-@page {
-  @bottom-center {
-    content: counter(page);
+  // How to use it
+  h2 {
+    @include generate-outline(h1, upper-roman);
   }
-}
+
+  h3 {
+    @include generate-outline(h2);
+  }
+
+  @page {
+    @bottom-center {
+      content: counter(page);
+    }
+  }
 }

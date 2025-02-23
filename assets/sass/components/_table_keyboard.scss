@@ -1,0 +1,54 @@
+table.keyboard {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  margin-left: -1em; // pour corriger le padding de #mainContent
+  table-layout: fixed;
+  td {
+    border: 0;
+    height: 6em;
+    padding: 1.4em 0.3em 0.4em;
+    text-align : center;
+    font-size: 0.9em;
+    vertical-align: top;
+    code, span { // le block code sera probablement à supprimer
+      border-radius: 30px !important;
+      padding: 0.3em 0.7em !important;
+      display: inline-block;
+      margin-bottom: 0.1em;
+      font-size: 1.7em !important;
+    }
+  }
+}
+
+table.keyboard {
+  div {
+    display: inline-block;
+  }
+  small {
+    display: block;
+  }
+}
+table.default {
+  td:has(.shift) {
+    .shift {
+      display: none;
+    }
+  }
+  // td:has(.default):has(small) {
+  div.default code:has(~ small) {
+    background: lighten(lightgreen, 10%);
+  }
+}
+
+table.shift {
+  td:has(.default) {
+    .default {
+      display: none;
+    }
+  }
+  // td:has(.shift + small) {
+  div.shift code:has(~ small) {
+    background: lightpink;
+  }
+}

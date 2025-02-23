@@ -35,6 +35,7 @@
   'components/block-elements',
   'components/iframes',
   'components/table',
+  'components/table_keyboard.scss',
   'components/sections',
   'components/code',
   'components/headers',
@@ -44,6 +45,7 @@
 // 6. Page-specific styles
 @import
   'pages/home',
+  'pages/attestation_vente',
   'pages/contrat_location',
   'pages/fiche-technique',
   'pages/note-frais',

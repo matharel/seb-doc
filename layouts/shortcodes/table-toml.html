@@ -1,0 +1,59 @@
+{{/* Load and unmarshal the TOML file */}}
+{{ $data := dict }}
+{{ $file := .Get "file" }}
+{{ $res := .Page.Resources.GetMatch $file }}
+{{ with $res }}
+  {{ with . | transform.Unmarshal }}
+    {{ $data = . }}
+  {{ end }}
+{{ end }}
+
+{{/* Get the table rows from the TOML under the key "row" */}}
+{{ $rows := $data.row }}
+
+{{ if not $rows }}
+  <p>No table data found.</p>
+{{ else }}
+
+  {{/* Build header mapping.
+      If $data.headers exists, then:
+         - If it’s an array (e.g. using inline tables), assume each element is a dict with keys "key" and "label".
+         - Else assume it's a dict mapping short keys to header labels (order not guaranteed).
+      Otherwise, fallback to keys from the first row (using the key as label). */}}
+  {{ $headerMapping := slice }}
+  {{ if $data.headers }}
+    {{ if eq (printf "%T" $data.headers) "[]interface {}" }}
+      {{/* Array of inline tables */}}
+      {{ $headerMapping = $data.headers }}
+    {{ else }}
+      {{/* Assume it's a dict mapping key => label */}}
+      {{ range $key, $label := $data.headers }}
+        {{ $headerMapping = $headerMapping | append (dict "key" $key "label" $label) }}
+      {{ end }}
+    {{ end }}
+  {{ else }}
+    {{/* Fallback: use keys from the first row */}}
+    {{ range $key, $value := index $rows 0 }}
+      {{ $headerMapping = $headerMapping | append (dict "key" $key "label" $key) }}
+    {{ end }}
+  {{ end }}
+
+  <table>
+    <thead>
+      <tr>
+        {{ range $header := $headerMapping }}
+          <th>{{ $header.label }}</th>
+        {{ end }}
+      </tr>
+    </thead>
+    <tbody>
+      {{ range $row := $rows }}
+        <tr>
+          {{ range $header := $headerMapping }}
+            <td>{{ index $row $header.key }}</td>
+          {{ end }}
+        </tr>
+      {{ end }}
+    </tbody>
+  </table>
+{{ end }}

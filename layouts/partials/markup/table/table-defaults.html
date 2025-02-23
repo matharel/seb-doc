@@ -1,0 +1,73 @@
+<table
+  {{- range $k, $v := .Attributes }}
+    {{- if $v }}
+      {{- printf " %s=%q" $k $v | safeHTMLAttr }}
+    {{- end }}
+  {{- end }}>
+  <thead>
+    {{- range .THead }}
+      <tr>
+        {{- range . }}
+          <td>{{- replace .Text "·" "<br>" | safeHTML -}}</td>
+        {{- end }}
+      </tr>
+    {{- end }}
+  </thead>
+  {{/* Process TBody into possibly multiple <tbody> groups */}}
+  {{- $currentClass := "" -}}
+  {{- $currentRows := slice -}}
+  {{- range $i, $row := .TBody }}
+    {{- if eq (printf "%T" $row) "hooks.TableRow" -}}
+      {{- $first := index $row 0 -}}
+      {{- if and (ge (len $row) 2) (or (eq $first.Text "&mdash;") (eq $first.Text "---")) -}}
+        {{- $directive := index $row 1 -}}
+        {{/* Extract new class from the directive, e.g. { .direct } */}}
+        {{- $newClass := replaceRE `^\{\s*\.(.+?)\s*\}.*$` "$1" $directive.Text -}}
+        {{/* Extract header caption if present (supporting both literal quotes and HTML-encoded quotes) */}}
+        {{- $header := cond (or (in $directive.Text "\"") (in $directive.Text "&ldquo;"))
+                    (replaceRE `^.*?(?:"|&ldquo;)(.*?)(?:"|&rdquo;)\s*$` "$1" $directive.Text)
+                    "" -}}
+        <!-- Directive row found at index {{ $i }}, new class: {{ $newClass }}, header: {{ $header }} -->
+        {{- if gt (len $currentRows) 0 -}}
+          <tbody{{ if $currentClass }} class="{{ $currentClass }}"{{ end }}>
+            {{- range $currentRows }}
+              <tr>
+                {{- if .header }}
+                  <th colspan="100%">{{ .header | safeHTML }}</th>
+                {{- else if .cells }}
+                  {{- range .cells }}
+                    <td>{{ replace .Text "·" "<br>" | safeHTML }}</td>
+                  {{- end }}
+                {{- end }}
+              </tr>
+            {{- end }}
+          </tbody>
+        {{- end }}
+        {{- $currentClass = $newClass -}}
+        {{- $currentRows = slice -}}
+        {{- if gt (len $header) 0 -}}
+          {{- $currentRows = $currentRows | append (dict "header" $header) -}}
+        {{- end }}
+      {{- else -}}
+        {{- $currentRows = $currentRows | append (dict "cells" $row) -}}
+      {{- end -}}
+    {{- else -}}
+      <!-- Skipping non-hooks.TableRow at index {{ $i }} -->
+    {{- end -}}
+  {{- end }}
+  {{- if gt (len $currentRows) 0 -}}
+    <tbody{{ if $currentClass }} class="{{ $currentClass }}"{{ end }}>
+      {{- range $idx, $r := $currentRows }}
+        <tr>
+          {{- if $r.header }}
+            <th colspan="100%">{{ $r.header | safeHTML }}</th>
+          {{- else if $r.cells }}
+            {{- range $r.cells }}
+              <td>{{ replace .Text "·" "<br>" | safeHTML }}</td>
+            {{- end }}
+          {{- end }}
+        </tr>
+      {{- end }}
+    </tbody>
+  {{- end }}
+</table>

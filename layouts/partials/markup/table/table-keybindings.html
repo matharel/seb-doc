@@ -1,0 +1,103 @@
+{{- $tableCtx := . -}}
+
+<table
+	{{- range $k, $v := .Attributes }}
+		{{- if $v }}
+			{{- printf " %s=%q" $k $v | safeHTMLAttr }}
+		{{- end }}
+	{{- end }}>
+	<thead>
+		{{- range .THead }}
+		<tr>
+			{{- range . }}
+				<td>{{- replace .Text "·" "<br>" | safeHTML -}}</td>
+			{{- end }}
+		</tr>
+		{{- end }}
+	</thead>
+	<tbody>
+		{{- range .TBody }}
+		<tr>
+			{{- range . }}
+				<td>{{- replace .Text "·" "<br>" | safeHTML -}}</td>
+			{{- end }}
+		</tr>
+		{{- end }}
+	</tbody>
+</table>
+
+{{- /* 
+     Compute the column indices based on header names.
+     Look for the header "Keys" (case insensitive) and "Abbr.".
+     We create a new scratch variable since .Scratch is not available in this context.
+*/ -}}
+{{- $headerRow := index $tableCtx.THead 0 -}}
+{{- $scratch := newScratch -}}
+{{- $scratch.Set "keysIndex" -1 -}}
+{{- $scratch.Set "abbrIndex" -1 -}}
+{{- range $i, $cell := $headerRow -}}
+  {{- $cellText := lower (trim $cell.Text " ") -}}
+  {{- if eq $cellText "keys" -}}
+    {{- $scratch.Set "keysIndex" $i -}}
+  {{- end -}}
+  {{- if eq $cellText "abbr." -}}
+    {{- $scratch.Set "abbrIndex" $i -}}
+  {{- end -}}
+{{- end -}}
+{{- $keysIndex := $scratch.Get "keysIndex" -}}
+{{- $abbrIndex := $scratch.Get "abbrIndex" -}}
+{{- $maxIndex := cond (gt $abbrIndex $keysIndex) $abbrIndex $keysIndex -}}
+
+{{- /* Build the QWERTY layout for unmodified keys (default) */ -}}
+{{- $keyboardRowsDefault := slice
+  (slice "q" "w" "e" "r" "t" "y" "u" "i" "o" "p")
+  (slice "a" "s" "d" "f" "g" "h" "j" "k" "l" ";")
+  (slice "z" "x" "c" "v" "b" "n" "m" "," "." "/")
+-}}
+
+{{- /* Build the QWERTY layout for shift key engaged */ -}}
+{{- $keyboardRowsShift := slice
+  (slice "Q" "W" "E" "R" "T" "Y" "U" "I" "O" "P")
+  (slice "A" "S" "D" "F" "G" "H" "J" "K" "L" ":")
+  (slice "Z" "X" "C" "V" "B" "N" "M" "<" ">" "?")
+-}}
+
+<table class="keyboard default">
+  <tbody>
+    {{- range $rowIndex, $rowDefault := $keyboardRowsDefault }}
+      {{- $rowShift := index $keyboardRowsShift $rowIndex }}
+      <tr>
+        {{- range $colIndex, $defaultKey := $rowDefault }}
+          {{- $shiftKey := index $rowShift $colIndex }}
+          <td style="padding: 0.5em;">
+            <div class="default">
+              <code>{{ $defaultKey }}</code>
+              {{- range $i, $tableRow := $tableCtx.TBody }}
+                {{- if ge (len $tableRow) (add $maxIndex 1) -}}
+                  {{- $tableKey := (index $tableRow $keysIndex).Text -}}
+                  {{- $mapping := (index $tableRow $abbrIndex).Text -}}
+                  {{- if eq (trim $tableKey " ") $defaultKey -}}
+                    <small>{{ $mapping }}</small>
+                  {{- end -}}
+                {{- end -}}
+              {{- end }}
+            </div>
+            <div class="shift">
+              <code>{{ $shiftKey }}</code>
+              {{- range $i, $tableRow := $tableCtx.TBody }}
+                {{- if ge (len $tableRow) (add $maxIndex 1) -}}
+                  {{- $tableKey := (index $tableRow $keysIndex).Text -}}
+                  {{- $mapping := (index $tableRow $abbrIndex).Text -}}
+                  {{- if eq (trim $tableKey " ") $shiftKey -}}
+                    <small>{{ $mapping }}</small>
+                  {{- end -}}
+                {{- end -}}
+              {{- end }}
+            </div>
+          </td>
+        {{- end }}
+      </tr>
+    {{- end }}
+  </tbody>
+</table>
+
