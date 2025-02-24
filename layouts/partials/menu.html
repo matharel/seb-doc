@@ -72,7 +72,11 @@
     {{ end }}
 {{ end }}
 
+{{/* if we're on a suction */}}
+{{ $context := .CurrentSection }}
+{{/* otherwise fallback to root */}}
+{{ if not $context }}
+  {{ $context = .Site.GetPage "/" }}
+{{ end }}
 
-{{/* PAGE.GetPage → Return a page object from the given path. */}}
-{{ $context := .GetPage "/"}}
 {{ template "subpages" (dict "context" $context "currentPage" . ) }}

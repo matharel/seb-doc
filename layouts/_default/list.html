@@ -1,12 +1,16 @@
 {{ define "main" }}
-    {{ .Content }}
+	{{ partial "menu.html" . }}
+	{{ .Content }}
+
 	{{ if .Page.Store.Get "hasMermaid" }}
 	<script type="module">
 		import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
 	mermaid.initialize({ startOnLoad: true });
 	</script>
 	{{ end }}
-  <ul>
+
+  {{/*
+	<ul>
     <!-- Ranges through content/posts/*.md -->
     {{ range sort .Pages "Path" }}
       <li>
@@ -14,4 +18,7 @@
       </li>
     {{ end }}
   </ul>
+	*/}}
+	
+	
 {{ end }}

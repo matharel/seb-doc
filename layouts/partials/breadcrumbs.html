@@ -9,7 +9,7 @@
     <ol>
       <!-- after 1 allow us to remove the first ancestor (the home page) -->
       {{ range after $depth .Ancestors.Reverse }}
-        <li{{ with .Draft }} class="breadcrumb_draft" {{ end }}><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+        <li{{ with .Draft }} class="breadcrumb_draft" {{ end }}><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
       {{ end }}
       <li{{ with .Draft }} class="breadcrumb_draft" {{ end }}>{{ .Title }}</li>
     </ol>
