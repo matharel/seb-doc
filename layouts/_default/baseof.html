@@ -7,15 +7,15 @@
   </head>
 
   <body class="
-               {{- with .Param "bodyClass" }} {{ . }}{{ end -}}
-               {{- with .Param "menu" }} menu{{ end -}}
-               {{- with .Param "TOC" }} toc{{ end -}}
-               {{- with .Param "breadcrumb" }} breadcrumb{{ end -}}
-              ">
+    {{- with .Param "bodyClass" }} {{ . }}{{ end -}}
+    {{- with .Param "menu" }} menu{{ end -}}
+    {{- with .Param "TOC" }} toc{{ end -}}
+    {{- with .Param "breadcrumb" }} breadcrumb{{ end -}}
+    ">
 
     {{/*
     WARN: je prends tout le header avec la variable menu
-          Alors à affiner
+    Alors à affiner
 
     */}}
     {{ if .Param "menu" }}
@@ -30,55 +30,53 @@
       </nav>
 
     </header>
-  {{ end }}
+    {{ end }}
 
-  <main>
+    <main>
 
-    {{ if .Param "TOC" }}
+      {{ if .Param "TOC" }}
       <div id="TOC-container">
         <input type="checkbox" id="TOC-toggle">
         <label for="TOC-toggle"></label>
         {{ .TableOfContents }}
       </div>
-    {{ end }}
+      {{ end }}
 
-    <div id="mainContent">
-      {{ if .Param "breadcrumb" }}
+      <div id="mainContent">
+        {{ if .Param "breadcrumb" }}
         {{ partial "breadcrumbs" . }}
-      {{ end }}
+        {{ end }}
 
-      <h1{{ with .Draft }} class="title_draft"{{ end }}>{{ .Params.Title }}</h1>
+        <h1{{ with .Draft }} class="title_draft"{{ end }}>{{ .Params.Title }}</h1>
 
-      {{ if .Param "anki" }}
-	  <button id="anki-button" data-info='{{ .Param "anki-tag" }}'>Generate Anki deck</button>
-      {{ end }}
+        {{ if .Param "anki" }}
+        <button id="anki-button" data-info='{{ .Param "anki-tag" }}'>Generate Anki deck</button>
+        {{ end }}
 
 
-      {{ if .Param "pageInfos" }}
+        {{ if .Param "pageInfos" }}
         <p>Page créée le {{ .PublishDate | time.Format "02/01/2006" }}</p>
         {{ with .GitInfo }}
-          <p>Dernière correction, le {{ .CommitDate.Format "02/01/2006" }}</p>
+        <p>Dernière correction, le {{ .CommitDate.Format "02/01/2006" }}</p>
         {{ end }}
-      {{ end }}
+        {{ end }}
 
-      {{ if .Param "readingTime" }}
+        {{ if .Param "readingTime" }}
         <p>Temps de lecture estimé: {{ .ReadingTime }} minute{{ with (gt .ReadingTime 1)}}s{{ end }}.</p>
-      {{ end }}
+        {{ end }}
 
 
-      {{ block "main" . }}
-      {{ end }}
-    </div>
+        {{ block "main" . }}
+        {{ end }}
+      </div>
 
+    </main>
 
-
-  </main>
-
-  {{ partial "footer" . }}
-  <script src="/js/scroll-spy.js"></script>
-  <script src="/js/checklist.js"></script>
-  {{ if .Param "anki" }}
-  <script src="/js/anki.js"></script>
-  {{ end }}
+    {{ partial "footer" . }}
+    <script src="/js/scroll-spy.js"></script>
+    <script src="/js/checklist.js"></script>
+    {{ if .Param "anki" }}
+    <script src="/js/anki.js"></script>
+    {{ end }}
   </body>
 </html>

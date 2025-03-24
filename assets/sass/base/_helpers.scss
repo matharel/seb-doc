@@ -64,3 +64,15 @@
 .right {
   text-align: right;
 }
+
+table.headers {
+   thead > tr > td {
+    background-color: lightgray;
+    font-weight: bold;
+    text-align: center;
+  }
+   td:nth-child(1) {
+    background-color: lightgray;
+    font-weight: bold;
+  }
+}

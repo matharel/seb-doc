@@ -1,20 +1,26 @@
 {{- /*
-    ![Alternate text)(url.jpeg "title)
+    ![Alternate text)(url.jpeg "title")
     {.ma-classe}
 
     Le code suivant permet de récupérer les images dans le page bundle:
     {{ with .Page.Resources.GetMatch (.Destination) }}
 */}}
 
+{{- if .IsBlock -}}
 <figure{{ with .Attributes.class }} class="{{ . }}"{{ end }}>
-    {{- with .Page.Resources.GetMatch (.Destination) -}}
-        {{ if eq (path.Ext .) ".gif" }}
-        <picture><img src="{{ . }}"
-          {{- with $.Text }} alt="{{ $.Text }}"{{ end -}}/>
-        </picture>
-        {{ else }}
-            {{- partial "lazyimg" (dict "img" . "alt" $.Text) -}}
-        {{ end }}
-    {{- end -}}
-{{- with .Title -}}<figcaption>{{ . }}</figcaption>{{- end -}}
+	{{- with .Page.Resources.GetMatch (.Destination) -}}
+	{{ if eq (path.Ext .) ".gif" ".svg"}}
+	<picture><img src="{{ . }}"
+				  {{- with $.Text }} alt="{{ $.Text }}"{{ end -}}/>
+	</picture>
+	{{ else }}
+	{{- partial "lazyimg" (dict "img" . "alt" $.Text) -}}
+	{{ end }}
+	{{- end -}}
+	{{- with .Text -}}<figcaption>{{ . }}</figcaption>{{- end -}}
 </figure>
+{{ else }}
+	<img src="{{ .Destination | safeURL }}"
+	{{- with .PlainText }} alt="{{ . }}"{{ end -}}
+	{{- with .Title }} title="{{ . }}"{{ end -}}>
+{{ end }}

@@ -1,3 +1,44 @@
+{{/* 
+  Table Render Hook for Hugo Markdown Tables
+
+  This template processes a markdown table and supports special directive rows that split the 
+  table body (<tbody>) into multiple groups. It works as follows:
+
+  1. The table header (<thead>) is rendered as usual.
+  2. The table body (<tbody>) is processed row by row:
+     - If a row’s first cell is either "---" (or its HTML entity "&mdash;") and there are at 
+       least two cells, the second cell is parsed as a directive.
+     - The directive cell should contain a class declaration in the format:
+         { .classname } "Optional header caption"
+       where:
+         - { .classname } defines the CSS class to be applied to the new <tbody> group.
+         - "Optional header caption" (if provided) is used to insert a header row at the top of 
+           the group, rendered as a <th> spanning all columns.
+     - When a directive row is encountered, any previously accumulated rows are flushed out in a 
+       <tbody> with the current class, and a new group begins with the new class and optional header.
+     - Rows that do not match a directive are accumulated and rendered normally.
+
+  How to Use:
+  - In your markdown table, add a row with the first cell containing "---" (or its equivalent) 
+    and the second cell containing the directive.
+  - Example markdown table:
+
+        | Keybinding | Action                              | Abbr.    |
+        |------------|-------------------------------------|----------|
+        | ---        | { .direct } "Direct access"         |          |
+        | l          | locking menu                        | lock     |
+        | x          | Media eXplorer: Show/hide explorer  | explorer |
+        | ---        | { .shift } "Shift mode"             |          |
+        | C          | View: Show big clock window         | clock    |
+        | R          | File: Render project to disk        | render   |
+
+  This will create two separate <tbody> groups:
+  - The first group will have the class "direct" with a header row displaying "Direct access".
+  - The second group will have the class "shift" with a header row displaying "Shift mode".
+
+  Adjust the directive syntax as needed for your tables.
+*/}}
+
 <table
   {{- range $k, $v := .Attributes }}
     {{- if $v }}

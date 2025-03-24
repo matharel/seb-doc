@@ -65,3 +65,17 @@ table {
     background: white;
   }
 }
+
+// image in empty cell are considered block
+// seems reasonnable in a cell to treat them as inline
+// this reset their style
+table {
+  figure {
+    text-align: center;
+  }
+  figure > picture > img {
+    width: auto;
+    height: auto;
+    box-shadow: none;
+  }
+}
