@@ -24,7 +24,7 @@
 
   label {
     cursor: pointer;
-    padding: .2em;
+    // padding: .2em;
     font-size: 1.1em;
     //background: pink;
     &:nth-last-of-type(1) { // &:nth-last-child prenait en compte label ET br

@@ -22,7 +22,7 @@
       {{ if eq (substr $trimmed 0 1) "#" }}
       <h2>{{ replaceRE "^#*([^/]+)" "$1" $trimmed }}</h2>
       {{ else }}
-      <label><input type="checkbox" name="{{ $trimmed }}" /><span>{{ $trimmed | safeHTML }}</span></label><br/>
+      <label><input type="checkbox" name="{{ $trimmed }}" /><span>{{ $trimmed | safeHTML }}</span></label>
       {{ end }}
     {{ else if $inSection }}
       </div>
