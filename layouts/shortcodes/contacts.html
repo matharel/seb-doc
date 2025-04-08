@@ -1,4 +1,4 @@
-{{ $contactsRaw := .Inner | markdownify }}
+{{ $contactsRaw := .Inner }}
 {{ $contacts := trim $contactsRaw "\n\t\r " }}
 {{ $lines := split $contacts "\n" }}
 
@@ -6,15 +6,18 @@
   <tbody>
     {{ range $lines }}
       {{ $line := trim . " \t\n\r" }}
-      {{ if $line }}
-        {{ $parts := split $line ":" }}
-      {{ $name := index $parts 0 | safeHTML }}
-      {{ $phone := index $parts 1 | safeHTML }}
-        {{ $cleanPhone := replace $phone " " "" }}
-        <tr>
-          <td>{{ $name }}</td>
-          <td><i class="fa fa-phone"></i><a href="tel:{{ $cleanPhone }}">{{ $phone }}</a></td>
-        </tr>
+      {{ if and $line (or (hasPrefix $line "- ") (hasPrefix $line "* ")) }}
+        {{ $cleanLine := replaceRE "^[-*]\\s+" "" $line }}
+        {{ $parts := split $cleanLine ":" }}
+        {{ if ge (len $parts) 2 }}
+          {{ $name := index $parts 0 | safeHTML }}
+          {{ $phone := index $parts 1 | safeHTML }}
+          {{ $cleanPhone := replace $phone " " "" }}
+          <tr>
+            <td>{{ $name }}</td>
+            <td><i class="fa fa-phone"></i> <a href="tel:{{ $cleanPhone }}">{{ $phone }}</a></td>
+          </tr>
+        {{ end }}
       {{ end }}
     {{ end }}
   </tbody>
