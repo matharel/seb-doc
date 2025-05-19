@@ -7,7 +7,7 @@
  */
 .clearfix::after {
   clear: both;
-  content: '';
+  content: "";
   display: table;
 }
 
@@ -57,7 +57,7 @@
 /**
  * Il faudrait faire un helper qui fonctionne dans toutes les situations
  **/
-.center {
+.center, .center td {
   text-align: center;
 }
 
@@ -65,14 +65,21 @@
   text-align: right;
 }
 
-table.headers {
-   thead > tr > td {
+.header-row {
+  thead > tr > td {
     background-color: lightgray;
     font-weight: bold;
     text-align: center;
   }
-   td:nth-child(1) {
+}
+
+.header-col {
+  td:nth-child(1) {
     background-color: lightgray;
     font-weight: bold;
   }
+}
+
+table.headers {
+  @extend .header-row, .header-col;
 }
