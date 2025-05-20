@@ -2,7 +2,7 @@
 // This file contains all styles related to the admonitions.
 // -----------------------------------------------------------------------------
 
-@mixin admonition($color, $icon, $size, $content) {
+@mixin admonition($color, $unicode-icon, $size, $content) {
   display: flex;
   align-items: center;
   padding: 2em;
@@ -31,7 +31,8 @@
   &::before {
     flex: 1 0 auto; // interdit de shrinker et largeur minimum
     max-width: 1.6em;
-    @include add-fa-icon($icon, $size);//pencil
+    content: $unicode-icon;
+    font-size: $size;
     color: $color;
     text-align: center;
     padding-right: .6em;
@@ -39,22 +40,25 @@
   }
 }
 
+// Now the blockquotes use Unicode characters instead of FA icons:
+
 blockquote.attention {
-  @include admonition(hsl(350,50,50), $fa-var-warning, 3em, "Attention");
+  @include admonition(hsl(350,50,50), "⚠", 3em, "Attention"); // Warning sign U+26A0
 }
 
 blockquote.propositions {
-  @include admonition(hsl(300,50,50), $fa-var-hand-o-right, 3em, "Propositions");
+  @include admonition(hsl(300,50,50), "👉", 3em, "Propositions"); // Pointing hand U+1F449
 }
 
 blockquote.points-forts {
-  @include admonition(hsl(160,50,50), $fa-var-handshake-o, 3em, "Points forts");
+  @include admonition(hsl(160,50,50), "🤝", 3em, "Points forts"); // Handshake U+1F91D
 }
 
 blockquote.points-faibles {
-  @include admonition(hsl(20,50,50), $fa-var-times, 3em, "Points faibles");
+  @include admonition(hsl(20,50,50), "✖", 3em, "Points faibles"); // Heavy Multiplication X U+2716
 }
 
 blockquote.idee {
-  @include admonition(hsl(55,100,40), $fa-var-lightbulb-o, 3em, "Idée");
+  @include admonition(hsl(55,100,40), "💡", 3em, "Idée"); // Light bulb U+1F4A1
 }
+

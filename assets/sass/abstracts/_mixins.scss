@@ -2,6 +2,10 @@
 // This file contains all application-wide Sass mixins.
 // -----------------------------------------------------------------------------
 
+@use "sass:meta";
+@use "sass:map";
+@use "variables" as vars;
+
 /// Event wrapper
 /// @author Harry Roberts
 /// @param {Bool} $self [false] - Whether or not to include current selector
@@ -40,17 +44,16 @@
 /// @require $breakpoints
 @mixin respond-to($breakpoint) {
   // If the key exists in the map
-  @if map-has-key($breakpoints, $breakpoint) {
+  @if map.has-key(vars.$breakpoints, $breakpoint) {
     // Prints a media query based on the value
-    @media #{inspect(map-get($breakpoints, $breakpoint))} {
+    @media #{meta.inspect(map.get(vars.$breakpoints, $breakpoint))} {
       @content;
     }
   }
- 
   // If the key doesn't exist in the map
   @else {
     @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
-        + "Available breakpoints are: #{map-keys($breakpoints)}.";
+        + "Available breakpoints are: #{map.keys(vars.$breakpoints)}.";
   }
 }
 

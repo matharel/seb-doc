@@ -3,7 +3,8 @@
     button {
       cursor: pointer;
       &::before {
-        @include add-fa-icon($fa-var-refresh, 1em);//pencil
+      content: "↻";
+      font-size: 1em;
       }
     }
 

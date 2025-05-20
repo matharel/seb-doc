@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
 // This file contains very basic styles.
 // -----------------------------------------------------------------------------
-
+@use "../abstracts" as c;
 /**
  * Set up a decent box model on the root element
  */
@@ -29,11 +29,11 @@ body {
  * Should I group all colors decision here ?
  */
 a {
-    color: $link-color;
+    color: c.$link-color;
     text-decoration: none;
 
-    @include on-event {
-        color: $text-color;
+    @include c.on-event {
+        color: c.$text-color;
         text-decoration: underline;
     }
 }

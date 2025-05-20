@@ -2,6 +2,8 @@
 // Breadcrumbs
 // ----------------------------------------
 
+@use "../abstracts" as c;
+
 // NOTE: Est-ce que ça ne serait pas mieux dans component ?
 
 nav#breadcrumbs {
@@ -17,9 +19,10 @@ nav#breadcrumbs {
     li:not(:last-child) {
       padding-right: .5em;
       &::after {
-        @include add-fa-icon($fa-var-angle-double-right, 1em);//pencil
+        content: "»";
+        font-size: 1em;
         padding-left: .8em;
-        color: $text-color;
+        color: c.$text-color;
       }
     }
   }

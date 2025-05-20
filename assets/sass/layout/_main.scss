@@ -1,3 +1,5 @@
+@use "../abstracts" as c;
+
 body {
     // padding: 1em;
     main {
@@ -7,7 +9,7 @@ body {
 
 /// Sommaire en fixe à gauche
 ///
-@include respond-to('medium') {
+@include c.respond-to('medium') {
     main {
         display: flex;
         flex-wrap: wrap;
@@ -41,7 +43,7 @@ body {
     }
 }
 
-@include respond-to('large') {
+@include c.respond-to('large') {
     main {
         margin-right: 3vw;
     }

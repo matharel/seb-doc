@@ -2,13 +2,15 @@
 // This file contains all styles related to the header of the site/application.
 // -----------------------------------------------------------------------------
 
+@use "../abstracts" as c;
+
 header {
     background: white;
     align-items: center;
 }
 
 #logo {
-    font-family: $google-font;
+    font-family: c.$google-font;
     font-weight: 400;
     font-style: normal;
     font-size: 4rem;
@@ -18,7 +20,7 @@ header {
 }
 
 
-@include respond-to('medium') {
+@include c.respond-to('medium') {
     header#main-header {
         // permet de mettre côte à côte le logo et le menu
         display: flex;

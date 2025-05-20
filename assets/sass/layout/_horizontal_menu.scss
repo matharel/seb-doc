@@ -2,13 +2,15 @@
 // horizontal menu in medium view
 // -----------------------------------------------------------------------------
 
+@use "../abstracts" as c;
+
 $hor-menu-bg-color: white;
 $hor-submenu-bg-color: white;
 $hor-menu-border-color: white;
 $hor-menu-border-width: 0px; // en px seulement (calcul plus loin)
 $hor-menu-height: 3em;
 
-@include respond-to('medium') {
+@include c.respond-to('medium') {
     nav#section-menu {
 
         & > ul {

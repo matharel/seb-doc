@@ -1,6 +1,7 @@
-// -----------------------------------------------------------------------------
+// -------------------------------j---------------------------------------------
 // This file contains all styles related to the different menus of the site/application.
 // -----------------------------------------------------------------------------
+@use "../abstracts" as c;
 
 // WARN: À refactoriser, on ne comprend pas vraiment à quoi sert ce fichier.
 //       Il est indispensable au menu principal, mais fait surtout le menu mobile
@@ -12,10 +13,11 @@ html {
 #edit-site {
     visibility: hidden;
     display: block;
-    text-align: right;
-    &::before {
-        visibility: visible;
-        @include add-fa-icon($fa-var-pencil, 1.3em); //var-edit
+  text-align: right;
+  &::before {
+    visibility: visible;
+    content: "✎";
+    font-size: 1.3em;
     }
 }
 
@@ -54,31 +56,31 @@ nav#section-menu, #TOC-container {
     padding-left: 1em;
     font-weight: normal;
     a {
-      color: mix(white, $text-color, 50%);
+      color: mix(white, c.$text-color, 50%);
     }
   }
   a {
-    color: $text-color;
+    color: c.$text-color;
   }
 
   span.active, a.active {
     font-weight: 600;
-    color: $link-color;
+    color: c.$link-color;
   }
   
   li.active > a {
       font-weight: 600;
-      color: $link-color;
+      color: c.$link-color;
   }
 
   ul ul ul a {
-    color: mix(white, $text-color, 50%);
+    color: mix(white, c.$text-color, 50%);
   }
 
 }
 
 
-@include respond-to('small') {
+@include c.respond-to('small') {
     // Menus showing depending on input state
     //
     nav#section-menu, div#TOC-container {
@@ -130,14 +132,15 @@ nav#section-menu, #TOC-container {
             margin: 0; // remove non-necessary margin
         }
 
-        input:checked ~ label::after {
-            @include add-fa-icon($fa-var-close, 1.5em);
-        }
-
-        input:not(:checked) ~ label::after {
-            @include add-fa-icon($fa-var-bars, 1.5em);
-        }
+    input:checked ~ label::after {
+      content: "×"; // Close icon
+      font-size: 1.5em;
     }
+    input:not(:checked) ~ label::after {
+      content: "☰"; // Menu icon
+      font-size: 1.5em;
+    }
+  }
 
     div#TOC-container {
 
@@ -162,13 +165,15 @@ nav#section-menu, #TOC-container {
             margin: 0; // remove non necessary margin
         }
 
-        input:checked ~ label::after {
-            @include add-fa-icon($fa-var-close, 1.5em);
-        }
+    input:checked ~ label::after {
+      content: "×"; // Close icon
+      font-size: 1.5em;
+    }
 
-        input:not(:checked) ~ label::after {
-            @include add-fa-icon($fa-var-ellipsis-v, 1.5em);
-        }
+    input:not(:checked) ~ label::after {
+      content: "⋮"; // Vertical ellipsis (U+22EE)
+      font-size: 1.5em;
+    }
 
         // TOC is scrollable
         input:checked ~ #TableOfContents {
@@ -184,7 +189,7 @@ nav#section-menu, #TOC-container {
     }
 }
 
-@include respond-to('medium') {
+@include c.respond-to('medium') {
 }
 
 /// Titles ("Menu" & "Sommaire")
@@ -201,7 +206,7 @@ nav#section-menu, nav#TableOfContents {
 }
 
 // Menu, nécessaire seulement dans vue mobile
-@include respond-to('small') {
+@include c.respond-to('small') {
     nav#section-menu > ul::before {
         content: "Menu";
     }

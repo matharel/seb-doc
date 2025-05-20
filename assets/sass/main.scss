@@ -1,60 +1,54 @@
 @charset "UTF-8";
 
+@use "abstracts" as cfg;
 // 1. Configuration and helpers
-@import
-  'abstracts/variables',
-  'abstracts/functions',
-  'abstracts/mixins';
+// @use "abstracts/variables"      as variables;
+// @use "abstracts/functions"      as functions;
+// @use "abstracts/mixins"         as mixins;
 
 // 2. Vendors
-@import
-  'vendors/normalize',
-  'vendors/lazyimg',
-  'vendors/fork-awesome/fork-awesome';
+@use "vendors/normalize"                      as normalize;
+@use "vendors/lazyimg"                        as lazyimg;
+// @use "vendors/fork-awesome/fork-awesome"      as fork_awesome;
 
 // 3. Base stuff
-@import
-  'base/base',
-  'base/fonts',
-  'base/typography',
-  'base/helpers';
+@use "base/base"           as base;
+@use "base/fonts"          as fonts;
+@use "base/typography"     as typography;
+@use "base/helpers"        as helpers;
 
 // 4. Layout-related sections
-@import
-  'layout/main',
-  'layout/menus',
-  'layout/horizontal_menu',
-  'layout/breadcrumbs',
-  'layout/header',
-  'layout/footer';
+@use "layout/main"              as layout_main;
+@use "layout/menus"             as menus;
+@use "layout/horizontal_menu"   as horizontal_menu;
+@use "layout/breadcrumbs"       as breadcrumbs;
+@use "layout/header"            as header;
+@use "layout/footer"            as footer;
 
 // 5. Components
-@import
-  'components/admonitions',
-  'components/button',
-  'components/block-elements',
-  'components/iframes',
-  'components/table',
-  'components/table_keyboard.scss',
-  'components/sections',
-  'components/code',
-  'components/headers',
-  'components/is_draft',
-  'components/sh-checklist';
+@use "components/admonitions"        as admonitions;
+@use "components/button"             as button;
+@use "components/block-elements"     as block_elements;
+@use "components/iframes"            as iframes;
+@use "components/table"              as table;
+@use "components/table_keyboard"     as table_keyboard;
+@use "components/sections"           as sections;
+@use "components/code"               as code;
+@use "components/headers"            as headers;
+@use "components/is_draft"           as is_draft;
+@use "components/sh-checklist"       as sh_checklist;
 
 // 6. Page-specific styles
-@import
-  'pages/home',
-  'pages/attestation_vente',
-  'pages/contrat_location',
-  'pages/fiche-technique',
-  'pages/note-frais',
-  'pages/facture',
-  'pages/anki';
+@use "pages/home"                  as home;
+@use "pages/attestation_vente"     as attestation_vente;
+@use "pages/contrat_location"      as contrat_location;
+@use "pages/fiche-technique"       as fiche_technique;
+@use "pages/note-frais"            as note_frais;
+@use "pages/facture"               as facture;
+@use "pages/anki"                  as anki;
 
 // 7. Themes
-@import
+@use "themes/ausondudiois"         as ausondudiois;
 // 'themes/default';
 //'themes/vfub';
-'themes/ausondudiois';
 // 'themes/duo';

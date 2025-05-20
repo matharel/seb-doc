@@ -3,6 +3,7 @@
 // Including image when they're not inlined
 // -----------------------------------------------------------------------------
 
+@use "../abstracts" as c;
 
 // si jamais ne ne voulais cibler que les images
 // figure:has(img)  {
@@ -29,7 +30,7 @@ figure {
 
 picture {
 
-  @include respond-to('medium') {
+  @include c.respond-to('medium') {
     color: blue;
   }
 }
@@ -46,7 +47,7 @@ figure, div {
   // adjust image size depending on:
   //    - class
   //    - size of the screen
-  @include respond-to('very-small') {
+  @include c.respond-to('very-small') {
     &.small {
       margin: 0 10%;
     }
@@ -54,7 +55,7 @@ figure, div {
       margin: 0;
     }
   }
-  @include respond-to('small') {
+  @include c.respond-to('small') {
     &.small {
       margin: 0 22%;
     }
@@ -62,7 +63,7 @@ figure, div {
       margin: 0 12%;
     }
   }
-  @include respond-to('medium') {
+  @include c.respond-to('medium') {
     &.small {
       margin: 0 30%;
     }
@@ -70,7 +71,7 @@ figure, div {
       margin: 0 20%;
     }
   }
-  @include respond-to('large') {
+  @include c.respond-to('large') {
     &.small {
       margin: 0 35%;
     }
@@ -85,15 +86,15 @@ body.small-blocks {
     // adjust image size depending on:
     //    - class
     //    - size of the screen
-    @include respond-to('very-small') {
+    @include c.respond-to('very-small') {
       margin: 0 10%;
-      @include respond-to('small') {
+      @include c.respond-to('small') {
         margin: 0 22%;
       }
-      @include respond-to('medium') {
+      @include c.respond-to('medium') {
         margin: 0 30%;
       }
-      @include respond-to('large') {
+      @include c.respond-to('large') {
         margin: 0 35%;
 
       }
@@ -106,16 +107,16 @@ body.medium-blocks {
     // adjust image size depending on:
     //    - class
     //    - size of the screen
-    @include respond-to('very-small') {
+    @include c.respond-to('very-small') {
       margin: 0;
     }
-    @include respond-to('small') {
+    @include c.respond-to('small') {
       margin: 0 12%;
     }
-    @include respond-to('medium') {
+    @include c.respond-to('medium') {
       margin: 0 20%;
     }
-    @include respond-to('large') {
+    @include c.respond-to('large') {
       margin: 0 25%;
 
     }
