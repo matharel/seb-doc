@@ -1,3 +1,6 @@
+@use "sass:color";
+@use "sass:string";
+
 body.contrat-location {
   @media print {
     font-size: 0.7em;
@@ -41,7 +44,7 @@ body.contrat-location {
     width: 90%;
     margin: 2.5em auto;
     td {
-    border: 1px solid lighten(grey, 45%);
+    border: 1px solid color.adjust(grey, $lightness: 45%);
       background: white;
     }
   }
@@ -56,8 +59,8 @@ body.contrat-location {
     // arrondis
     thead > tr {
       th {
-        border: 1px solid lighten(lightgrey, 5%);
-        background: lighten(lightgrey,12%);
+        border: 1px solid color.adjust(lightgrey, $lightness: 5%);
+        background: color.adjust(lightgrey, $lightness: 12%);
       }
 
       // première case en haut à gauche
@@ -88,8 +91,8 @@ body.contrat-location {
      tbody > tr:nth-of-type(n+4) {
        // et les deux dernières cases
        & > td:nth-last-child(-n+2) {
-         border: 1px solid lighten(lightgrey, 5%);
-         background: lighten(lightgrey,12%);
+         border: 1px solid color.adjust(lightgrey, $lightness: 5%);
+         background: color.adjust(lightgrey, $lightness: 12%);
        }
        // et les deux avant dernières-cases
        & > td:nth-last-child(2) {
@@ -145,7 +148,7 @@ body.contrat-location {
 
 .numbering-headings {
   @mixin generate-outline($reset-element: body, $list-style: decimal) {
-    $counter: unique-id();
+    $counter: string.unique-id();
 
     counter-increment: $counter;
 

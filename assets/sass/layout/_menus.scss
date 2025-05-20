@@ -2,6 +2,7 @@
 // This file contains all styles related to the different menus of the site/application.
 // -----------------------------------------------------------------------------
 @use "../abstracts" as c;
+@use "sass:color";
 
 // WARN: À refactoriser, on ne comprend pas vraiment à quoi sert ce fichier.
 //       Il est indispensable au menu principal, mais fait surtout le menu mobile
@@ -56,7 +57,7 @@ nav#section-menu, #TOC-container {
     padding-left: 1em;
     font-weight: normal;
     a {
-      color: mix(white, c.$text-color, 50%);
+      color: color.mix(white, c.$text-color, 50%);
     }
   }
   a {
@@ -74,7 +75,7 @@ nav#section-menu, #TOC-container {
   }
 
   ul ul ul a {
-    color: mix(white, c.$text-color, 50%);
+    color: color.mix(white, c.$text-color, 50%);
   }
 
 }

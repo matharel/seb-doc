@@ -3,9 +3,11 @@
  * Mais aussi sur le dernier div
  */
 
+@use "sass:color";
+
 $radius: 6px;
 $border: rgba(0,100,255,0.2);
-$col-quest: lighten(#eaf6f6, 0%);
+$col-quest: color.adjust(#eaf6f6, $lightness: 0%);
 $col-answ: #fcfefe;
 
 details {

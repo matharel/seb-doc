@@ -2,6 +2,8 @@
 // This file contains all styles related to the admonitions.
 // -----------------------------------------------------------------------------
 
+@use "sass:color";
+
 @mixin admonition($color, $unicode-icon, $size, $content) {
   display: flex;
   align-items: center;
@@ -13,9 +15,9 @@
     flex: 1; // pour que l'élément (p ou blockquote) prenne toute la largeur
     padding: 2em;
     border-left: solid 6px $color;
-    background: lighten(gray,48);
+    background: color.adjust(gray, $lightness: 48%);
     border-radius: 5px;
-    box-shadow: 7px 7px 1em hsl(0,10, 1 / .0105);
+    box-shadow: 7px 7px 1em hsl(0,10%, 95.24%);
     &::before {
       content: $content;
       text-decoration: underline;
@@ -36,29 +38,29 @@
     color: $color;
     text-align: center;
     padding-right: .6em;
-    text-shadow: 7px 7px 0.3em hsl(0,10,1 / .012);
+    text-shadow: 7px 7px 0.3em hsl(0,10%,8.33%);
   }
 }
 
 // Now the blockquotes use Unicode characters instead of FA icons:
 
 blockquote.attention {
-  @include admonition(hsl(350,50,50), "⚠", 3em, "Attention"); // Warning sign U+26A0
+  @include admonition(hsl(350,50%,50%), "⚠", 3em, "Attention"); // Warning sign U+26A0
 }
 
 blockquote.propositions {
-  @include admonition(hsl(300,50,50), "👉", 3em, "Propositions"); // Pointing hand U+1F449
+  @include admonition(hsl(300,50%,50%), "👉", 3em, "Propositions"); // Pointing hand U+1F449
 }
 
 blockquote.points-forts {
-  @include admonition(hsl(160,50,50), "🤝", 3em, "Points forts"); // Handshake U+1F91D
+  @include admonition(hsl(160,50%,50%), "🤝", 3em, "Points forts"); // Handshake U+1F91D
 }
 
 blockquote.points-faibles {
-  @include admonition(hsl(20,50,50), "✖", 3em, "Points faibles"); // Heavy Multiplication X U+2716
+  @include admonition(hsl(20,50%,50%), "✖", 3em, "Points faibles"); // Heavy Multiplication X U+2716
 }
 
 blockquote.idee {
-  @include admonition(hsl(55,100,40), "💡", 3em, "Idée"); // Light bulb U+1F4A1
+  @include admonition(hsl(55,100%,40%), "💡", 3em, "Idée"); // Light bulb U+1F4A1
 }
 

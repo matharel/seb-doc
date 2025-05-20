@@ -1,3 +1,5 @@
+@use "sass:color";
+
 pre {
     border-radius: 3px;
     // permet au code d'aller à la ligne et
@@ -13,7 +15,7 @@ pre {
 // stylisation d'inline code. 
 // on style la balise code, que si elle n'est pas dans un div.highlight
 code:not(div.highlight code) {
-        background-color: lighten(lightgrey, 8%);
+        background-color: color.adjust(lightgrey, $lightness: 8%);
         padding: .2em;
         border-radius: 0.2em;
         font-size: .85em;

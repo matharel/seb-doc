@@ -1,3 +1,5 @@
+@use "sass:color";
+
 table.keyboard {
   width: 100%;
   margin: 0;
@@ -37,7 +39,7 @@ table.default {
   }
   // td:has(.default):has(small) {
   div.default code:has(~ small) {
-    background: lighten(lightgreen, 10%);
+    background: color.adjust(lightgreen, $lightness: 10%);
   }
 }
 
