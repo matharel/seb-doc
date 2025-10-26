@@ -1,2 +1,0 @@
-# github.com/hugo-mods/lazyimg v0.0.0-20220925161121-72183e14a364
-# github.com/aFarkas/lazysizes v0.0.0-20210408151554-27c7ceb7d737

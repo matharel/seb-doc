@@ -1,7 +1,3 @@
-[[module.imports]]
- path = "github.com/hugo-mods/lazyimg"
-
-
 [markup]
   [markup.goldmark]
     [markup.goldmark.extensions]
@@ -25,18 +21,12 @@
         unsafe = true
         # hardWraps = true
     [markup.goldmark.renderHooks.link]
-        enableDefault = true
+        useEmbedded = "fallback"
 
 [params.lazyimg]
-  resizer = "auto"
-  renderer = "lqip-webp"
-  lqipSize = "120x Gaussian"
-  maxSize = "1920x"
-  resizeOptions = "Lanczos q95"
-  class = ""
-  alt = "My logo"
-  noscript = true
-  errorHandler = "warning-remote"
+  widths = "400,800,1200,1920"   # comma list of widths used to generate srcset
+  sizes  = "(max-width: 800px) 100vw, 50vw"
+  lqipSize = "20x"               # tiny LQIP size (width x)
 
 [params]
   menu = true

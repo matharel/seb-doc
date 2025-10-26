@@ -1,19 +1,54 @@
-/* Hides images to be loaded with JS when it is disabled */
-.no-js img.lazyload {
-  display: none;
-}
-/* Hides broken image icon which may shortly be disaplayed on load */
-img.lazyload:not([src]) {
-	visibility: hidden;
+// sass/vendors/_lazyimg.scss
+// Minimal styles for the lazyimg partial (blur-up LQIP).
+// Adjust variables to taste.
+
+$lqip-blur: 18px;       // blur radius for the tiny placeholder
+$lqip-scale: 1.08;      // tiny scale so blur covers seams
+$lqip-opacity: 1;       // placeholder opacity (1 visible until image replaces)
+$lqip-transition: 300ms; // not used without JS; kept for future
+
+.lazyimg-wrapper {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  // ensure the wrapper doesn't collapse if parent styles are unusual
+  width: 100%;
+  max-width: 100%;
 }
 
-/* Simple blur-up animation */
-.blur-up {
-  -webkit-filter: blur(3px);
-  filter: blur(3px);
-  transition: filter 500ms, -webkit-filter 500ms;
+.lazyimg-lqip {
+  position: absolute;
+  inset: 0;               // shorthand for top:0;right:0;bottom:0;left:0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: blur($lqip-blur);
+  transform: scale($lqip-scale);
+  opacity: $lqip-opacity;
+  will-change: opacity, transform;
+  z-index: 1;
 }
-.blur-up.lazyloaded {
-  -webkit-filter: blur(0);
-  filter: blur(0);
+
+/* picture and final image sit above the lqip */
+.lazyimg-wrapper picture,
+.lazyimg-wrapper img.lazyimg {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* If you want a subtle fade (works on browsers that render progressively),
+   uncomment the following. Note: without JS the placeholder won't be auto-removed;
+   you may get a nicer effect in many browsers, but it's not guaranteed everywhere.
+*/
+
+.lazyimg-wrapper img.lazyimg {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}
+.lazyimg-wrapper img.lazyimg[src] {
+  opacity: 1; // some browsers flip to rendered state quickly so this can help
 }
