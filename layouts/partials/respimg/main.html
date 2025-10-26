@@ -1,0 +1,39 @@
+{{- /*
+respimg/main.html
+Entry point partial.
+Call like:
+  {{ partial "respimg/main.html" (dict "img" . "alt" $.Text "class" "optional-class" "sizes" "optional sizes") }}
+*/ -}}
+
+{{- $p := . -}}
+{{- $imgParam := $p.img -}}
+{{- $alt := or $p.alt "" -}}
+{{- $class := or $p.class "" -}}
+{{- $sizes := or $p.sizes .Site.Params.respimg.sizes -}}
+
+{{/* create a page-scoped store (recommended over Scratch) */}}
+{{- $store := .Page.Store -}}
+
+{{/* 1) find resource (will set "res" in store if found) */}}
+{{- partial "respimg/find.html" (dict "img" $imgParam "page" .Page "store" $store) -}}
+
+{{- $res := $store.Get "res" -}}
+{{- if not $res -}}
+  {{- /* missing image handling */ -}}
+  {{- $fail := or .Site.Params.respimg.failOnMissing false -}}
+  {{- if $fail -}}
+    {{- errorf "respimg: image not found: %q (page %q)" $imgParam .Page.RelPermalink -}}
+  {{- else -}}
+    <div class="respimg-missing" data-missing-path="{{ printf "%v" $imgParam }}">
+      <strong>Missing image:</strong> {{ printf "%v" $imgParam }}
+    </div>
+    {{- return -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* 2) convert / build srcsets / lqip (stores details in store) */}}
+{{- partial "respimg/convert.html" (dict "res" $res "store" $store) -}}
+
+{{/* 3) output html (reads store) */}}
+{{- partial "respimg/output.html" (dict "store" $store "alt" $alt "class" $class "sizes" $sizes) -}}
+

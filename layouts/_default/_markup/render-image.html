@@ -1,26 +1,49 @@
-{{- /*
-    ![Alternate text)(url.jpeg "title")
-    {.ma-classe}
+{{/*
 
-    Le code suivant permet de récupérer les images dans le page bundle:
-    {{ with .Page.Resources.GetMatch (.Destination) }}
-*/}}
+The code block at the end works very well but does not deal with
+inline images. I don't know if it is a problem. But here is what
+I was doing before:
 
 {{- if .IsBlock -}}
-<figure{{ with .Attributes.class }} class="{{ . }}"{{ end }}>
-	{{- with .Page.Resources.GetMatch (.Destination) -}}
-	{{ if eq (path.Ext .) ".gif" ".svg"}}
-	<picture><img src="{{ . }}"
-				  {{- with $.Text }} alt="{{ $.Text }}"{{ end -}}/>
-	</picture>
-	{{ else }}
-	{{- partial "lazyimg" (dict "img" . "alt" $.Text) -}}
-	{{ end }}
-	{{- end -}}
-	{{- with .Text -}}<figcaption>{{ . }}</figcaption>{{- end -}}
-</figure>
-{{ else }}
-	<img src="{{ .Destination | safeURL }}"
-	{{- with .PlainText }} alt="{{ . }}"{{ end -}}
-	{{- with .Title }} title="{{ . }}"{{ end -}}>
-{{ end }}
+  {{- partial "respimg.html" (dict "ctx" . "alt" $.Text) -}}
+{{- else -}}
+  <img src="{{ .Destination | safeURL }}"
+       {{- with .PlainText }} alt="{{ . }}"{{ end -}}
+       {{- with .Title }} title="{{ . }}"{{ end -}}>
+{{- end -}}
+*/}}
+
+
+{{/* 
+  Simple Image Render Hook — delegates to partial "respimg"
+  --------------------------------------------------------
+  Responsibilities:
+  - Extract Markdown parameters (alt, caption)
+  - Locate the Hugo Page Resource
+  - Pass everything to the "respimg" partial for processing
+*/}}
+
+{{- $alt := .Text | plainify -}}
+{{- $caption := "" -}}
+{{- if ne .Title "" -}}
+  {{- $caption = .Title | $.Page.RenderString -}}
+{{- end -}}
+
+{{/* Locate the image resource (page bundle first, then static path) */}}
+{{- $res := .Page.Resources.GetMatch .Destination -}}
+{{- if not $res -}}
+  {{- if .Page.File -}}
+    {{- with resources.Get (path.Join .Page.File.Dir .Destination) -}}
+      {{- $res = . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* Delegate everything to the partial */}}
+{{ partial "respimg.html" (dict
+  "Page" .Page
+  "Resource" $res
+  "Destination" .Destination
+  "Alt" $alt
+  "Caption" $caption
+) }}

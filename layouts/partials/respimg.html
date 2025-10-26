@@ -1,0 +1,116 @@
+{{/* 
+  Partial: respimg.html
+  ---------------------
+  - Responsive AVIF sizes (420 → 2048 px)
+  - One JPEG fallback (789 px)
+  - Skips resizing for SVG/GIF
+  - Uses lazy loading, async decoding, and gradient background
+  - Link points to largest AVIF
+*/}}
+
+{{- $imageSizes := slice 420 789 1019 1430 2048 -}}
+{{- $bg := "#020221" -}}
+{{- $quality := "q80 CatmullRom" -}}
+
+{{- $res := .Resource -}}
+{{- $alt := .Alt -}}
+{{- $caption := .Caption -}}
+{{- $dest := .Destination -}}
+
+{{/* Handle missing/external image */}}
+{{- if not $res -}}
+  <figure role="figure" aria-label="{{ $alt }}">
+    <img
+      src="{{ $dest }}"
+      alt="{{ $alt }}"
+      title="{{ $alt }}"
+      loading="lazy"
+      decoding="async"
+      style="background: {{ $bg }}"
+    />
+    {{- if $caption }}<figcaption>{{ $caption }}</figcaption>{{- end }}
+  </figure>
+
+{{- else -}}
+  {{- $img := $res -}}
+  {{- $sub := $img.MediaType.SubType -}}
+
+  {{/* Skip resizing for SVG & GIF */}}
+  {{- if or (eq $sub "svg") (eq $sub "gif") -}}
+    <figure role="figure" aria-label="{{ $alt }}">
+      <img
+        src="{{ $img.RelPermalink }}"
+        alt="{{ $alt }}"
+        title="{{ $alt }}"
+        loading="lazy"
+        decoding="async"
+      />
+      {{- if $caption }}<figcaption>{{ $caption }}</figcaption>{{- end }}
+    </figure>
+
+  {{- else -}}
+    {{/* --- Raster image processing --- */}}
+
+    {{- $name := strings.TrimSuffix (path.Ext $img.Name) $img.Name -}}
+    {{- $w := $img.Width -}}
+    {{- $h := $img.Height -}}
+
+    {{- if or (strings.Contains $name "_2x") (strings.Contains $name "@2x") -}}
+      {{- $w = div $w 2 -}}
+      {{- $h = div $h 2 -}}
+    {{- end -}}
+
+    {{/* Background gradient from colors */}}
+    {{- $colors := $img.Colors -}}
+    {{- if lt (len $colors) 1 -}}
+      {{- $colors = (slice $bg) -}}
+    {{- else -}}
+      {{- $colors = $colors | append $bg -}}
+    {{- end -}}
+    {{- $gradient := delimit $colors ", " -}}
+    {{- $gstyle := printf "background: linear-gradient(%s);" $gradient | safeHTMLAttr -}}
+
+    {{/* Responsive AVIF srcset + largest variant for <a> */}}
+    {{- $avifSrcset := slice -}}
+    {{- $largestAvif := "" -}}
+    {{- range $imageSizes -}}
+      {{- if le . $img.Width -}}
+        {{- with $img.Resize (printf "%dx avif %s" . $quality) -}}
+          {{- $filename := printf "%s_%d.avif" $name .Width -}}
+          {{- $copy := . | resources.Copy $filename -}}
+          {{- $avifSrcset = $avifSrcset | append (printf "%s %dw" $copy.RelPermalink .Width) -}}
+          {{- $largestAvif = $copy.RelPermalink -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $avifSrcset = delimit $avifSrcset ", " -}}
+
+    {{/* JPEG fallback (single medium size) */}}
+    {{- $fallbackSize := 789 -}}
+    {{- $fallback := $img.Resize (printf "%dx jpg %s %s" $fallbackSize $bg $quality) -}}
+    {{- $fallbackName := printf "%s_%d.jpg" $name $fallback.Width -}}
+    {{- $fallbackCopy := $fallback | resources.Copy $fallbackName -}}
+
+    <figure role="figure" aria-label="{{ $alt }}">
+      <a href="{{ $largestAvif }}">
+        <div class="image-wrapper" {{ $gstyle }}>
+          <picture>
+            <source
+              type="image/avif"
+              srcset="{{ $avifSrcset }}"
+              sizes="(min-width:1000px) 789px, (min-width:500px) 80vw, 100vw">
+            <img
+              src="{{ $fallbackCopy.RelPermalink }}"
+              alt="{{ $alt }}"
+              width="{{ $w }}"
+              height="{{ $h }}"
+              loading="lazy"
+              decoding="async" />
+          </picture>
+        </div>
+      </a>
+      {{- if $caption }}<figcaption>{{ $caption }}</figcaption>{{- end }}
+    </figure>
+  {{- end -}}
+{{- end -}}
+
