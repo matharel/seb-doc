@@ -3,7 +3,7 @@
  <title>{{ .Page.Title }}</title>
 
 {{ if eq hugo.Environment "production" }}
-  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
 {{ else }}
   {{ $opts := dict "transpiler" "dartsass" "targetPath" "css/style.css" }}
   {{ with resources.Get "sass/main.scss" | toCSS $opts | minify | fingerprint }}
