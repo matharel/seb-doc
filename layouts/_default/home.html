@@ -10,5 +10,8 @@
   </ul>
 */}}
 
-	{{ partial "menu.html" . }}
+	{{ if eq hugo.Environment "development" }}
+	{{/* NOTE: À SURVEILLER !! */}}
+		{{ partial "menu.html" . }}
+	{{ end }}
 {{ end }}
