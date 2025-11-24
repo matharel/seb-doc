@@ -2,11 +2,9 @@
  <meta name="viewport" content="width=device-width, initial-scale=1">
  <title>{{ .Page.Title }}</title>
 
-{{ if eq hugo.Environment "production" }}
-  <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
-{{ else }}
+
+
   {{ $opts := dict "transpiler" "dartsass" "targetPath" "css/style.css" }}
   {{ with resources.Get "sass/main.scss" | toCSS $opts | minify | fingerprint }}
     <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
   {{ end }}
-{{ end }}
