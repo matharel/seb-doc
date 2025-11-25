@@ -1,9 +1,0 @@
-# Theme default config
-[params]
-  menu = true
-  edit = true
-
-[privacy]
-  [privacy.instagram]
-    disable = false
-    simple = false
