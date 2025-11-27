@@ -1,0 +1,15 @@
+# ---------------------------------------------------------
+#  GLOBAL THEME PARAMETERS
+# ---------------------------------------------------------
+
+menu = true              # Theme-specific flag (fine here)
+edit = false             # Disable "edit this page" links
+TOC = true               # Redundant with markup.tableOfContents, but kept
+readingTime = false
+pageInfos = false
+brand = "XXX"
+breadcrumb = 0
+breadcrumbDepth = 0       # Comment says "pop beginning". Keep as-is.
+gitAccount = ""           # Possibly used for edit links / GitHub username
+#   toc = true         # Generic flag used by many themes
+#   enableSearch = false
