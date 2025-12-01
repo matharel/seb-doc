@@ -1,4 +1,8 @@
-{{/* NOTE: Variables à utiliser ![.AlertType].AlertTitle
+{{/* WARN: Travail en cours, ce sont les blockquotes pour mes fiches ANKI
+    du coup je n'ai plus accès aux blockquotes par défaut et notamment aux admonitions
+	→ peut-être faire un else avec le fichier BKUP 
+
+  NOTE: Variables à utiliser ![.AlertType].AlertTitle
  	- .Type
  	- .AlertType
  	- .AlertTitle → Le texte que je mets à côté de l'alerttype pourrait servir ici de tag
@@ -35,10 +39,6 @@
 	<label><input type="radio" name="{{ .AlertTitle }}" /><span> Good</span></label>
 	<label><input type="radio" name="{{ .AlertTitle }}" /><span> Easy</span></label>
 </section>
-
-
-
-
 
 {{- else -}}
   <blockquote>

@@ -1,8 +1,8 @@
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
-    {{ partial "meta" . }}
-    {{ partial "include-css-js" . }}
+    {{ partial "head/meta" . }}
+    {{ partial "head/include-css-js" . }}
   </head>
 
   <body class="
@@ -12,70 +12,48 @@
     {{- with .Param "breadcrumb" }} breadcrumb{{ end -}}
     ">
 
-    {{/*
-    WARN: je prends tout le header avec la variable menu
-    Alors à affiner
-
-    */}}
-    {{ if .Param "menu" }}
-
-    <header id="main-header">
-      <div id="logo"><a href="/">{{ .Site.Params.Brand }}</a></div>
-
-      <nav id="section-menu">
-        <input type="checkbox" id="menu-toggle">
-        <label for="menu-toggle"></label>
-        {{ partial "menu.html" . }}
-      </nav>
-
-    </header>
-    {{ end }}
+    {{/* header extracted */}}
+    {{ partial "header/main-header" . }}
 
     <main>
 
-      {{ if .Param "TOC" }}
-      <div id="TOC-container">
-        <input type="checkbox" id="TOC-toggle">
-        <label for="TOC-toggle"></label>
-        {{ .TableOfContents }}
-      </div>
-      {{ end }}
+      {{/* TOC kept in a small partial (optional) */}}
+      {{ partial "header/toc" . }}
 
       <div id="mainContent">
         {{ if .Param "breadcrumb" }}
-        {{ partial "breadcrumbs" . }}
+          {{ partial "ui/breadcrumbs" . }}
         {{ end }}
 
-        <h1{{ with .Draft }} class="title_draft"{{ end }}>{{ .Params.Title }}</h1>
+        <h1{{ with .Draft }} class="title_draft"{{ end }}>
+          {{ .Params.Title }}
+        </h1>
 
         {{ if .Param "anki" }}
-        <button id="anki-button" data-info='{{ .Param "anki-tag" }}'>Generate Anki deck</button>
+          <button id="anki-button" data-info='{{ .Param "anki-tag" }}'>Generate Anki deck</button>
         {{ end }}
-
 
         {{ if .Param "pageInfos" }}
-        <p>Page créée le {{ .PublishDate | time.Format "02/01/2006" }}</p>
-        {{ with .GitInfo }}
-        <p>Dernière correction, le {{ .CommitDate.Format "02/01/2006" }}</p>
-        {{ end }}
+          <p>Page créée le {{ .PublishDate | time.Format "02/01/2006" }}</p>
+          {{ with .GitInfo }}
+            <p>Dernière correction, le {{ .CommitDate.Format "02/01/2006" }}</p>
+          {{ end }}
         {{ end }}
 
         {{ if .Param "readingTime" }}
-        <p>Temps de lecture estimé: {{ .ReadingTime }} minute{{ with (gt .ReadingTime 1)}}s{{ end }}.</p>
+          <p>Temps de lecture estimé: {{ .ReadingTime }} minute{{ with (gt .ReadingTime 1)}}s{{ end }}.</p>
         {{ end }}
 
-
-        {{ block "main" . }}
-        {{ end }}
+        {{ block "main" . }}{{ end }}
       </div>
 
     </main>
 
-    {{ partial "footer" . }}
+    {{ partial "footer/footer" . }}
     <script src="/js/scroll-spy.js"></script>
-    <script src="/js/checklist.js"></script>
     {{ if .Param "anki" }}
-    <script src="/js/anki.js"></script>
+      <script src="/js/anki.js"></script>
     {{ end }}
   </body>
 </html>
+

@@ -1,7 +1,7 @@
 name = 'seb-doc'
 license = 'MIT'
-licenselink = 'https://github.com/owner/repo/LICENSE'
-description = 'Theme description'
+licenselink = 'https://github.com/matharel/seb-doc/LICENSE'
+description = 'Un thème générique et customisable pour tous mes sites'
 
 # The home page of the theme, where the source can be found
 homepage = 'https://github.com/matharel/seb-doc'
@@ -15,5 +15,5 @@ homepage = 'https://github.com/matharel/seb-doc'
 
 # If the theme has multiple authors
 authors = [
-  {name = 'Sébastien Matharel', homepage = ''},
+  {name = 'Sébastien Matharel', homepage = 'https://matharel.xyz'},
 ]

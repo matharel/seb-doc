@@ -1,0 +1,14 @@
+{{ if .Param "menu" }}
+<header id="main-header">
+  <div id="logo">
+    <a href="{{ "/" | relURL }}">{{ .Site.Params.Brand }}</a>
+  </div>
+
+  <nav id="section-menu">
+    <input type="checkbox" id="menu-toggle">
+    <label for="menu-toggle"></label>
+
+    {{ partial "header/menu" . }}
+  </nav>
+</header>
+{{ end }}

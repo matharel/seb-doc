@@ -1,48 +1,32 @@
-# Theme Name
+# Thème Seb-doc
 
-## Todo List
-
-
-## Features
+Thème générique pour tous mes sites, customisables pour s'adapter à chaque
+besoin.
 
 
-  - des jolies tableaux
-  - table rendered hook
-  - mettre à jour sass
+## Le menu
 
-### Classes
+Le menu est généré automatiquement en reprenant le contenu du dossier
+`content/`.
 
-Que ce soit pour les admonitions, les notices, les `blocs` spéciaux (structures de morceaux, parcours escalade, ...), il faut que je puisse faire un div avec des classes.
+Pour organiser l'ordre d'apparition des éléments, il faut soit:
 
-Il existe déjà une manière d'ajouter des classes, c'est ce que je faisais en détournant le blockquote avec les admonitions.
-  => Ça marche super bien avec les blocs individuels `<p>`, les `<ul>`, les `<ol>`, etc ...
-  => Par contre one peut pas avoir tout un bloc, qui englobe d'autres blocs.
+- utiliser le param `weight` du font matter
+- si non défini, c'est trier alphabètiquement
+- on peut forcer le tri dans le nom des dossiers comme:
+  - 10_mon-premier-menu
+  - 20_mon-deuxième-menu
+  - ... mais dans ce cas-là, il faut définir un slug pour que "10\_"
+    n'apparaisse pas dans l'url.
 
-Il me faudrait donc faire un (ou des ?) shortcode 
 
+## Robots.txt
 
-Inspiration esthètiques pour les admonitions:
-[hugo-notice](https://github.com/martignoni/hugo-notice?tab=readme-ov-file)
-[hugo learn theme](https://learn.netlify.app/en/)
+Pour interdire la visite d'un site aux robots:
 
-technique:
-  - premier exemple très basqiue. J'aime bien l'idée d'avoir pleins de shortcodes qui correspondent à des tages ou des balises html.
-[Hugo Shortcode - aside blocke](https://tangiblebytes.co.uk/2020/hugo-shortcode/)
-  - sinon on passe le nom de la classe dans le shortcode:
-[How would you pass a class to markdown](https://discourse.gohugo.io/t/how-would-you-pass-a-class-to-markdown/29015)
-```hugo
-{{< html-tag tag="section" class="my-class-name" >}}
-# Heading
-
-- list item
-- list item
-{{< /html-tag >}}
+```sh
+User-agent: *
+{{ range .Pages }}
+Disallow: {{ .RelPermalink }}
+{{ end }}
 ```
-Peut-être que c'est overkill le tag. Ou alors faire en sorte que le tag par défaut soit un div et avoir la possibilité de le surcharger par un autre tag.
-
-En tout cas, voici une très bonne ressource pour pouvoir faire ce shortcode:
-[Create your own shortcodes](https://gohugo.io/templates/shortcode-templates/)
-
-## Installation
-
-## Configuration

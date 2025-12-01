@@ -1,5 +1,5 @@
 {{ define "main" }}
-	{{ partial "menu.html" . }}
+	{{ partial "header/menu.html" . }}
 	{{ .Content }}
 
 	{{ if .Page.Store.Get "hasMermaid" }}
