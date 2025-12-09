@@ -13,3 +13,9 @@ breadcrumbDepth = 0       # Comment says "pop beginning". Keep as-is.
 gitAccount = ""           # Possibly used for edit links / GitHub username
 #   toc = true         # Generic flag used by many themes
 #   enableSearch = false
+
+[contentTree]
+debug = false
+sortBy = "LinkTitle"    # "Path" "Weight" "Date" "LinkTitle" "Title"
+order = "asc"           # "asc" "desc"
+depth = 2				# 0 → no limitations

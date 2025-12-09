@@ -9,8 +9,7 @@
     <label for="menu-toggle"></label>
 
 	{{/* NOTE: The menu is called from every page, but it always build the site from root */}}
-    {{/* {{ partial "content-tree.html" (dict "context" (.Site.GetPage "/") "currentPage" .) }} */}}
-	{{ partial "content-menu.html" .Site.GetPage "/" }}
+	{{ partial "content-tree.html" .Site.GetPage "/" }}
 
   </nav>
 </header>
