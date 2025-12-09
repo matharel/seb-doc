@@ -1,0 +1,31 @@
+{{ $items := .Items }}
+{{ $rec := .Rec }}
+{{ $current := .Current }}
+
+{{ $with := where $items "Weight" "gt" 0 }}
+{{ $without := where $items "Weight" "le" 0 }}
+
+{{ define "menu-item" }}
+  {{ $item := .Item }}
+  {{ $current := .Current }}
+  <li{{ if $item.Draft }} class="menu_draft{{ if eq $current $item }} current_page{{ end }}"{{ else if eq $current $item }} class="current_page"{{ end }}>
+    {{ if eq $current $item }}
+      <span>{{ $item.LinkTitle }}</span>
+    {{ else }}
+      <a href="{{ $item.RelPermalink }}">{{ $item.LinkTitle }}</a>
+    {{ end }}
+
+    {{ if .Rec }}
+      {{ partial "list-pages-recursive-dev.html" (dict "Context" $item "Current" $current) }}
+    {{ end }}
+  </li>
+{{ end }}
+
+{{ range sort $with "Weight" "asc" }}
+  {{ template "menu-item" (dict "Item" . "Rec" $rec "Current" $current) }}
+{{ end }}
+
+{{ range sort $without "LinkTitle" "asc" }}
+  {{ template "menu-item" (dict "Item" . "Rec" $rec "Current" $current) }}
+{{ end }}
+

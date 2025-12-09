@@ -1,0 +1,47 @@
+{{/*
+  Partial: list-pages-recursive.html
+  Param:
+    . = the current page/section context
+  Features:
+    - Recursive listing
+    - Sorting by Weight
+    - Draft highlighting
+    - Current page highlighting
+    - Uses .LinkTitle
+*/}}
+
+<ul>
+  {{ $currentPage := . }}
+  {{ $context := .CurrentSection }}
+  {{ if not $context }}
+    {{ $context = .Site.GetPage "/" }}
+  {{ end }}
+
+  {{/* Leaf pages */}}
+  {{/* {{ $pages := sort $context.RegularPages "Weight" "asc" }} */}}
+  {{ $pages := sort $context.RegularPages (slice "Weight" "LinkTitle" "Title" "File.Path") (slice "asc" "asc" "asc" "asc") }}
+
+  {{ range ($context.RegularPages.ByParam "Weight").ByParam "secondparam" }}
+  {{/* {{ range $pages }} */}}
+    <li{{ if .Draft }} class="menu_draft"{{ end }}>
+      {{ if eq $currentPage . }}
+        <span>{{ .LinkTitle }}</span>
+      {{ else }}
+        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+      {{ end }}
+    </li>
+  {{ end }}
+
+  {{/* Subsections */}}
+  {{ $sections := sort $context.Sections (slice "Weight" "LinkTitle" "Title" "File.Path") (slice "asc" "asc" "asc" "asc") }}
+  {{ range $sections }}
+    <li{{ if .Draft }} class="menu_draft"{{ end }}>
+      {{ if eq $currentPage . }}
+        <span>{{ .LinkTitle }}</span>
+      {{ else }}
+        <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+      {{ end }}
+      {{ partial "list-pages-recursive.html" . }}
+    </li>
+  {{ end }}
+</ul>

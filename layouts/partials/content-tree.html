@@ -1,0 +1,144 @@
+{{/*
+  content-tree.html
+  Purpose: render a small, recursive content tree for site map / menus / section lists.
+
+  Accepts (call dict):
+    - context: Page (section or page whose .Pages will be iterated). If omitted, falls back to currentPage.CurrentSection then site root.
+    - currentPage: Page (the page considered "current"; used to mark active). Recommended to pass the calling page as `.`.
+    - sort: one of "path" | "weight" | "linktitle" (theme default: "linktitle").
+    - showWeightPrefix: bool (default: false). When true, prints `Weight: <weight> - ` before the link title (useful for development).
+    - maxDepth: int (0 = unlimited). When > 0 recursion stops when depth reaches 0.
+    - activeClass: string (default "active"). Applied to the current page's <li>.
+
+  Example calls:
+    - site map from home
+	{{ partial "content-tree.html" (dict "context" (.Site.GetPage "/") "currentPage" . ) }}
+    - section menu in a section template
+	{{ partial "content-tree.html" (dict "context" .CurrentSection "currentPage" . "sort" "weight" "maxDepth" 3 ) }}
+
+  Notes:
+    - Intentionally small and KISS. No JS, no ancestor classes, no per-page opt-out. Relies on Hugo fallbacks for LinkTitle/Title.
+    - If currentPage is not provided, no active class will be added; this enables using the partial for a pure sitemap/context listing.
+    - If you want ARIA/semantic wrapper, place the partial inside a <nav> in the caller, e.g.:
+
+      <nav role="navigation" aria-label="Site content tree">
+        partial call here
+      </nav>
+
+*/}}
+
+{{/* Normalize call: $raw is what was passed as `.` to the partial */}}
+{{ $raw := . }}
+
+{{/* Build $params: if dot is a Page, treat it as currentPage; else assume a dict was passed */}}
+{{ $params := dict }}
+{{ if $raw.Site }}
+  {{ $params = dict "currentPage" $raw }}
+{{ else }}
+  {{ $params = $raw }}
+{{ end }}
+
+{{/* Extract currentPage (optional) */}}
+{{ $currentPage := $params.currentPage }}
+
+{{/* Determine context: explicit -> currentPage.CurrentSection -> site root (using whatever Page we have) */}}
+{{ $context := $params.context }}
+{{ if not $context }}
+  {{ if $currentPage }}
+    {{ $context = $currentPage.CurrentSection }}
+  {{ end }}
+  {{ if not $context }}
+    {{/* try to use a Page's Site to get root */}}
+    {{ if $currentPage }}
+      {{ $context = ($currentPage.Site.GetPage "/") }}
+    {{ else if $raw.Site }}
+      {{ $context = ($raw.Site.GetPage "/") }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* --- CONFIG: require site params.contentTree --- */}}
+{{ $cfg := dict }}
+
+{{/* Prefer site params from currentPage if present, else from a Page passed as dot */}}
+{{ if $currentPage }}
+  {{ with $currentPage.Site.Params.contentTree }}
+    {{ $cfg = . }}
+  {{ end }}
+{{ else if $raw.Site }}
+  {{ with $raw.Site.Params.contentTree }}
+    {{ $cfg = . }}
+  {{ end }}
+{{ end }}
+
+{{ if eq (len $cfg) 0 }}
+  {{ errorf "content-tree partial: missing site config table .Site.Params.contentTree — add [contentTree] to config/_default/params.toml (see theme docs)." }}
+{{ end }}
+
+{{/* Allow tiny per-call overrides (keeps convenience while config is authoritative) */}}
+{{ with $params.sort }}        {{ $cfg = merge $cfg (dict "sort" .) }} {{ end }}
+{{ with $params.showWeightPrefix }} {{ $cfg = merge $cfg (dict "showWeightPrefix" .) }} {{ end }}
+{{ with $params.maxDepth }}    {{ $cfg = merge $cfg (dict "maxDepth" .) }} {{ end }}
+{{ with $params.activeClass }} {{ $cfg = merge $cfg (dict "activeClass" .) }} {{ end }}
+
+{{/* Depth handling */}}
+{{ $depth := $cfg.maxDepth }}
+
+{{/* --- recursive template --- */}}
+{{ define "content-tree" }}
+  {{ $ctx := .context }}
+  {{ $cur := .currentPage }}
+  {{ $cfg := .cfg }}
+  {{ $depth := .depth }}
+
+  {{ with $ctx.Pages }}
+    {{ $pages := . }}
+    {{ if eq $cfg.sort "path" }}
+      {{ $pages = sort $pages "Path" }}
+    {{ else if eq $cfg.sort "weight" }}
+      {{/* preserve Hugo's built-in weight ordering: use pages as provided */}}
+      {{ $pages = . }}
+    {{ else }}
+      {{ $pages = sort $pages "LinkTitle" }}
+    {{ end }}
+
+    <ul>
+      {{ range $p := $pages }}
+        {{ $class := "" }}
+        {{ if $p.Draft }}
+          {{ $class = "menu_draft" }}
+        {{ end }}
+
+        {{/* Robust current-page detection (object-eq OR permalink-eq) */}}
+        {{ $isCurrent := or (and $cur (eq $p $cur)) (and $cur (eq $p.RelPermalink $cur.RelPermalink)) }}
+
+        {{ if and $cfg.activeClass $isCurrent }}
+          {{ if ne $class "" }}
+            {{ $class = printf "%s active" $class }}
+          {{ else }}
+            {{ $class = "active" }}
+          {{ end }}
+        {{ end }}
+
+        <li{{ if ne $class "" }} class="{{ $class }}"{{ end }}>
+          {{ if $isCurrent }}
+            <span aria-current="page">{{ if $cfg.showWeightPrefix }}Weight: {{ $p.Weight }} - {{ end }}{{ $p.LinkTitle }}</span>
+          {{ else }}
+            <a href="{{ $p.RelPermalink }}">{{ if $cfg.showWeightPrefix }}Weight: {{ $p.Weight }} - {{ end }}{{ $p.LinkTitle }}</a>
+          {{ end }}
+
+          {{/* recurse if unlimited (0) or depth > 1 */}}
+          {{ if or (eq $depth 0) (gt $depth 1) }}
+            {{ $nextDepth := 0 }}
+            {{ if ne $depth 0 }} {{ $nextDepth = sub $depth 1 }} {{ end }}
+            {{ template "content-tree" (dict "context" $p "currentPage" $cur "cfg" $cfg "depth" $nextDepth) }}
+          {{ end }}
+
+        </li>
+      {{ end }}
+    </ul>
+  {{ end }}
+{{ end }}
+
+{{/* initial invocation */}}
+{{ template "content-tree" (dict "context" $context "currentPage" $currentPage "cfg" $cfg "depth" $depth) }}

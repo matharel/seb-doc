@@ -1,17 +1,12 @@
 {{ define "main" }}
     {{ .Content }}
-  {{/* <ul>
-    <!-- Ranges through content/posts/*.md -->
-    {{ range .Pages }}
-      <li>
-        <a href="{{ .Permalink }}">{{ .Title }}</a>
-      </li>
-    {{ end }}
-  </ul>
-*/}}
 
-	{{ if eq hugo.Environment "development" }}
 	{{/* NOTE: À SURVEILLER !! */}}
-		{{ partial "header/menu.html" . }}
+	{{ if eq hugo.Environment "development" }}
+
+      <nav role="navigation" aria-label="Site content tree">
+		{{ partial "content-menu.html" . }}
+      </nav>
+
 	{{ end }}
 {{ end }}

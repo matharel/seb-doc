@@ -1,0 +1,19 @@
+{{/* layouts/partials/debug-pages.html */}}
+{{ $currentPage := . }}
+{{ $context := .CurrentSection }}
+{{ if not $context }} {{ $context = .Site.GetPage "/" }} {{ end }}
+
+<ul>
+  {{ range $p := $context.RegularPages }}
+    <li>
+      <strong>{{ $p.File.Path }}</strong><br/>
+      weight={{ printf "%v" $p.Weight }} |
+      date={{ printf "%v" $p.Date }} |
+      lastmod={{ printf "%v" $p.Lastmod }} |
+      linkTitle={{ printf "%q" $p.LinkTitle }} |
+      title={{ printf "%q" $p.Title }} |
+      permalink={{ $p.RelPermalink }}
+    </li>
+  {{ end }}
+</ul>
+

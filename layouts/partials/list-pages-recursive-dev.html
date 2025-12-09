@@ -1,0 +1,8 @@
+{{/*
+Minimal recursive partial. Keeps a single outer <ul> and calls the helper for
+sections (recursing) and pages (no recursion).
+*/}}
+<ul>
+{{ partial "list-group.html" (dict "Items" .Sections "Rec" true) }}
+{{ partial "list-group.html" (dict "Items" (where .Pages "Kind" "ne" "section") "Rec" false) }}
+</ul>

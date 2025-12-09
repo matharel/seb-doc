@@ -1,5 +1,7 @@
 {{ define "main" }}
-	{{ partial "header/menu.html" . }}
+
+    {{ partial "content-menu.html" . }}
+
 	{{ .Content }}
 
 	{{ if .Page.Store.Get "hasMermaid" }}
@@ -9,16 +11,4 @@
 	</script>
 	{{ end }}
 
-  {{/*
-	<ul>
-    <!-- Ranges through content/posts/*.md -->
-    {{ range sort .Pages "Path" }}
-      <li>
-        <a href="{{ .Permalink }}">{{ .Title }}</a>
-      </li>
-    {{ end }}
-  </ul>
-	*/}}
-	
-	
 {{ end }}

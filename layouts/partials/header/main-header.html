@@ -4,11 +4,14 @@
     <a href="{{ "/" | relURL }}">{{ .Site.Params.Brand }}</a>
   </div>
 
-  <nav id="section-menu">
+  <nav role="navigation" aria-label="Site content tree" id="section-menu">
     <input type="checkbox" id="menu-toggle">
     <label for="menu-toggle"></label>
 
-    {{ partial "header/menu" . }}
+	{{/* NOTE: The menu is called from every page, but it always build the site from root */}}
+    {{/* {{ partial "content-tree.html" (dict "context" (.Site.GetPage "/") "currentPage" .) }} */}}
+	{{ partial "content-menu.html" .Site.GetPage "/" }}
+
   </nav>
 </header>
 {{ end }}
