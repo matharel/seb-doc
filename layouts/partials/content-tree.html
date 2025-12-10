@@ -1,3 +1,22 @@
+{{/*
+  Purpose: render a small, recursive content tree for site map / menus / section lists.
+
+  Example calls:
+    - site map from home
+	{{ partial "content-tree.html" . }}
+    - section menu in a section template
+	{{ partial "content-tree.html" . }}
+	- By giving parameters (**all the parameter should be provided**) :
+    {{ partial "content-tree.html" (dict
+      "context" (.Site.GetPage "/") 
+      "currentPage" .
+      "sortBy" "Weight"
+      "order" "desc"
+      "depth" 0
+      "debug" true
+    ) }}
+*/}}
+
 {{ define "subpages" }}
 
 {{ $currentPage := .currentPage }}
@@ -26,18 +45,25 @@
 	{{ end }}
 {{ end }}
 
-{{/* if we're on a section */}}
-{{ $context := .CurrentSection }}
-{{/* otherwise fallback to root */}}
-{{ if not $context }}
-	{{ $context = .Site.GetPage "/" }}
+{{/* minimal: support calling with a full dict OR with . as Page */}}
+{{ $context := "" }}
+{{ $currentPage := "" }}
+{{ $cfg := dict }}
+{{ if not .Site }} 
+  {{/* dot is a dict with all options */}}
+  {{ $context = .context }}
+  {{ $currentPage = .currentPage }}
+  {{ $cfg = . }}
+{{ else }}
+  {{ $context = .CurrentSection }}
+  {{ if not $context }} {{ $context = .Site.GetPage "/" }} {{ end }}
+  {{ $cfg = .Site.Params.contentTree | default (dict "sortBy" "LinkTitle" "order" "asc" "debug" false "depth" 0) }}
 {{ end }}
-{{/* config from the theme/site params fallback to sane default */}}
-{{ $cfg := .Site.Params.contentTree | default (dict "sortBy" "LinkTitle" "order" "asc" "debug" false "depth" 0) }}
 
+{{/* now invoke recursion with cfg.depth taken from merged cfg */}}
 {{ template "subpages" (dict
 	"context" $context
-	"currentPage" .
+	"currentPage" $currentPage
 	"cfg" $cfg
 	"depth" (index $cfg "depth")
 ) }}

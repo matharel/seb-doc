@@ -6,6 +6,17 @@
 
       <nav role="navigation" aria-label="Site content tree">
 		{{ partial "content-tree.html" . }}
+
+		{{/*
+		{{ partial "content-tree.html" (dict
+		  "context" (.Site.GetPage "/") 
+		  "currentPage" .
+		  "sortBy" "Weight"
+		  "order" "desc"
+		  "depth" 0
+		  "debug" true
+		) }}
+		*/}}
       </nav>
 
 	{{ end }}
