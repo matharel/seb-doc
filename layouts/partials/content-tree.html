@@ -1,20 +1,27 @@
 {{/*
   Purpose: render a small, recursive content tree for site map / menus / section lists.
 
-  Example calls:
-    - site map from home
-	{{ partial "content-tree.html" . }}
-    - section menu in a section template
-	{{ partial "content-tree.html" . }}
-	- By giving parameters (**all the parameter should be provided**) :
-    {{ partial "content-tree.html" (dict
-      "context" (.Site.GetPage "/") 
-      "currentPage" .
-      "sortBy" "Weight"
-      "order" "desc"
-      "depth" 0
-      "debug" true
-    ) }}
+  Minimal, working version that preserves your original logic and call surface.
+
+  Calling conventions supported (only these two):
+    - {{ partial "content-tree.html" . }}
+      (simple: call with the current Page as dot; uses the "default" variant)
+
+    - {{ partial "content-tree.html" (dict
+          "context" (.Site.GetPage "/")
+          "variant" "list"
+          "currentPage" .) }}
+      (call with a dict containing the variant name, currentPage and optionnaly a different context)
+
+  Behaviour notes:
+    - The partial reads its configuration from .Site.Params.contentTree.<variant>
+      falling back to .Site.Params.contentTree.default and then to built-in defaults.
+    - Context resolution is intentionally simple:
+        * If the caller provided a Page in the dict as "context", that Page is used.
+        * Else if the variant is "menu", the tree starts from the site root (/).
+        * Else the tree starts from the current page's CurrentSection (if any) or the site root.
+    - The caller MUST provide the current page (either by calling with . or passing currentPage = .)
+      so the partial can mark the active page.
 */}}
 
 {{ define "subpages" }}
@@ -22,6 +29,7 @@
 {{ $currentPage := .currentPage }}
 {{ $cfg := .cfg }}
 {{ $depth := .depth }}
+{{ $context := .context }}
 
 {{ with .context.Pages }}{{/* pour ne pas avoir de <ul> vides */}}
 <ul>
@@ -45,22 +53,86 @@
 	{{ end }}
 {{ end }}
 
-{{/* minimal: support calling with a full dict OR with . as Page */}}
-{{ $context := "" }}
+{{/* --- minimal, clearer invocation logic --- */}}
+
+{{ $site := .Site }}
+{{ $variant := "default" }}
 {{ $currentPage := "" }}
-{{ $cfg := dict }}
-{{ if not .Site }} 
-  {{/* dot is a dict with all options */}}
-  {{ $context = .context }}
-  {{ $currentPage = .currentPage }}
-  {{ $cfg = . }}
+{{ $cfg := dict "sortBy" "LinkTitle" "order" "asc" "debug" false "depth" 0 }}
+{{ $context := "" }}
+
+{{ if not .Site }}
+  {{/* dot is a dict with options (variant, currentPage, optional context) */}}
+  {{ with .variant }}{{ $variant = . }}{{ end }}
+  {{ with .currentPage }}{{ $currentPage = . }}{{ end }}
+  {{ with .context }}{{ $context = . }}{{ end }}
+  {{/* try to obtain site from provided currentPage if available */}}
+  {{ if not $site }}
+    {{ with $currentPage }}{{ $site = .Site }}{{ end }}
+  {{ end }}
 {{ else }}
-  {{ $context = .CurrentSection }}
-  {{ if not $context }} {{ $context = .Site.GetPage "/" }} {{ end }}
-  {{ $cfg = .Site.Params.contentTree | default (dict "sortBy" "LinkTitle" "order" "asc" "debug" false "depth" 0) }}
+  {{/* dot is the current Page */}}
+  {{ $currentPage = . }}
 {{ end }}
 
-{{/* now invoke recursion with cfg.depth taken from merged cfg */}}
+{{/* if caller didn't specify a variant and we're called with a Page that has a CurrentSection,
+     treat this as the 'list' variant */}}
+{{ if and (eq $variant "default") $currentPage }}
+  {{ with $currentPage.CurrentSection }}
+    {{ $variant = "list" }}
+  {{ end }}
+{{ end }}
+
+{{ if not $site }}{{ errorf "content-tree partial: site context not available" }}{{ end }}
+
+{{ $siteParams := $site.Params.contentTree | default (dict) }}
+{{/* safe default to use without any config, otherwise overrided by config */}}
+{{ $defaultCfg := index $siteParams "default" | default (dict "sortBy" "LinkTitle" "order" "asc" "debug" false "depth" 0) }}
+{{ $variantCfgRaw := index $siteParams $variant | default (dict) }}
+
+{{/* Merge: for each key prefer variant value when present, otherwise fallback to default */}}
+{{ $cfg = dict }}
+
+
+{{ with index $variantCfgRaw "sortBy" }}
+  {{ $cfg = merge $cfg (dict "sortBy" .) }}
+{{ else }}
+  {{ $cfg = merge $cfg (dict "sortBy" (index $defaultCfg "sortBy")) }}
+{{ end }}
+
+{{ with index $variantCfgRaw "order" }}
+  {{ $cfg = merge $cfg (dict "order" .) }}
+{{ else }}
+  {{ $cfg = merge $cfg (dict "order" (index $defaultCfg "order")) }}
+{{ end }}
+
+{{ if isset $variantCfgRaw "debug" }}
+  {{ $cfg = merge $cfg (dict "debug" (index $variantCfgRaw "debug")) }}
+{{ else }}
+  {{ $cfg = merge $cfg (dict "debug" (index $defaultCfg "debug")) }}
+{{ end }}
+
+{{ if isset $variantCfgRaw "depth" }}
+  {{ $cfg = merge $cfg (dict "depth" (index $variantCfgRaw "depth")) }}
+{{ else }}
+  {{ $cfg = merge $cfg (dict "depth" (index $defaultCfg "depth")) }}
+{{ end }}
+
+{{/* context resolution: very small, deterministic logic:
+     - if caller passed a Page as context, use it
+     - else if variant == "menu" use site root
+     - else use currentPage.CurrentSection or site root
+*/}}
+{{ if not $context }}
+  {{ if eq $variant "menu" }}
+    {{ $context = $site.GetPage "/" }}
+  {{ else }}
+    {{ with $currentPage }}{{ $context = .CurrentSection }}{{ end }}
+    {{ if not $context }}{{ $context = $site.GetPage "/" }}{{ end }}
+  {{ end }}
+{{ end }}
+
+{{/* invoke recursion using cfg.depth (safe extraction) */}}
 {{ template "subpages" (dict
 	"context" $context
 	"currentPage" $currentPage

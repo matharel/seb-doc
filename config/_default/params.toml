@@ -14,8 +14,18 @@ gitAccount = ""           # Possibly used for edit links / GitHub username
 #   toc = true         # Generic flag used by many themes
 #   enableSearch = false
 
+#--------------------------------------------------
+# CONTENT TREE
+#--------------------------------------------------
+
 [contentTree]
-debug = false
-sortBy = "LinkTitle"    # "Path" "Weight" "Date" "LinkTitle" "Title"
-order = "asc"           # "asc" "desc"
-depth = 2				# 0 → no limitations
+  [contentTree.default]
+	debug = false
+	sortBy = "LinkTitle"    # "Path" "Weight" "Date" "LinkTitle" "Title"
+	order = "asc"           # "asc" "desc"
+	depth = 2				# 0 → no limitations
+# Possible to override parameters for menu and list
+  [contentTree.menu]
+  [contentTree.list]
+# or for any new situation, just call the partial with the new variant name :
+# {{ partial "content-tree.html" (dict "variant" "myNewVariant" "currentPage" .) }}

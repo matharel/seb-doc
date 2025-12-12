@@ -1,7 +1,13 @@
 {{ define "main" }}
 
     {{ partial "content-tree.html" . }}
-
+{{/*
+	{{ partial "content-tree.html" (dict
+		"context" (.Site.GetPage "/")
+		"currentPage" .
+		"variant" "list"
+	) }}
+*/}}
 	{{ .Content }}
 
 	{{ if .Page.Store.Get "hasMermaid" }}

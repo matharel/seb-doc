@@ -8,15 +8,11 @@
     <input type="checkbox" id="menu-toggle">
     <label for="menu-toggle"></label>
 
-	{{/* NOTE: The menu is called from every page, but it always build the site from root */}}
-    {{ partial "content-tree.html" (dict
-      "context" (.Site.GetPage "/")
-      "currentPage" .
-      "sortBy" "LinkTitle"
-      "order" "asc"
-      "depth" 2
-      "debug" false
-	)}}
+	{{ partial "content-tree.html" (dict
+	"variant" "menu"
+	"currentPage" .
+	) }}
+
 
   </nav>
 </header>
