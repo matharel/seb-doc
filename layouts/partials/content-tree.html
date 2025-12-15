@@ -33,6 +33,17 @@
 
 {{ with .context.Pages }}{{/* pour ne pas avoir de <ul> vides */}}
 <ul>
+	{{/* If requested, show a link to the root/context page (minimal output) */}}
+	{{ if and (index $cfg "includeRoot") (eq $depth (index $cfg "depth")) }}
+	<li>
+		{{ if (eq $currentPage $context) }}
+		<span aria-current="page" class="active">{{ $context.LinkTitle }}</span>
+		{{ else }}
+		<a href="{{ $context.RelPermalink }}">{{ $context.LinkTitle }}</a>
+		{{ end }}
+	</li>
+	{{ end }}
+
 	{{ range sort . $cfg.sortBy $cfg.order }}
 	<li{{ with .Draft }} class="menu_draft"{{ end }}>
 		{{ if $cfg.debug }}{{ .Weight }} - {{ end }}
@@ -87,7 +98,7 @@
 
 {{ $siteParams := $site.Params.contentTree | default (dict) }}
 {{/* safe default to use without any config, otherwise overrided by config */}}
-{{ $defaultCfg := index $siteParams "default" | default (dict "sortBy" "LinkTitle" "order" "asc" "debug" false "depth" 0) }}
+{{ $defaultCfg := index $siteParams "default" | default (dict "sortBy" "LinkTitle" "order" "asc" "debug" false "depth" 0 "includeroot" false) }}
 {{ $variantCfgRaw := index $siteParams $variant | default (dict) }}
 
 {{/* Merge: for each key prefer variant value when present, otherwise fallback to default */}}
@@ -118,11 +129,18 @@
   {{ $cfg = merge $cfg (dict "depth" (index $defaultCfg "depth")) }}
 {{ end }}
 
+{{ if isset $variantCfgRaw "includeroot" }}{{/* -- with isset variable should be lowecase */}}
+  {{ $cfg = merge $cfg (dict "includeRoot" (index $variantCfgRaw "includeRoot")) }}
+{{ else }}
+  {{ $cfg = merge $cfg (dict "includeRoot" (index $defaultCfg "includeRoot")) }}
+{{ end }}
+
 {{/* context resolution: very small, deterministic logic:
      - if caller passed a Page as context, use it
      - else if variant == "menu" use site root
      - else use currentPage.CurrentSection or site root
 */}}
+
 {{ if not $context }}
   {{ if eq $variant "menu" }}
     {{ $context = $site.GetPage "/" }}
@@ -133,6 +151,7 @@
 {{ end }}
 
 {{/* invoke recursion using cfg.depth (safe extraction) */}}
+
 {{ template "subpages" (dict
 	"context" $context
 	"currentPage" $currentPage

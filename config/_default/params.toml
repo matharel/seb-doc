@@ -24,6 +24,7 @@ gitAccount = ""           # Possibly used for edit links / GitHub username
 	sortBy = "LinkTitle"    # "Path" "Weight" "Date" "LinkTitle" "Title"
 	order = "asc"           # "asc" "desc"
 	depth = 2				# 0 → no limitations
+	includeRoot = false     # Peut-être intéressant de l'avoir dans un footer par exemple
 # Possible to override parameters for menu and list
   [contentTree.menu]
   [contentTree.list]
