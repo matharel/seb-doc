@@ -1,0 +1,7 @@
+{{ with .Site.Params.email }}
+<span data-email="{{ . | base64Encode }}">
+</span>
+<noscript>
+  <a href='{{ ($.Site.GetPage "contact").RelPermalink }}'>formulaire de contact</a>
+</noscript>
+{{ end }}

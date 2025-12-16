@@ -1,3 +1,14 @@
+@use "../abstracts" as c;
+
 h2, h3, h4, h5 {
   margin-top: 2em;
+}
+
+// in order for the scrolling not to hide behind fixed menu
+h2[id] {
+  scroll-margin-top: c.$header-height;
+}
+
+h3[id] {
+  scroll-margin-top: c.$header-height+1em;
 }

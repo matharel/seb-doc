@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Feature: feature-name
+   Purpose: Visual styles required by the JS feature
+   Paired JS: assets/js/features/feature-name/index.js
+   Notes:
+   - Styles are scoped to the feature root only
+   - Safe to load globally (no side effects)
+   - If this file exists, the JS feature depends on it
+   ========================================================================== */
+
+[data-feature-name] {
+  /* Root container for the feature
+     This selector must match the JS data-* root
+  */
+
+  /* Example: internal layout */
+  .feature-controls {
+    /* styles here */
+  }
+
+  /* Example: modified elements */
+  table {
+    /* styles here */
+  }
+}

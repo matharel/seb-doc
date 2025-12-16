@@ -6,7 +6,7 @@
       {{< checklist "Petit matériel">}}
 
       */}}
-<section class="sh-checklist {{ .Get 0 }}">
+<section data-checklist class="sh-checklist {{ .Get 0 }}">
   <button class='uncheck-all'></button>
   {{ $markdown := .Inner | markdownify }}
   {{ $items := split $markdown "\n" }}

@@ -11,6 +11,11 @@ brand = "XXX"
 breadcrumb = 0
 breadcrumbDepth = 0       # Comment says "pop beginning". Keep as-is.
 gitAccount = ""           # Possibly used for edit links / GitHub username
+contentTreeHomePage = true
+# For shortcode {{< email >}}
+email = "jean.dupont@mailo.com"
+phone = "+33700000000"
+
 #   toc = true         # Generic flag used by many themes
 #   enableSearch = false
 

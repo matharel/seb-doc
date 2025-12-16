@@ -1,0 +1,73 @@
+{{/* 
+  Detect whether we are in development mode (hugo server)
+  Used to toggle minification, sourcemaps, and fingerprinting
+*/}}
+{{ $isDev := hugo.IsDevelopment }}
+
+{{/* 
+  Get the JS entry point.
+  This file imports all your small scripts:
+  utils/, components/, etc.
+*/}}
+{{ with resources.Get "js/main.js" }}
+
+  {{/* 
+    Options passed to js.Build (Hugo’s JS bundler):
+    - minify: only in production
+    - sourceMap: useful in dev, disabled in prod
+    - targetPath: final output path in /public/
+  */}}
+  {{ $opts := dict
+      "minify" (not $isDev)
+      "sourceMap" (cond $isDev "external" "")
+      "targetPath" "js/site.js"
+  }}
+
+  {{/* 
+    Build the JS:
+    - resolves `import` statements
+    - bundles all files into one
+    - applies minification if enabled
+  */}}
+  {{ $built := . | js.Build $opts }}
+
+  {{/* 
+    In production only:
+    - fingerprint adds a hash to the filename
+    - enables long-term caching
+    - provides Subresource Integrity (SRI)
+  */}}
+  {{ if not $isDev }}
+    {{ $built = $built | fingerprint }}
+  {{ end }}
+
+  {{/* 
+    Load the final JS bundle.
+    type="module" is REQUIRED because you use ES imports.
+    No "defer" needed: modules are deferred by default.
+  */}}
+  <script
+    type="module"
+    src="{{ $built.RelPermalink }}"
+    {{ if not $isDev }}
+      integrity="{{ $built.Data.Integrity }}"
+      crossorigin="anonymous"
+    {{ end }}
+  ></script>
+
+{{ end }}
+
+{{ if .Page.Store.Get "hasMermaid" }}
+  {{ $m := resources.Get "js/vendor/mermaid.js" | resources.Minify }}
+  <script type="module" src="{{ $m.RelPermalink }}"></script>
+{{ end }}
+
+{{ if .Page.Params.anki }}
+  <!-- Legacy libraries (globals, must be loaded first) -->
+  <script src="/js/lib/sql.js"></script>
+  <script src="/js/lib/genanki.js"></script>
+  <script src="/js/lib/jszip.min.js"></script>
+  <script src="/js/lib/FileSaver.min.js"></script>
+  {{ $anki := resources.Get "js/features/anki/index.js" | js.Build | resources.Minify }}
+  <script type="module" src="{{ $anki.RelPermalink }}"></script>
+{{ end }}

@@ -2,7 +2,6 @@
 <html lang="en" class="no-js">
   <head>
     {{ partial "head/meta" . }}
-    {{ partial "head/include-css-js" . }}
   </head>
 
   <body class="
@@ -47,12 +46,8 @@
       </div>
 
     </main>
-
     {{ partial "footer/footer" . }}
-    <script src="/js/scroll-spy.js"></script>
-    {{ if .Param "anki" }}
-      <script src="/js/anki.js"></script>
-    {{ end }}
+	{{ partial "scripts.html" . }}
   </body>
 </html>
 

@@ -1,0 +1,25 @@
+	{{ $text := .Text }}
+
+	{{/* Extract everything before the blockquote */}}
+	{{ $question := index (findRE `(?s)^(.*?)<blockquote>` $text 1) 0 }}
+
+	{{/* Extract everything inside the blockquote */}}
+	{{ $answer := index (findRE `(?s)<blockquote>(.*?)</blockquote>` $text 1) 0 }}
+
+	{{ $question := replace $question "<blockquote>" "" }}
+	{{ $answer := replace $answer "<blockquote>" "" }}
+
+
+	<details class="{{ .AlertType }}" data-info="{{ .AlertTitle }}">
+		<summary class="question">{{ $question | safeHTML }}</summary>
+		<div class="answer">{{ $answer | safeHTML }}</div>
+	</details>
+
+	<section class="eval">
+		<label><input type="radio" name="{{ .AlertTitle }}" /><span> Again</span></label>
+		<label><input type="radio" name="{{ .AlertTitle }}" /><span> Hard</span></label>
+		<label><input type="radio" name="{{ .AlertTitle }}" /><span> Good</span></label>
+		<label><input type="radio" name="{{ .AlertTitle }}" /><span> Easy</span></label>
+	</section>
+
+

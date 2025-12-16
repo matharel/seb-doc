@@ -1,0 +1,10 @@
+{{ with .Site.Params.phone }}
+<span
+  data-phone="{{ . | base64Encode }}"
+  aria-label="Numéro de téléphone"
+>
+</span>
+<noscript>
+  <em>Veuillez activer JavaScript pour afficher le numéro.</em>
+</noscript>
+{{ end }}
