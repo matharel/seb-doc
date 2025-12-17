@@ -2,6 +2,10 @@
 <div id="TOC-container">
   <input type="checkbox" id="TOC-toggle">
   <label for="TOC-toggle"></label>
-  {{ .TableOfContents }}
+  {{/* {{ .TableOfContents }} */}}
+  <nav id="TableOfContents">
+  {{ partial "toc" . }}
+  </nav>
+{{/* <pre>{{ debug.Dump .Fragments.Headings }}</pre> */}}
 </div>
 {{ end }}

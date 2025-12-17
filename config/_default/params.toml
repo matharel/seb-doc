@@ -35,3 +35,11 @@ phone = "+33700000000"
   [contentTree.list]
 # or for any new situation, just call the partial with the new variant name :
 # {{ partial "content-tree.html" (dict "variant" "myNewVariant" "currentPage" .) }}
+
+
+#--------------------------------------------------
+# SEB TOC
+#--------------------------------------------------
+
+[sebToc]
+  depth = 2 # which is the deeper header we display

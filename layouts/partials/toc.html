@@ -1,0 +1,66 @@
+{{/*
+Recursive TOC with data-toc support (escape hatch)
+
+WHY THIS EXISTS
+---------------
+Hugo does not expose arbitrary HTML attributes (like data-toc)
+in .Fragments or .Headings. This partial intentionally inspects
+the rendered HTML (.Content) to extract data-toc values.
+
+This is a controlled hack:
+- Scoped to the exact heading tag
+- No global HTML parsing
+- Only used to override TOC labels
+
+STRUCTURE NOTE
+--------------
+.Fragements.Headings is a tree rooted at the page H1.
+We explicitly SKIP the H1 and start rendering at its children
+to avoid empty / meaningless TOC entries.
+*/}}
+
+{{ define "toc" }}
+  {{ $content := .Content }}
+  {{ $maxLevel := .MaxLevel }}
+
+  {{/* Filter headings to those we actually want to render */}}
+  {{ $items := where .Headings "Level" "<=" $maxLevel }}
+
+  {{ if gt (len $items) 0 }}
+    <ul>
+      {{ range $items }}
+
+        {{ $label := .Title }}
+
+        {{/* Find the heading tag by ID */}}
+        {{ $idRe := printf `<h[1-6][^>]*id="%s"[^>]*>` .ID }}
+        {{ with (findRE $idRe $content 1) }}
+          {{ $headingTag := index . 0 }}
+
+          {{/* Extract data-toc if present */}}
+          {{ with (findRE `data-toc="([^"]+)"` $headingTag 1) }}
+            {{ $label = index . 0 | replaceRE `data-toc="([^"]+)"` `$1` }}
+          {{ end }}
+        {{ end }}
+
+        <li>
+          <a {{ printf `href="#%s"` .ID | safeHTMLAttr }}>
+            {{ $label | markdownify }}
+          </a>
+
+          {{/* Recurse into children */}}
+          {{ template "toc" (dict "Headings" .Headings "Content" $content "MaxLevel" $maxLevel) }}
+        </li>
+      {{ end }}
+    </ul>
+  {{ end }}
+{{ end }}
+
+{{/* Entry point: skip the root H1 */}}
+{{ $maxLevel := default 6 $.Site.Params.sebToc.depth }}
+
+{{ with .Fragments.Headings }}
+  {{ if gt (len .) 0 }}
+    {{ template "toc" (dict "Headings" (index . 0).Headings "Content" $.Content "MaxLevel" $maxLevel) }}
+  {{ end }}
+{{ end }}

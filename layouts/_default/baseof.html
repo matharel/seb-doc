@@ -27,6 +27,10 @@
         {{- $h1 := or .Params.h1 .Page.Title -}}
         <h1{{ with .Draft }} class="title_draft"{{ end }}>{{- $h1 -}}</h1>
 
+		{{ if .Params.hero.enabled }}
+		  {{ partial "ui/hero.html" . }}
+		{{ end }}
+
         {{ if .Param "anki" }}
           <button id="anki-button" data-info='{{ .Param "anki-tag" }}'>Generate Anki deck</button>
         {{ end }}

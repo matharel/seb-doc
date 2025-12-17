@@ -1,0 +1,29 @@
+{{ $page := . }}
+{{ $hero := .Params.hero }}
+
+{{/* Split content at first H2 */}}
+{{ $parts := split .RawContent "\n## " }}
+{{ $heroRaw := index $parts 0 }}
+
+{{/* Render hero markdown only */}}
+{{ $heroContent := $page.RenderString $heroRaw }}
+
+{{/* Resolve hero image from page bundle */}}
+{{ $image := "" }}
+{{ with $hero.image }}
+  {{ with $page.Resources.Get . }}
+    {{ $image = .RelPermalink }}
+  {{ end }}
+{{ end }}
+
+<header class="hero hero--{{ $hero.variant }} hero--{{ $hero.theme }} hero--{{ $hero.size }}">
+  {{ if $image }}
+    <div class="hero__media">
+      <img src="{{ $image }}" alt="">
+    </div>
+  {{ end }}
+
+  <div class="hero__content">
+    {{ $heroContent }}
+  </div>
+</header>
