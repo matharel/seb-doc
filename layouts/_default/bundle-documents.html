@@ -1,0 +1,22 @@
+{{ define "main" }}
+      {{ .Content }}
+  <h2>Documents</h2>
+
+  {{ $docs := .Resources.ByType "page" | default (.Resources.Match "*") }}
+
+  {{ if gt (len $docs) 0 }}
+    <ul>
+      {{ range $docs }}
+        {{ if ne .Name "index.md" }}
+          <li>
+            <a href="{{ .RelPermalink }}">
+              {{ .Title | default .Name }}
+            </a>
+          </li>
+        {{ end }}
+      {{ end }}
+    </ul>
+  {{ else }}
+    <p>No documents found in this bundle.</p>
+  {{ end }}
+{{ end }}
