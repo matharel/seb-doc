@@ -37,6 +37,7 @@
 @use "components/headers"            as headers;
 @use "components/is_draft"           as is_draft;
 @use "components/sh-checklist"       as sh_checklist;
+@use "components/form"               as form;
 
 // 6. Page-specific styles
 @use "pages/home"                  as home;

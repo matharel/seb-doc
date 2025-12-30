@@ -1,0 +1,154 @@
+/* ================================
+   Variables
+================================ */
+
+$cta-text: #0f172a;          // deep slate blue (strong, not black)
+$cta-border: #64748b;        // muted blue-gray
+$cta-bg: #f1f5f9;            // soft blue-tinted gray
+$cta-hover-bg: #e2e8f0;      // clearer hover lift
+$cta-hover-border: #334155;  // confident but restrained
+
+$form-max-width: 40rem;
+$label-width: 14rem;
+$input-width: 18rem;
+$gap: 0.75rem;
+$border-radius: 0.25rem;
+$border-color: $cta-border;
+$focus-color: #000;
+
+/* ================================
+   CTA block
+================================ */
+
+.cta {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+/* ================================
+   CTA links styled as buttons
+================================ */
+
+.cta a {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  border: 1px solid $cta-border;
+  border-radius: $border-radius;
+  background: $cta-bg;
+  color: $cta-text;
+  text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.cta a:focus-visible {
+  outline: 2px solid $focus-color;
+  outline-offset: 2px;
+}
+
+.cta a:hover {
+  background: $cta-hover-bg;
+  border-color: $cta-hover-border;
+}
+
+
+/* ================================
+   Base form
+================================ */
+
+.booking-form {
+  max-width: $form-max-width;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+/* ================================
+   Fields (mobile default)
+================================ */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+label {
+  font-weight: 500;
+}
+
+input {
+  padding: 0.5rem;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+}
+
+input:focus-visible,
+button:focus-visible {
+  outline: 2px solid $focus-color;
+  outline-offset: 2px;
+}
+
+/* ================================
+   CAPTCHA (isolated)
+================================ */
+
+.captcha-wrapper {
+  margin-top: $gap;
+}
+
+/* ================================
+   Actions
+================================ */
+
+.actions {
+  margin-top: $gap;
+}
+
+button {
+  padding: 0.6rem 1rem;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  background: $cta-bg;
+  color: $cta-text;
+  cursor: pointer;
+  &:hover {
+    background: $cta-hover-bg;
+    border-color: $cta-hover-border;
+  }
+}
+
+/* ================================
+   Desktop layout
+================================ */
+
+@media (min-width: 48rem) {
+  .field {
+    flex-direction: row;
+    align-items: center;
+    gap: $gap;
+  }
+
+  .field label {
+    width: $label-width;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .field input {
+    width: $input-width;
+  }
+
+  .field label::after {
+    content: " :";
+  }
+
+  .captcha-wrapper,
+  .actions {
+    margin-left: $label-width;
+  }
+}
+
